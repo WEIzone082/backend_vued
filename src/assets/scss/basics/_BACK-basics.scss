@@ -1,0 +1,47 @@
+@import "../../../../node_modules/bootstrap/scss/bootstrap_for_backstage.scss";
+@import "./BACK-colors";
+@import "./BACK-elements";
+/*Bootstrap basics*/
+
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", sans-serif;
+  font-weight: 300;
+  background-color: #f1f1f5;
+}
+
+main {
+  width: calc(100% - 240px);
+  margin-left: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .content-wrapper {
+    width: 90%;
+    margin-top: 10px;
+  }
+}
+
+.table {
+  border-collapse: collapse;
+
+  thead {
+    background-color: #e6dfd9;
+  }
+
+  th {
+    text-align: left;
+    vertical-align: middle;
+    font-weight: 300 !important;
+  }
+
+  td {
+    font-size: 16px;
+    vertical-align: middle;
+  }
+
+  .table-rows {
+    background-color: white !important;
+  }
+}

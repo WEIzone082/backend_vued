@@ -1,0 +1,38 @@
+@import"./BACK-colors";
+
+@mixin success-color {
+  background-color: #f4fbdb;
+  color: #b8d935;
+}
+
+@mixin alert-color {
+  background-color: #fdf4d6;
+  color: #ffc542;
+}
+
+@mixin error-color {
+  background-color: #fff0ed;
+  color: #f06445;
+}
+
+.success-comp {
+  @include success-color();
+}
+
+.alert-comp {
+  @include alert-color();
+}
+
+.error-comp {
+  @include error-color();
+}
+
+.primary-comp{
+  background-color: $clr-primary;
+  color: white;
+}
+
+.grey-comp{
+  background-color: lightgray;
+  color: black;
+}
