@@ -1,0 +1,96 @@
+@import "../basics/_BACK-basics";
+@import "../basics/_BACK-elements";
+@import "../basics/BACK-colors";
+
+.page-nav {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+
+    .page-name p {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 500;
+        margin-right: 5px;
+      }
+    
+      .data-per-page {
+        padding-bottom: 0;
+      }
+    
+      .input-group {
+        width: 160px !important;
+      }
+    
+      .input-group-text {
+        background-color: #fff !important;
+        border: none !important;
+      }
+    
+      .searcher {
+        border: none;
+        // height: 36px !important;
+      }
+  
+    .mid-content,
+    .low-content {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
+}
+  
+  .inner-pages-info-wrapper {
+    height: 100px;
+    width: 22%;
+    background-color: white;
+    margin: 20px 0;
+    border-radius: 10px;
+  
+    .inner-pages-info {
+      width: 86%;
+      height: 100%;
+      margin: 0 auto;
+  
+      .inner-page-name {
+        margin-top: 8px;
+        font-weight: 400;
+      }
+    }
+  }
+  
+  .inner-now {
+    border: 1px solid $clr-primary;
+    color: $clr-primary;
+  }
+  //details are childres of details but contains more info, so pull out
+  
+  .inner-page-details {
+    width: 33%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 16px;
+    font-weight: 400;
+  
+    .inner-page-icon,
+    .data-count {
+      font-size: 28px;
+      font-weight: 500;
+      margin-top: 8px;
+    }
+    .data-count {
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+  }
+  
+  .low-right-content {
+    display: flex;
+  
+    .export {
+      background-color: $clr-primary;
+      color: white;
+      margin-left: 8px;
+    }
+  }

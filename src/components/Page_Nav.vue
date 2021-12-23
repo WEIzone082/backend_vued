@@ -39,7 +39,7 @@
                     aria-describedby="inputGroup-sizing-default">
             </div>
             <button type="button" class="btn create-btn" data-bs-toggle="modal"
-                data-bs-target="#art-create-modal" v-if="func">
+                data-bs-target="#art-create-modal" v-if="WithFunc">
                 <i class="bi bi-plus-lg"></i>
                 新增
             </button>    
