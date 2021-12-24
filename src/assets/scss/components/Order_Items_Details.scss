@@ -1,0 +1,64 @@
+.items-th {
+  box-sizing: border-box;
+  background-color: lightgray;
+  padding: 0 5px;
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #868686;
+}
+
+.items {
+  box-sizing: border-box;
+  padding: 0 5px;
+  font-size: 14px;
+  font-weight: 400;
+  height: 85px;
+
+  .item {
+    display: flex;
+    align-items: center;
+  }
+
+  .item-pic {
+    width: 60px;
+    height: 60px;
+    margin-right: 8px;
+  }
+}
+
+.price,
+.quantity,
+.total {
+  text-align: right;
+}
+
+.total-row,
+.shipping-row,
+.sum-row {
+  height: 34px;
+  text-align: right;
+}
+
+.total-row {
+  border-top: 1px solid grey;
+}
+
+.sum-row {
+  font-weight: 500;
+}
+
+.costumer-note-carrier {
+  margin-top: 25px !important;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  padding: 8px 5px;
+  .note-title {
+    font-size: 14px;
+    margin: 10px 0;
+    font-weight: 400;
+  }
+  .costumer-note {
+    margin: 10px 0;
+  }
+}

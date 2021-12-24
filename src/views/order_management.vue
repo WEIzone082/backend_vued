@@ -37,9 +37,11 @@
 
           <div class="col-1"></div>
           <div class="col-2 detail-page-entrance">
-            <button type="button" class="btn go-to-detail">
-              <i class="bi bi-three-dots"></i>
-            </button>
+            <router-link :to="{ name: 'order_details', params:{ id: order.serial}}">
+              <button type="button" class="btn go-to-detail">
+                <i class="bi bi-three-dots"></i>
+              </button>
+            </router-link>
           </div>
         </div>
       </div>

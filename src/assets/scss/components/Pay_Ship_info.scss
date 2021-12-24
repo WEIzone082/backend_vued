@@ -1,0 +1,24 @@
+.pay-info,
+.ship-info {
+  width: 49%;
+  font-size: 16px;
+  font-weight: 400;
+  border: 1px solid #d3d3d3;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 5px;
+
+  div {
+    line-height: 30px;
+    text-overflow: ellipsis;
+  }
+
+  .block-name {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .tracking-submit {
+    font-size: 14px;
+  }
+}
