@@ -29,6 +29,10 @@
 
 <style lang="scss">
   @import "assets/scss/basics/_BACK-basics.scss";
+  @import 'assets/scss/basics/BACK-colors';
+  @import 'assets/scss/basics/BACK-elements';
+  @import 'assets/scss/basics/Form-modal';
+
 
   //import bootstrap icons
   @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css");

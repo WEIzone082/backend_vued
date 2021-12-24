@@ -1,0 +1,90 @@
+@import '../basics/BACK-basics';
+@import '../basics/BACK-colors';
+@import '../basics/BACK-elements';
+@import '../basics/Form-modal';
+
+.page-nav {
+
+    .right-contents {
+        display: flex;
+
+        &>div {
+            margin: 0 10px;
+        }
+
+        .up-btn{
+            background-color: $clr-success;
+            border: none;
+        }
+        .down-btn{
+            background-color: $clr-alert;
+            border: none;
+            margin: 0 10px;
+        }
+
+        .del-btn {
+            background-color: #F06445;
+            border: none;
+        }
+
+        .create-btn {
+            background-color: $clr-primary;
+            color: white;
+        }
+    }
+}
+
+td {
+
+    .success-clr {
+        background-color: #F4FBDB;
+        color: #b8d935;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    &>.btn {
+        border: none;
+        width: 32px;
+        background-color: #F1F1F5 !important;
+        color: #979797;
+        padding: 0 !important;
+        cursor: pointer;
+    }
+}
+
+.create-form {
+
+    .img-upload-wrapper {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        width: 100%;
+
+        .img-title{
+            font-size: 1rem;
+            font-weight: normal;
+        }
+
+        .upload-content-wrapper{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    }
+}
+
+
+.upload_cover {
+
+    &:nth-child(4n){
+        margin-right: 0;
+    }
+}
+
+.btn:hover{
+    color: #212529 !important;
+}
+
+.btn-check:focus + .btn, .btn:focus{
+    box-shadow: none;
+}

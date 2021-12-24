@@ -42,7 +42,8 @@
                 data-bs-target="#art-create-modal" v-if="WithFunc">
                 <i class="bi bi-plus-lg"></i>
                 新增
-            </button>    
+            </button>
+            <!-- <FormModal :createTargetId='createTargetId'/> -->
         </div>
     
     </div>
@@ -50,8 +51,15 @@
 </template>
 
 <script>
+// import FormModal from './FormModal.vue';
 export default {
-    props:['PageName','WithFunc','Checked']
+    props:['PageName','WithFunc','Checked'],
+    components: {},
+    data() {
+        return {
+            // createTargetId: 'art-create-modal'
+        }
+    },
 }
 </script>
 
