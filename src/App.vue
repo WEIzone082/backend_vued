@@ -4,7 +4,7 @@
 
     <Navbar></Navbar>
     <Logout></Logout>
-
+     
     <div>
       <main>
         <div class="content-wrapper">
