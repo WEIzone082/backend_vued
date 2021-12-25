@@ -1,19 +1,19 @@
 <template>
     <div class="form-floating mb-3">
         <input
-            type="email"
+            type="text"
             class="form-control"
             id="floatingInput"
             placeholder="name@example.com"
         />
-        <label for="floatingInput" class="input-group-text">{{InputTitle}}</label>
+        <label for="floatingInput" class="input-group-text">{{title}}</label>
     </div>
 </template>
 
 <script>
 export default {
     name: 'FormInput',
-    props:['InputTitle']
+    props:['title']
 };
 </script>
 

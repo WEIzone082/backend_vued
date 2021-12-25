@@ -1,6 +1,6 @@
 <template>
     <div class="form-check form-switch">
-        <span>{{formCheckTitle}}</span>
+        <span>{{checkTitle}}</span>
         <input
             class="form-check-input"
             type="checkbox"
@@ -13,7 +13,7 @@
 <script>
 export default {
     name: "FormCheck",
-    props: ["formCheckTitle"],
+    props: ["checkTitle"],
 };
 </script>
 

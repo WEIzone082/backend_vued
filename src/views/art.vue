@@ -43,8 +43,9 @@
                             class="btn"
                             data-bs-toggle="modal"
                             data-bs-target="#update-modal"
+                            @click.stop="getButtonId"
                         >
-                            <i class="bi bi-three-dots"></i>
+                            <i class="bi bi-three-dots" data-bs-target="#update-modal"></i>
                         </button>
                     </td>
                 </tr>
@@ -55,7 +56,7 @@
             :end="DataEnd"
             :count="DataCount"
         ></DataFooter>
-        <FormModal/>
+        <FormModal :modalId='modalId'/>
     </div>
 </template>
 
@@ -89,6 +90,8 @@ export default {
                     material: "黑陶土、黑釉土",
                 },
             ],
+            // 所點的彈窗按鈕id
+            modalId: 'update-modal',
             // 輸入框標題，有幾個就輸入幾個名稱
             formInputTitle: [
                 "作品編號",
@@ -98,7 +101,6 @@ export default {
                 "高度",
                 "材質",
             ],
-            updateTargetId: 'update-modal',
             // Textarea標題名稱
             formTextareaTitle: "作品說明",
             // 是否上架的名稱
@@ -109,19 +111,15 @@ export default {
         };
     },
     methods: {
-        checkButton(e){
-            console.log(e.target);
+        getButtonId(e){
+            // this.modalId = e.target.getAttribute('data-bs-target').slice(1);
         }
     },
-    mounted() {
-        this.$bus.$emit('sendFormData', 
-            this.formInputTitle, 
-            this.formTextareaTitle, 
-            this.formCheckTitle,
-            this.formImgUpload,
-            this.updateTargetId
-        )
-    },
+    mounted(){
+        this.$bus.$emit('formInputTitle', this.formInputTitle);
+        this.$bus.$emit('formTextareaTitle', this.formTextareaTitle);
+        this.$bus.$emit('formCheckTitle', this.formCheckTitle);
+    }
 };
 </script>
 
