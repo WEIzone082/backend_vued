@@ -1,7 +1,7 @@
 <template>
     <div
         class="modal fade"
-        :id="modalId"
+        :id="formInfo.targetId"
         tabindex="-1"
         aria-labelledby="update-modalLabel"
         aria-hidden="true"
@@ -9,9 +9,9 @@
     >
         <div class="modal-dialog">
             <div class="modal-content create-modal-content">
-                <FormHeader/>
+                <FormHeader :formInfoTitle='formInfo.title'/>
                 <FormBody/>
-                <FormFooter />
+                <FormFooter :formInfoButtonName='formInfo.buttonName'/>
             </div>
         </div>
     </div>
@@ -29,7 +29,7 @@ export default {
         FormBody,
         FormFooter,
     },
-    props:['modalId']
+    props:['modalId', 'modalTitle', 'modalButtonName', 'formInfo']
 };
 </script>
 

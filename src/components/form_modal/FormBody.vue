@@ -33,6 +33,7 @@ export default {
     beforeDestroy() {
         this.$bus.$off("formInputTitle");
         this.$bus.$off("formTextareaTitle");
+        this.$bus.$off("formCheckTitle");
     },
 };
 </script>

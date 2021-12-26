@@ -39,11 +39,11 @@
                     aria-describedby="inputGroup-sizing-default">
             </div>
             <button type="button" class="btn create-btn" data-bs-toggle="modal"
-                data-bs-target="#art-create-modal" v-if="WithFunc" @click="getButtonId">
+                data-bs-target="#art-create-modal" v-if="WithFunc">
                 <i class="bi bi-plus-lg"></i>
                 新增
             </button>
-            <FormModal :modalId='modalId'/>
+            <FormModal :formInfo='formInfo'/>
         </div>
     
     </div>
@@ -53,16 +53,11 @@
 <script>
 import FormModal from './FormModal.vue';
 export default {
-    props:['PageName','WithFunc','Checked'],
+    props:['PageName','WithFunc','Checked', 'formInfo'],
     components: {FormModal},
     data() {
         return {
-            modalId: ''
-        }
-    },
-    methods: {
-        getButtonId(e){
-            this.modalId = e.target.getAttribute('data-bs-target').slice(1);
+
         }
     },
 }
