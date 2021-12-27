@@ -25,7 +25,6 @@
                 <i class="bi bi-three-dots" data-bs-target="#update-modal"></i>
             </button>
         </td>
-        <slot></slot>
     </tr>
 </template>
 

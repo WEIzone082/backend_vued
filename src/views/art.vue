@@ -6,9 +6,8 @@
             :Checked="checked"
             :formInfo="createFormInfo"
         ></PageNav>
-        <BackendTable :hasCheckbox='hasCheckbox'>
-            <FormModal :formInfo="updateFormInfo" />
-        </BackendTable>
+        <BackendTable :hasCheckbox='hasCheckbox'/>
+        <FormModal :formInfo="updateFormInfo" />
         <DataFooter
             :start="DataStart"
             :end="DataEnd"
