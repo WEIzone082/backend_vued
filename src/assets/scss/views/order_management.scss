@@ -1,5 +1,3 @@
-
-
 // order-block
 
 .order {
@@ -16,6 +14,7 @@
 
 .order-info {
   border-bottom: 1px solid lightgrey;
+  height: auto !important;
 
   .order-no-container {
     padding-left: 12px;
