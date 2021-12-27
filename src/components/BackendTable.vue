@@ -2,9 +2,11 @@
     <table class="table table-borderless">
         <TableThead />
         <tbody>
-            <TableTr  v-for="art in tableBodyData" :key="art.id" :art='art' :hasCheckbox='hasCheckbox'>
-                <slot></slot>
-            </TableTr>
+            <TableTr 
+                v-for="art in tableBodyData" 
+                :key="art.id" :art='art' 
+                :hasCheckbox='hasCheckbox'
+            />
         </tbody>
     </table>
 </template>
