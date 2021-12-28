@@ -6,7 +6,7 @@
             :Checked="checked"
             :formInfo="createFormInfo"
         ></PageNav>
-        <BackendTable :hasCheckbox='hasCheckbox'/>
+        <BackendTable :hasCheckbox='hasCheckbox' :tableType='tableType'/>
         <FormModal :formInfo="updateFormInfo" />
         <DataFooter
             :start="DataStart"
@@ -23,7 +23,7 @@ import FormModal from "../components/FormModal.vue";
 import DataFooter from "../components/Data_Footer.vue";
 
 export default {
-    name: "art",
+    name: "Art",
     components: {
         PageNav,
         BackendTable,
@@ -38,7 +38,15 @@ export default {
             DataEnd: 0,
             DataCount: 0,
 
+            // 是否有Checkbox
             hasCheckbox: true,
+            // 是否有上架狀態、編輯按鈕、下拉選單
+            tableType: {
+                hasStatus: true,
+                hasUpdateButton: true,
+                hasDropdown: false,
+            },
+            // 表頭名稱
             tableHeadTitle: [
                 "封面",
                 "作品編號",
@@ -50,6 +58,7 @@ export default {
                 "作品上架",
                 ""
             ],
+            // 表的內容
             tableBodyData: [
                 {
                     img: "art_img.png",
@@ -67,6 +76,7 @@ export default {
                 targetId: "art-create-modal",
                 title: "新增作品",
                 buttonName: "確定新增",
+                isExist: true
             },
 
             // 編輯按鈕彈窗資訊
@@ -100,6 +110,7 @@ export default {
         this.$bus.$emit("formCheckTitle", this.formCheckTitle);
         this.$bus.$emit("formImgUpload", this.formImgUpload);
         this.$bus.$emit("hasCheckbox", this.hasCheckbox);
+        this.$bus.$emit("tableType", this.tableType);
         this.$bus.$emit("tableHeadTitle", this.tableHeadTitle);
         this.$bus.$emit("tableBodyData", this.tableBodyData);
     },

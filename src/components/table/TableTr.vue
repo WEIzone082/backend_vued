@@ -4,7 +4,7 @@
             <input type="checkbox" />
         </td>
 
-        <td v-for="(val, title) in art" :key="title">
+        <td v-for="(val, title) in data" :key="title">
             <img
                 :src="require(`../../assets/img/${val}`)"
                 v-if="title === 'img'"
@@ -12,10 +12,10 @@
             <template v-if="title !== 'img'">{{ val }}</template>
         </td>
 
-        <td class="status">
+        <td class="status" v-if="tableType.hasStatus">
             <span class="badge success-clr">&bull;上架</span>
         </td>
-        <td>
+        <td v-if="tableType.hasUpdateButton">
             <button
                 type="button"
                 class="btn"
@@ -25,24 +25,35 @@
                 <i class="bi bi-three-dots" data-bs-target="#update-modal"></i>
             </button>
         </td>
+        <td v-if="tableType.hasDropdown">
+            <div class="dropdown account-toggler">
+                <button
+                    class="btn dropdown-toggle success-comp"
+                    type="button"
+                    id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                >
+                    &bull; 啟用中
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item act-acc">啟用</a></li>
+                    <li><a class="dropdown-item ban-acc">停權</a></li>
+                </ul>
+            </div>
+        </td>
     </tr>
 </template>
 
 <script>
-import FormModal from '../FormModal.vue';
 export default {
-    name: "TableTbody",
-    components:{FormModal},
-    props: ["formInfo", 'art' ,'hasCheckbox'],
+    name: "TableTr",
+    components: {},
+    props: ["formInfo", "data", "hasCheckbox", 'tableType'],
     data() {
         return {
-
+            
         };
-    },
-    mounted() {
-
-    },
-    beforeDestroy() {
     },
 };
 </script>

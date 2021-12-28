@@ -43,7 +43,7 @@
                 <i class="bi bi-plus-lg"></i>
                 新增
             </button>
-            <FormModal :formInfo='formInfo'/>
+            <FormModal :formInfo='formInfo' v-if="formInfo"/>
         </div>
     
     </div>
@@ -59,6 +59,9 @@ export default {
         return {
 
         }
+    },
+    computed: {
+
     },
 }
 </script>

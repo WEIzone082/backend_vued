@@ -3,22 +3,24 @@
         <TableThead />
         <tbody>
             <TableTr 
-                v-for="art in tableBodyData" 
-                :key="art.id" :art='art' 
+                v-for="data in tableBodyData" 
+                :key="data.id" 
+                :data='data' 
                 :hasCheckbox='hasCheckbox'
-            />
+                :tableType='tableType'
+            >
+            </TableTr>
         </tbody>
     </table>
 </template>
 
 <script>
-import FormModal from './FormModal.vue';
 import TableThead from "./table/TableThead.vue";
 import TableTr from "./table/TableTr.vue";
 export default {
     name: "BackendTable",
-    props: ["formInfo"],
-    components: {FormModal, TableThead, TableTr },
+    props: ["formInfo",'tableType'],
+    components: { TableThead, TableTr },
     data() {
         return {
             tableBodyData: [],
