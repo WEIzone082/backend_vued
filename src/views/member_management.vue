@@ -76,11 +76,14 @@ export default {
   methods: {
     getAll: function () {
       this.axios
+        //第一行先設定要Post的地址
         .post("http://localhost/Vue/fetch.php", {
+          // 以下為傳進php的值
           action: "fetchall",
           page: "member",
         })
         .then((response) => {
+          // 把response轉到data
           this.datas = response.data;
         });
     },
