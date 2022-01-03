@@ -51,7 +51,9 @@ const routes = [
   { 
     path: '/orders/:id',
     name: 'order_details',
-    component: Order_Details
+    component: Order_Details,
+    // updated 0103, set props to true to make id of the page readable
+    props:true
   },
 ]
 

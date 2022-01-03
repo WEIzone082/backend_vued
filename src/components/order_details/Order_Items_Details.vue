@@ -41,7 +41,7 @@
 
     <div class="row costumer-note-carrier">
       <p class="note-title">買家備註</p>
-      <p class="costumer-note">幹你娘機掰我幹幹幹幹幹</p>
+      <p class="costumer-note">歸剛欸</p>
     </div>
   </div>
 </template>

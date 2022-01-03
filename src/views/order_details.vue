@@ -1,6 +1,6 @@
 <template>
   <div>
-    <order-header></order-header>
+    <order-header :OrderNum="id"></order-header>
 
     <div class="order-details-wrapper">
       <div class="container block-name">
@@ -28,6 +28,7 @@ import OrderHeader from "../components/order_details/Order_Details_Header.vue";
 
 export default {
   components: { ShipInfo, PayInfo, ItemDetails, OrderHistory, OrderHeader },
+  props: ["id"],
 };
 </script>
 

@@ -3,12 +3,14 @@
     <div class="row order-info">
       <div class="col-3 order-id-date">
         <div>
-          <p>訂單編號：<span class="oder-id">550201</span></p>
+          <p>
+            訂單編號：<span class="oder-id">{{ OrderNum }}</span>
+          </p>
           <p class="order-date">2021/11/30 22:30:24</p>
         </div>
       </div>
       <div class="col-2">
-        <button class="btn order-status">已出貨</button>
+        <button class="btn alert-comp">已出貨</button>
       </div>
       <div class="col-2"></div>
       <div class="col-3 order-total">
@@ -22,7 +24,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["OrderNum"],
+};
 </script>
 
 <style lang="scss" scoped>
