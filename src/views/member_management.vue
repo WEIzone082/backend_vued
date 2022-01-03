@@ -91,7 +91,7 @@ export default {
       this.end = this.DataCount > this.DPP ? this.DPP : this.DataCount;
     },
     changeData: function (start, end) {
-      this.ShowDatas = this.AllDatas.slice(start, end);
+      this.ShowDatas = this.AllDatas.slice(start - 1, end);
       this.start = start;
       this.end = end - 1;
     },
