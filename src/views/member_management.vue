@@ -40,7 +40,6 @@
       :start="start"
       :end="end"
       :pages="pages"
-      @changeData="changeData()"
     ></DataFooter>
   </div>
 </template>
@@ -56,7 +55,7 @@ export default {
     return {
       func: false,
       // Data Per Page
-      DPP: 15,
+      DPP: 10,
       start: 0,
       end: 0,
       pages: 0,
@@ -90,18 +89,20 @@ export default {
       this.start = 1;
       this.end = this.DataCount > this.DPP ? this.DPP : this.DataCount;
     },
-    changeData: function (start, end) {
-      this.ShowDatas = this.AllDatas.slice(start - 1, end);
-      this.start = start;
-      this.end = end - 1;
-    },
+    // changeData: function (args) {
+    //   console.log(args.begin);
+    //   console.log(args.end);
+    //   this.start = args.begin + 1;
+    //   this.end = args.end - 1;
+    //   this.ShowDatas = this.AllDatas.slice(args.begin - 1, args.end);
+    // },
   },
   created: function () {
     this.getAll();
   },
-  beforeUpdate: function () {
-    this.initialize();
-  },
+  // beforeUpdate: function () {
+  //   this.initialize();
+  // },
 };
 </script>
 
