@@ -52,11 +52,18 @@
         class="btn create-btn"
         data-bs-toggle="modal"
         data-bs-target="#art-create-modal"
-        v-if="WithFunc"
+        v-if="WithFunc && formInfo"
       >
         <i class="bi bi-plus-lg"></i>
         新增
       </button>
+      <router-link :to="{name: 'course_update', params:{name: '新增課程'}}" v-else>
+        <button type="button" class="btn create-btn" v-if="WithFunc">
+            <i class="bi bi-plus-lg"></i>
+            新增
+        </button>
+      </router-link>
+      <!-- 新增彈窗 傳相關資料，若沒彈窗則不顯示 -->
       <FormModal :formInfo="formInfo" v-if="formInfo" />
     </div>
   </div>
@@ -67,10 +74,6 @@ import FormModal from "./FormModal.vue";
 export default {
   props: ["PageName", "WithFunc", "Checked", "formInfo"],
   components: { FormModal },
-  data() {
-    return {};
-  },
-  computed: {},
 };
 </script>
 

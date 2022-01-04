@@ -2,9 +2,9 @@
     <div class="modal-body create-modal-body">
         <form action="get" class="create-form">
             <FormInput v-for="(title, index) in inputTitles" :key="index" :title = 'title'/>
-            <FormTextarea :textareaTitle='textareaTitle'/>
+            <FormTextarea :textareaTitle='textareaTitle' v-if="!courseFromData"/>
             <FormCheck :checkTitle='checkTitle'/>
-            <FormImgUpload />
+            <FormImgUpload v-if="!courseFromData" :formImgUpload="formImgUpload"/>
         </form>
     </div>
 </template>
@@ -17,25 +17,33 @@ import FormImgUpload from "./FormImgUpload.vue";
 export default {
     name: "FormBody",
     components: { FormInput, FormTextarea, FormCheck, FormImgUpload },
-    props: [""],
     data() {
         return {
-            inputTitles: [],
+            inputTitles: {},
             textareaTitle: '',
             checkTitle: '',
+            formImgUpload: '',
+            courseFromData: '',
+            trData: {}
         }
     },
     mounted() {
-        this.$bus.$on("formInputTitle", (data) => {this.inputTitles = data;});
-        this.$bus.$on("formTextareaTitle", (data) => {this.textareaTitle = data;});
-        this.$bus.$on("formCheckTitle", (data) => {this.checkTitle = data;});
+        this.$bus.$on("formData", (formData) => {
+            this.inputTitles = formData.inputTitles;
+            this.textareaTitle = formData.textareaTitle;
+            this.checkTitle = formData.checkTitle;
+            this.formImgUpload = formData.imgUpload;
+        });
+        this.$bus.$on("courseFromData", (data) => {this.courseFromData = data;});
+        this.$bus.$on("trData", (trData) => {this.trData = trData;});
     },
     beforeDestroy() {
-        this.$bus.$off("formInputTitle");
-        this.$bus.$off("formTextareaTitle");
-        this.$bus.$off("formCheckTitle");
+        this.$bus.$off("formData");
+        this.$bus.$off("courseFromData");
     },
 };
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+
+</style>

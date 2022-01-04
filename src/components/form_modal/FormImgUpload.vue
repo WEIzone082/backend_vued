@@ -1,6 +1,6 @@
 <template>
     <div class="img-upload-wrapper">
-        <span class="img-title">{{imgUploadTitle}}</span>
+        <span class="img-title">{{formImgUpload || courseFromData}}</span>
         <div class="upload-content-wrapper">
             <label class="upload_cover">
                 <input id="upload_input" type="file" multiple="multiple"/>
@@ -14,17 +14,7 @@
 <script>
 export default {
     name: "FormImgUpload",
-    data() {
-        return {
-            imgUploadTitle: ''
-        }
-    },
-    mounted() {
-        this.$bus.$on("formImgUpload", (data) => {this.imgUploadTitle = data;});
-    },
-    beforeDestroy() {
-        this.$bus.$off("formImgUpload");
-    },
+    props: ['courseFromData', 'formImgUpload'],
 };
 </script>
 

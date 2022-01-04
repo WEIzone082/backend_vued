@@ -29,7 +29,13 @@ export default {
         FormBody,
         FormFooter,
     },
-    props:['modalId', 'modalTitle', 'modalButtonName', 'formInfo']
+    props:['modalId', 'modalTitle', 'modalButtonName', 'formInfo'],
+    data() {
+        return {
+            trData: {}
+        }
+    },
+
 };
 </script>
 

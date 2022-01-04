@@ -13,7 +13,7 @@
 <script>
 export default {
     name: 'FormInput',
-    props:['title']
+    props:['title'],
 };
 </script>
 

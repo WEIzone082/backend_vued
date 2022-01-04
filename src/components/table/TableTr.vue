@@ -1,30 +1,65 @@
 <template>
+    <!-- tr內容 -->
     <tr class="table-rows">
-        <td v-if="hasCheckbox">
-            <input type="checkbox" />
+        <!-- checkbox -->
+        <td v-if="hasCheckbox" ref="tdCheckbox">
+            <input type="checkbox" v-model="trChecked"/>
         </td>
+        <!-- tr的內容 -->
+        <td v-for="(val, title) in getTrValue" :key="title">
 
-        <td v-for="(val, title) in data" :key="title">
+            <!-- 判斷是否有圖片 -->
             <img
                 :src="require(`../../assets/img/${val}`)"
-                v-if="title === 'img'"
+                v-if="title === 'OUT_IMG'"
             />
-            <template v-if="title !== 'img'">{{ val }}</template>
+
+            <!-- 不是圖片則正常顯示 -->
+            <template v-if="title !== 'OUT_IMG'">{{ val }}</template>
         </td>
 
-        <td class="status" v-if="tableType.hasStatus">
+        <!-- for課程管理table 額滿的內容 -->
+        <td class="status" v-if="tableType.hasFull">
+            <span class="badge success-clr">&bull;未額滿</span>
+        </td>
+
+        <!-- 上下架 -->
+        <td class="status" v-if="tableType.hasStatus && trData.STATUS_TYPE === '1'">
             <span class="badge success-clr">&bull;上架</span>
         </td>
+        <td class="status" v-if="tableType.hasStatus && trData.STATUS_TYPE === '2'">
+            <span class="badge down-clr">&bull;下架</span>
+        </td>
+
+        <!-- 編輯按鈕 -->
         <td v-if="tableType.hasUpdateButton">
+            <!-- 正常編輯按鈕 若有pathData則不顯示 -->
             <button
                 type="button"
                 class="btn"
                 data-bs-toggle="modal"
                 data-bs-target="#update-modal"
+                v-if="!tableType.pathData"
             >
                 <i class="bi bi-three-dots" data-bs-target="#update-modal"></i>
             </button>
+
+            <!-- course 編輯內頁用 有pathData才會顯示 -->
+            <router-link v-if="tableType.pathData" 
+                :to="{
+                    name: 'course_update',
+                    params:{
+                        name: trData.name
+                    }
+                }"
+            >
+                <button class="btn">
+                    <i class="bi bi-three-dots"></i>
+                </button>
+            </router-link>
         </td>
+
+        <!-- 會員管理用 停權下拉選單 -->
         <td v-if="tableType.hasDropdown">
             <div class="dropdown account-toggler">
                 <button
@@ -34,7 +69,7 @@
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                 >
-                    &bull; 啟用中
+                    &bull; 
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item act-acc">啟用</a></li>
@@ -49,11 +84,53 @@
 export default {
     name: "TableTr",
     components: {},
-    props: ["formInfo", "data", "hasCheckbox", 'tableType'],
+    props: ["trData", 'tableData', 'isChecked'],
     data() {
         return {
-            
+            hasCheckbox: this.tableData.hasCheckbox,
+            tableType: this.tableData.tableType,
+            tableHeadTitle: this.tableData.tableHeadTitle,
+            trChecked: false,
+            trId: this.trData.ARTS_ID
         };
+    },
+    computed: {
+        // 取得tr要顯示的資料
+        getTrValue(){
+            // 複製一個th物件
+            let trValue = {...this.tableHeadTitle}
+            delete trValue.space;
+    
+            // 迴圈找tr有跟th相同屬性名的資料
+            for (const thProp in this.tableHeadTitle) {
+
+                // 第二層跑傳入的資料
+                for (const trProp in this.trData) {
+                    // 若th和tr屬姓名相同
+                    if(thProp === trProp){
+                        // 將tr的值給th該屬性
+                        trValue[thProp] = this.trData[trProp]
+                    }
+                }
+            }
+            delete trValue['STATUS_TYPE'];
+            return trValue
+        },
+    },
+    watch:{
+        // 監測全勾選的變化
+        isChecked(newV){
+            // 若全選發生變化，就將tr的checkbox也同時改成相同的(同時勾、同時取消)
+            this.trChecked = newV
+        },
+        // 監測tr checkbox變化
+        trChecked(newV){
+            // 使用非同步延遲執行(因為資料傳遞有時間差，全選勾了下面tr還是會顯示false)
+            setTimeout(() => {
+                // 將該tr 是否勾選傳給父元件
+                this.$emit('getTrChecked', this.trChecked)
+            }, 0);
+        },
     },
 };
 </script>
@@ -67,7 +144,14 @@ td {
         font-weight: normal;
     }
 
-    & > .btn {
+    .down-clr{
+        background-color: #ffc542;
+        color: #000;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    & .btn {
         border: none;
         width: 32px;
         background-color: #f1f1f5 !important;

@@ -24,8 +24,8 @@ const routes = [
     component: Course
   },
 
-  { 
-    path: '/course_update',
+  {
+    path: '/course/:name',
     name: 'course_update',
     component: Course_Update
   },

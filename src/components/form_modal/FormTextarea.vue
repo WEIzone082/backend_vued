@@ -13,7 +13,12 @@
 <script>
 export default {
     name: "FormTextarea",
-    props: ['textareaTitle']
+    props: ['textareaTitle'],
+    data() {
+        return {
+
+        }
+    },
 };
 </script>
 
