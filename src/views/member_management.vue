@@ -15,7 +15,7 @@
       <tbody>
         <tr
           class="table-rows"
-          v-for="member in ShowDatas"
+          v-for="member in AllDatas"
           :key="member.MEMBER_ID"
         >
           <th scope="row">{{ member.MEMBER_ID }}</th>
@@ -28,7 +28,8 @@
               :MemberID="member.MEMBER_ID"
               :status="member.STATUS"
               :MemberName="member.NAME"
-              @refresh="getAll()"
+              :displayAPI="displayAPI"
+              @refresh="refresh()"
             ></AccToggler>
           </td>
         </tr>
@@ -61,44 +62,17 @@ export default {
       pages: 0,
       DataCount: 0,
       AllDatas: [],
-      ShowDatas: [],
+      displayAPI:'fetch.php'
     };
   },
   methods: {
-    getAll: function () {
-      this.axios
-        //Set address to send post
-        .post("http://localhost/Vue/fetch.php", {
-          // datas to send into php
-          action: "fetchall",
-          page: "member",
-        })
-        .then((response) => {
-          // get numbers of data
-          this.DataCount = response.data.length;
-
-          // send All datas into AllDatas
-          this.AllDatas = response.data;
-
-          // slice the datas for the first page into ShowDatas
-          this.ShowDatas = this.AllDatas.slice(0, this.DPP);
-        });
-    },
-    initialize: function () {
-      this.pages = Math.ceil(this.DataCount / this.DPP);
-      this.start = 1;
-      this.end = this.DataCount > this.DPP ? this.DPP : this.DataCount;
-    },
-    // changeData: function (args) {
-    //   console.log(args.begin);
-    //   console.log(args.end);
-    //   this.start = args.begin + 1;
-    //   this.end = args.end - 1;
-    //   this.ShowDatas = this.AllDatas.slice(args.begin - 1, args.end);
-    // },
+    refresh:function(){
+      this.$store.dispatch('member/getAll',this.displayAPI);
+      this.AllDatas = this.$store.getters['member/getTableData'];
+    }
   },
-  created: function () {
-    this.getAll();
+  created() {
+    this.refresh();
   },
   // beforeUpdate: function () {
   //   this.initialize();

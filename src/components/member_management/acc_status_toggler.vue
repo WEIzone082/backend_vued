@@ -37,25 +37,15 @@
 
 <script>
 export default {
-  props: ["MemberID", "status", "MemberName"],
+  props: ["MemberID", "status", "MemberName","displayAPI"],
   methods: {
     ToggleAcc: function (togg) {
       let todo = togg == "ban" ? "停權" : "啟用";
       let sure = confirm(`確定對 ${this.MemberName} 的帳號進行 ${todo} ?`);
       if (sure) {
-        this.axios
-          //Set address to send post
-          .post("http://localhost/Vue/fetch.php", {
-            // datas to send into php
-            action: "toggleAcc",
-            toggAction: togg,
-            id: this.MemberID,
-          })
-          .then(() => {
-            alert(`成功將 ${this.MemberName} 的帳號進行 ${todo}`);
-            this.$emit("refresh");
-          });
+        this.$store.dispatch('member/toggle',{address:this.displayAPI,id:this.MemberID,act:togg,Member:this.MemberName});
       }
+      this.$emit("refresh");
     },
   },
 };
