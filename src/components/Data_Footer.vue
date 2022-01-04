@@ -8,7 +8,6 @@
           <a
             class="page-link"
             aria-label="Previous"
-            @click="pageChanger('prev')"
           >
             <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
           </a>
@@ -17,12 +16,11 @@
           class="page-item"
           v-for="index in AvailPages"
           :key="index"
-          @click="pageChanger(index)"
         >
           <a class="page-link" href="#">{{ index }}</a>
         </li>
         <li class="page-item">
-          <a class="page-link" aria-label="Next" @click="pageChanger('next')">
+          <a class="page-link" aria-label="Next">
             <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
           </a>
         </li>
@@ -33,12 +31,12 @@
 
 <script>
 export default {
-  // props: ["count", "DPP", "start", "end", "pages"],
-  // data() {
-  //   return {
-  //     AvailPages: [],
-  //   };
-  // },
+  props: ["count", "DPP", "start", "end", "pages"],
+  data() {
+    return {
+      AvailPages: [],
+    };
+  },
   // methods: {
   //   PageInitialize: function () {
   //     if (this.count >= 3) {
