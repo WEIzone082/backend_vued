@@ -76,16 +76,17 @@ const member = {
 				context.commit('displayAPI', response.data);
         	});
 		},
-		toggle:function(context,args){
-			axios.post(`http://localhost:8080/api/yoshi/backend/${args.address}`,
-			{
-				action:"toggle",
-				ToDo:args.act,
-				MemberID:args.id
-			})
-			.then(function(){
-				alert(`成功將 ${args.Member} 的帳號執行動作`);
-			})
+		toggle:(context,args) => {
+			return axios
+				.post(`http://localhost:8080/api/yoshi/backend/${args.address}`,
+				{
+					action:"toggle",
+					ToDo:args.act,
+					MemberID:args.id
+				})
+				.then(()=>{
+					alert(`成功將 ${args.Member} 的帳號執行動作, 請重整頁面`);
+				})
 		},
 	},
 	mutations:{
@@ -96,7 +97,7 @@ const member = {
 	getters:{
 		// 回傳tableData
 		getTableData(state){
-			return state.tableData
+			return state.tableData;
 		}
 	}
 }
