@@ -62,14 +62,15 @@ export default {
       pages: 0,
       DataCount: 0,
       AllDatas: [],
-      displayAPI:'fetch.php'
+      displayAPI: "fetch.php",
     };
   },
   methods: {
-    refresh:function(){
-      this.$store.dispatch('member/getAll',this.displayAPI);
-      this.AllDatas = this.$store.getters['member/getTableData'];
-    }
+    refresh: function () {
+      this.$store.dispatch("member/getAll", this.displayAPI).then(() => {
+        this.AllDatas = this.$store.getters["member/getTableData"];
+      });
+    },
   },
   created() {
     this.refresh();

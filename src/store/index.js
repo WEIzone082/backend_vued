@@ -67,7 +67,7 @@ const member = {
 	},
 	actions:{
 		getAll:function(context,apiPath){
-			axios.post(`http://localhost:8080/api/yoshi/backend/${apiPath}`, {
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${apiPath}`, {
 				// datas to send into php
 				action: "fetchall",
 				page: "member",
@@ -85,7 +85,7 @@ const member = {
 					MemberID:args.id
 				})
 				.then(()=>{
-					alert(`成功將 ${args.Member} 的帳號執行動作, 請重整頁面`);
+					alert(`成功對 ${args.Member} 的帳號執行動作`);
 				})
 		},
 	},
