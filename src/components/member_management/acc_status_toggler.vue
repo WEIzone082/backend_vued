@@ -37,15 +37,25 @@
 
 <script>
 export default {
+  data:function(){
+    return{
+      fakeAcc:this.status,
+    }
+  },
   props: ["MemberID", "status", "MemberName","displayAPI"],
   methods: {
     ToggleAcc: function (togg) {
       let todo = togg == "ban" ? "停權" : "啟用";
       let sure = confirm(`確定對 ${this.MemberName} 的帳號進行 ${todo} ?`);
       if (sure) {
-        this.$store.dispatch('member/toggle',{address:this.displayAPI,id:this.MemberID,act:togg,Member:this.MemberName});
+        this.$store.dispatch('member/toggle',{address:this.displayAPI,id:this.MemberID,act:togg,Member:this.MemberName})
+          .then(()=>{
+            setTimeout(()=>{
+              this.$emit('refresh');
+            },2000)
+          })
+        
       }
-      this.$emit("refresh");
     },
   },
 };
