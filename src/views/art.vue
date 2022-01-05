@@ -53,7 +53,7 @@ export default {
                 },
                 // 表頭名稱
                 tableHeadTitle: {
-                    OUT_IMG: "封面",
+                    IN_IMG_1: "封面",
                     ARTS_ID: "作品編號",
                     NAME: "作品名稱",
                     LENTH: "長度(mm)",

@@ -11,11 +11,11 @@
             <!-- 判斷是否有圖片 -->
             <img
                 :src="require(`../../assets/img/${val}`)"
-                v-if="title === 'OUT_IMG'"
+                v-if="title === 'IN_IMG_1'"
             />
 
             <!-- 不是圖片則正常顯示 -->
-            <template v-if="title !== 'OUT_IMG'">{{ val }}</template>
+            <template v-if="title !== 'IN_IMG_1'">{{ val }}</template>
         </td>
 
         <!-- for課程管理table 額滿的內容 -->
