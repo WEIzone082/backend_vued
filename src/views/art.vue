@@ -6,7 +6,7 @@
             :Checked="checked"
             :formInfo="formData.createFormInfo"
         ></PageNav>
-        <BackendTable :tableData='tableData'/>
+        <BackendTable :tableData='tableData' ref="beTable" @showDel='showDel'/>
         <FormModal :formInfo="formData.updateFormInfo" />
         <DataFooter
             :start="DataStart"
@@ -33,8 +33,11 @@ export default {
     },
     data() {
         return {
+            // 新增按鈕
             func: true,
-            checked: true,
+            // 上下架刪除按鈕
+            checked: false,
+            // data起始結束 總數
             DataStart: 0,
             DataEnd: 0,
             DataCount: 0,
@@ -43,12 +46,17 @@ export default {
             tableData:{
                 // 是否有Checkbox
                 hasCheckbox: true,
-                // 是否有上架狀態、編輯按鈕、下拉選單
+                // 表是否有
                 tableType: {
+                    // 上架狀態
                     hasStatus: true,
+                    // 編輯按鈕
                     hasUpdateButton: true,
+                    // 下拉選單
                     hasDropdown: false,
+                    // 路徑(課程內頁用)
                     pathData: '',
+                    // 額滿狀態(課程用)
                     hasFull: false
                 },
                 // 表頭名稱
@@ -105,14 +113,28 @@ export default {
 
             useAPI:{
                 displayAPI: 'art/artDisplay.php',
+                deleteAPI: 'art/artDelete.php',
             }, 
         };
+    },
+    methods: {
+        // 上下架刪除按鈕是否顯示功能
+        showDel(checkedArr){
+            // 存取有勾選的陣列長度 > 0 出現
+            if(checkedArr.length > 0){
+                this.checked = true
+            }else{
+                this.checked = false
+            }
+        }
     },
     created(){
         // 發出ajax請求
         this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
+        // this.$store.dispatch('art/displayAPI', this.useAPI, this.$refs.);
     },
     mounted() {
+        // 傳給th
         this.$bus.$emit("tableData", this.tableData);
         this.$bus.$emit("formData", this.formData);
     },
