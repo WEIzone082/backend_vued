@@ -5,6 +5,8 @@
             :WithFunc="func"
             :Checked="checked"
             :formInfo="formData.createFormInfo"
+            :finalCheckedArr="finalCheckedArr"
+            :useAPI="useAPI"
         ></PageNav>
         <BackendTable :tableData='tableData' ref="beTable" @showDel='showDel'/>
         <FormModal :formInfo="formData.updateFormInfo" />
@@ -41,6 +43,9 @@ export default {
             DataStart: 0,
             DataEnd: 0,
             DataCount: 0,
+
+            // 存有勾選的陣列
+            finalCheckedArr:[],
 
             // table相關
             tableData:{
@@ -120,6 +125,9 @@ export default {
     methods: {
         // 上下架刪除按鈕是否顯示功能
         showDel(checkedArr){
+            // 將勾選陣列存入art的data
+            this.finalCheckedArr = checkedArr;
+
             // 存取有勾選的陣列長度 > 0 出現
             if(checkedArr.length > 0){
                 this.checked = true
@@ -131,7 +139,6 @@ export default {
     created(){
         // 發出ajax請求
         this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
-        // this.$store.dispatch('art/displayAPI', this.useAPI, this.$refs.);
     },
     mounted() {
         // 傳給th

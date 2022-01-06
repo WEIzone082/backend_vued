@@ -42,9 +42,10 @@ const art = {
 				}
 			)
 		},
-		// deleteAPI(context, ...data){
-		// 	axios.post(`http://localhost:8080/api/yoshi/backend/${apiPath}`,)
-		// }
+		deleteAPI(context, data){
+			console.log(data.finalCheckedArr);
+			axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr)
+		}
 	},
 	mutations: {
 		// 收到資料後存入state中

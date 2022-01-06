@@ -72,7 +72,7 @@
 <script>
 import FormModal from "./FormModal.vue";
 export default {
-  props: ["PageName", "WithFunc", "Checked", "formInfo"],
+  props: ["PageName", "WithFunc", "Checked", "formInfo", "finalCheckedArr", "useAPI"],
   components: { FormModal },
   data() {
     return {
@@ -82,7 +82,12 @@ export default {
   methods: {
 
     delTr(){
-
+      let flag = confirm('確定要刪除勾選的作品?')
+      if(flag){
+        this.$store.dispatch('art/deleteAPI', {
+          useAPI:this.useAPI, finalCheckedArr:this.finalCheckedArr
+        });
+      }
     }
   },
 
