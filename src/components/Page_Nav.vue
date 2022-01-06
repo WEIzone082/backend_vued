@@ -32,7 +32,7 @@
         <i class="bi bi-plus-lg"></i>
         下架
       </button>
-      <button type="button" class="btn btn-dark del-btn" v-if="Checked">
+      <button type="button" class="btn btn-dark del-btn" v-if="Checked" @click="delTr">
         <i class="bi bi-plus-lg"></i>
         刪除
       </button>
@@ -74,6 +74,18 @@ import FormModal from "./FormModal.vue";
 export default {
   props: ["PageName", "WithFunc", "Checked", "formInfo"],
   components: { FormModal },
+  data() {
+    return {
+      checkedArr:[]
+    }
+  },
+  methods: {
+
+    delTr(){
+
+    }
+  },
+
 };
 </script>
 

@@ -3,7 +3,7 @@
     <tr class="table-rows">
         <!-- checkbox -->
         <td v-if="hasCheckbox" ref="tdCheckbox">
-            <input type="checkbox" v-model="trChecked"/>
+            <input type="checkbox" v-model="trIsChecked"/>
         </td>
         <!-- tr的內容 -->
         <td v-for="(val, title) in getTrValue" :key="title">
@@ -11,11 +11,11 @@
             <!-- 判斷是否有圖片 -->
             <img
                 :src="require(`../../assets/img/${val}`)"
-                v-if="title === 'OUT_IMG'"
+                v-if="title === 'IN_IMG_1'"
             />
 
             <!-- 不是圖片則正常顯示 -->
-            <template v-if="title !== 'OUT_IMG'">{{ val }}</template>
+            <template v-if="title !== 'IN_IMG_1'">{{ val }}</template>
         </td>
 
         <!-- for課程管理table 額滿的內容 -->
@@ -84,13 +84,15 @@
 export default {
     name: "TableTr",
     components: {},
-    props: ["trData", 'tableData', 'isChecked'],
+    props: ["trData", 'tableData'],
     data() {
         return {
             hasCheckbox: this.tableData.hasCheckbox,
             tableType: this.tableData.tableType,
             tableHeadTitle: this.tableData.tableHeadTitle,
-            trChecked: false,
+            // tr勾選狀態
+            trIsChecked: false,
+            // tr的id
             trId: this.trData.ARTS_ID
         };
     },
@@ -118,19 +120,11 @@ export default {
         },
     },
     watch:{
-        // 監測全勾選的變化
-        isChecked(newV){
-            // 若全選發生變化，就將tr的checkbox也同時改成相同的(同時勾、同時取消)
-            this.trChecked = newV
-        },
-        // 監測tr checkbox變化
-        trChecked(newV){
-            // 使用非同步延遲執行(因為資料傳遞有時間差，全選勾了下面tr還是會顯示false)
-            setTimeout(() => {
-                // 將該tr 是否勾選傳給父元件
-                this.$emit('getTrChecked', this.trChecked)
-            }, 0);
-        },
+        // 監測tr勾選框變動
+        trIsChecked(){
+            // 當tr勾選框變動傳該值給table
+            this.$emit('trCheckedFun', this.trIsChecked)
+        }
     },
 };
 </script>

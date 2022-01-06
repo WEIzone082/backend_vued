@@ -16,12 +16,15 @@ export default {
         return {
             hasCheckbox: false,
             tableHeadTitle: [],
+            // 全選checkoutbox
             isAllChecked: false
         }
     },
     watch:{
+        // 監測全選多選框變動
         isAllChecked(){
-            this.$emit('isAllChecked', this.isAllChecked);
+            // 當全選框變動傳該值給table
+            this.$emit('allCheckedFun', this.isAllChecked)
         }
     },
     mounted() {
