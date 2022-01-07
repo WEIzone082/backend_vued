@@ -44,7 +44,17 @@ const art = {
 		},
 		deleteAPI(context, data){
 			console.log(data.finalCheckedArr);
-			axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr)
+			axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+				response => {
+					context.dispatch('displayAPI', data.useAPI.displayAPI).then(() => {
+						alert('刪除成功')
+						
+					});
+				},
+				error => {
+					// console.log(error.message);
+				}
+			)
 		}
 	},
 	mutations: {
