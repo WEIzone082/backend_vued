@@ -69,7 +69,7 @@ export default {
       page_cat: [
         {
           cat_icon: "bi bi-file-earmark-spreadsheet",
-          cat_datas: this.orderDatas.length,
+          cat_datas: 0,
           cat_name: "所有訂單",
         },
         {
@@ -89,6 +89,14 @@ export default {
         },
       ],
     };
+  },
+  watch:{
+    orderDatas:function(){
+      this.page_cat[0].cat_datas = this.orderDatas.length;
+      this.page_cat[1].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '1')).length;
+      this.page_cat[2].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '2')).length;
+      this.page_cat[3].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '0')).length;
+    }
   }
 };
 </script>
