@@ -274,7 +274,14 @@ const products = {
 	},
 	state: {
 		tableData: [],
+	},
+	getters:{
+		// 回傳tableData
+		getTableData(state){
+		 return state.tableData
+		}
 	}
+	  
 	
 }
 
