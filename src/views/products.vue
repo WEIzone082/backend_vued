@@ -5,8 +5,14 @@
             :WithFunc="func"
             :Checked="checked"
             :formInfo="formData.createFormInfo"
+            :useAPI="useAPI"
+            :finalCheckedArr="finalCheckedArr"
+            @refresh = "refresh()"
         ></PageNav>
-        <BackendTable :tableData='tableData' ref="beTable" @showDel='showDel'/>
+        <BackendTable 
+            :tableData='tableData' 
+            ref="beTable" 
+            @showDel='showDel'/>
         <FormModal :formInfo="formData.updateFormInfo" />
         <DataFooter
             :start="DataStart"
@@ -59,20 +65,20 @@ export default {
                 },
                 // 表頭名稱
                 tableHeadTitle: {
-                    IN_IMG_1: "封面",
-                    PRODUCTS_ID: "商品編號",
-                    SERIES: "商品系列",
-                    NAME: "商品名稱",
-                    PRIZE: "價格",
-                    DIAMETER: "直徑(mm)",
-                    HEIGHT: "高度(mm)",
-                    COUNT: "數量",
-                    STATUS_TYPE: "作品上架",
+                    WORKS_IN_IMG_1: "封面",
+                    WORKS_ID: "商品編號",
+                    WORKS_TYPE_ID: "商品系列",
+                    WORKS_NAME: "商品名稱",
+                    WORKS_PRICE: "價格",
+                    WORKS_RADIUS: "直徑(mm)",
+                    WORKS_HEIGHT: "高度(mm)",
+                    WORKS_STOCK: "數量",
+                    WORKS_STATUS_TYPE: "作品上架",
                     space: ""
                 },
                 // 表的內容
-                tableBodyData: this.$store.getters['art/getTableData']
-
+                // tableBodyData: this.$store.getters['products/getTableData']
+                tableBodyData: []
             },
 
             // form相關
@@ -112,27 +118,51 @@ export default {
                 imgUpload: "上傳作品圖片",
             },
 
-            // useAPI:{
-            //     displayAPI: 'art/artDisplay.php',
-            //     deleteAPI: 'art/artDelete.php',
-            // }, 
+            // 儲存有勾選tr的id
+            finalCheckedArr:[],
+
+
+
+            useAPI:{
+                displayAPI: 'products/productsDisplay.php',
+                deleteAPI: 'products/productsDelete.php',
+                upStatusAPI: 'products/productsUpStatus.php',
+                downStatusAPI: 'products/productsDownStatus.php',
+
+            }, 
         };
     },
-    methods: {
+methods: {
         // 上下架刪除按鈕是否顯示功能
         showDel(checkedArr){
+            // 儲存要刪除ID的陣列
+            this.finalCheckedArr = checkedArr;
             // 存取有勾選的陣列長度 > 0 出現
             if(checkedArr.length > 0){
                 this.checked = true
             }else{
                 this.checked = false
             }
+        },
+        refresh(){
+            this.$store.dispatch('products/displayAPI', this.useAPI.displayAPI).then(() => {
+                this.tableData.tableBodyData = this.$store.getters['products/getTableData']
+                console.log('refe');
+            })
+        }
+    },
+    watch:{
+        tableData:{
+            deep:true,
+            handler(){
+                this.$refs.beTable.tableBodyData = this.tableData.tableBodyData
+            }
         }
     },
     created(){
         // 發出ajax請求
-        this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
-        // this.$store.dispatch('art/displayAPI', this.useAPI, this.$refs.);
+        // this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
+        this.refresh();
     },
     mounted() {
         // 傳給th
