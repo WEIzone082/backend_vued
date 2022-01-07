@@ -5,8 +5,15 @@
             :WithFunc="func"
             :Checked="checked"
             :formInfo="formData.createFormInfo"
+            :useAPI="useAPI"
+            :finalCheckedArr="finalCheckedArr"
+            @refresh = "refresh()"
         ></PageNav>
-        <BackendTable :tableData='tableData' ref="beTable" @showDel='showDel'/>
+        <BackendTable 
+            :tableData='tableData' 
+            ref="beTable" 
+            @showDel='showDel'
+        />
         <FormModal :formInfo="formData.updateFormInfo" />
         <DataFooter
             :start="DataStart"
@@ -72,7 +79,7 @@ export default {
                     space: ""
                 },
                 // 表的內容
-                tableBodyData: this.$store.getters['art/getTableData']
+                tableBodyData: []
             },
 
             // form相關
@@ -111,27 +118,49 @@ export default {
                 imgUpload: "上傳作品圖片",
             },
 
+            // 儲存有勾選tr的id
+            finalCheckedArr:[],
+
+            // api路徑檔名
             useAPI:{
                 displayAPI: 'art/artDisplay.php',
                 deleteAPI: 'art/artDelete.php',
+                upStatusAPI: 'art/artUpStatus.php',
+                downStatusAPI: 'art/artDownStatus.php',
             }, 
         };
     },
     methods: {
         // 上下架刪除按鈕是否顯示功能
         showDel(checkedArr){
+            // 儲存要刪除ID的陣列
+            this.finalCheckedArr = checkedArr;
             // 存取有勾選的陣列長度 > 0 出現
             if(checkedArr.length > 0){
                 this.checked = true
             }else{
                 this.checked = false
             }
+        },
+        refresh(){
+            this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI).then(() => {
+                this.tableData.tableBodyData = this.$store.getters['art/getTableData']
+                console.log('refe');
+            })
+        }
+    },
+    watch:{
+        tableData:{
+            deep:true,
+            handler(){
+                this.$refs.beTable.tableBodyData = this.tableData.tableBodyData
+            }
         }
     },
     created(){
         // 發出ajax請求
-        this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
-        // this.$store.dispatch('art/displayAPI', this.useAPI, this.$refs.);
+        // this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
+        this.refresh();
     },
     mounted() {
         // 傳給th
