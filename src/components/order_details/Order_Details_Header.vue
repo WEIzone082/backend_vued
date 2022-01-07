@@ -4,9 +4,9 @@
       <div class="col-3 order-id-date">
         <div>
           <p>
-            訂單編號：<span class="oder-id">{{ OrderNum }}</span>
+            訂單編號：<span class="oder-id">{{ info.ORDER_ID }}</span>
           </p>
-          <p class="order-date">2021/11/30 22:30:24</p>
+          <p class="order-date">{{info.ORDER_DATETIME}}</p>
         </div>
       </div>
       <div class="col-2">
@@ -14,7 +14,7 @@
       </div>
       <div class="col-2"></div>
       <div class="col-3 order-total">
-        <p>訂單總金額 <span>2,700</span></p>
+        <p>訂單總金額： <span>{{info.ORDER_PRICE_TOTAL}}</span></p>
       </div>
       <div class="col-2">
         <button class="btn cancel-order error-comp">取消訂單</button>
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  props: ["OrderNum"],
+  props: ["info"],
 };
 </script>
 

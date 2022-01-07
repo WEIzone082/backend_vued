@@ -105,11 +105,74 @@ const member = {
 	}
 }
 
+const order = {
+	namespaced:true,
+	state:{
+		data:[],
+		order:[],
+		details:[]
+	},
+	actions:{
+		getAll:function(context){
+			return axios.post('http://localhost:8080/api/yoshi/backend/fetch.php', {
+				// datas to send into php
+				action: "getOrders",
+			})
+			.then(function(response){
+				context.commit('displayAPI', response.data);
+        	});
+		},
+		getOne:function(context, orderID){
+			return axios.post('http://localhost:8080/api/yoshi/backend/fetch.php', {
+				// datas to send into php
+				action: "getOrder",
+				orderID: orderID
+			})
+			.then(function(response){
+				context.commit('getOrder', response.data);
+        	});
+		},
+		getDetail:function(context, orderID){
+			return axios.post('http://localhost:8080/api/yoshi/backend/fetch.php', {
+				// datas to send into php
+				action: "getDetail",
+				orderID: orderID
+			})
+			.then(function(response){
+				context.commit('getDetails', response.data);
+        	});
+		},
+	},
+	mutations:{
+		displayAPI(state, data){
+			state.tableData = data;
+		},
+		getOrder(state,data){
+			state.order = data;
+		},
+		getDetails(state,data){
+			state.details = data;
+		}
+	},
+	getters:{
+		// 回傳tableData
+		getTableData(state){
+			return state.tableData;
+		},
+		getOrderData(state){
+			return state.order;
+		},
+		getDetailData(state){
+			return state.details;
+		}
+	}
+}
 
 export default new Vuex.Store({
 	modules:{
 		art,
-		member
+		member,
+		order
 	},
 	plugins: [createPersistedState()],
 })

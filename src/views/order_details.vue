@@ -1,6 +1,6 @@
 <template>
   <div>
-    <order-header :OrderNum="id"></order-header>
+    <order-header :info="AllDatas"></order-header>
 
     <div class="order-details-wrapper">
       <div class="container block-name">
@@ -8,11 +8,12 @@
       </div>
 
       <div class="pay-ship-info">
-        <pay-info></pay-info>
-        <ship-info></ship-info>
+        <pay-info :info="AllDatas"></pay-info>
+        <ship-info :info="AllDatas"></ship-info>
       </div>
 
-      <item-details></item-details>
+      <!-- Below is order-details -->
+      <item-details :orderID = "OrderID" :shipping = "shipping" :notes="notes"></item-details>
     </div>
 
     <order-history></order-history>
@@ -28,7 +29,22 @@ import OrderHeader from "../components/order_details/Order_Details_Header.vue";
 
 export default {
   components: { ShipInfo, PayInfo, ItemDetails, OrderHistory, OrderHeader },
-  props: ["id"],
+  props: ["OrderID"],
+  data(){
+    return{
+      AllDatas:[],
+      detailDatas:[],
+      shipping:0,
+      notes:''
+    }
+  },
+  created(){
+    this.$store.dispatch("order/getOne", this.OrderID).then(() => {
+        this.AllDatas = this.$store.getters["order/getOrderData"];
+        this.shipping = parseInt(this.AllDatas.DELIVER_FEE);
+        this.notes = this.AllDatas.REMARKS;
+    });
+  }
 };
 </script>
 

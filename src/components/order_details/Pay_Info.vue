@@ -7,33 +7,47 @@
 
     <div class="row">
       <div class="col-3">付款人</div>
-      <div class="col-9 payer">黃玉婷</div>
+      <div class="col-9 payer">{{info.BUYER}}</div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-3">手機</div>
-      <div class="col-9 payer-phone">0912345678</div>
+      <div class="col-9 payer-phone">{{info.DELIVER_PHONE}}</div>
     </div>
 
     <div class="row">
       <div class="col-3">Email</div>
       <div class="col-9 payer-email">abg@abg.com</div>
-    </div>
+    </div> -->
 
     <div class="row">
       <div class="col-3">付款方式</div>
-      <div class="col-9 paying-method">信用卡</div>
+      <div class="col-9 paying-method">{{info.PAYMENT_METHOD}}</div>
     </div>
 
     <div class="row">
       <div class="col-3">付款狀態</div>
-      <div class="col-9 pay-status">已付款 2021/11/30 22:30:24</div>
+      <div class="col-9 pay-status">{{PaymentStatus}}</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props:['info'],
+  data(){
+    return{
+      PaymentStatus:''
+    }
+  },
+  beforeUpdate(){
+    if(this.info.PAYMENT_STATUS === '0'){
+      this.PaymentStatus = '未付款'
+    }else{
+      this.PaymentStatus = '已付款'
+    }
+  }
+};
 </script>
 
 <style lang="scss">

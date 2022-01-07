@@ -63,32 +63,33 @@
 
 <script>
 export default {
+  props:['orderDatas'],
   data: function () {
     return {
       page_cat: [
         {
           cat_icon: "bi bi-file-earmark-spreadsheet",
-          cat_datas: "0",
+          cat_datas: this.orderDatas.length,
           cat_name: "所有訂單",
         },
         {
           cat_icon: "bi bi-truck",
-          cat_datas: "0",
+          cat_datas: 0,
           cat_name: "進行中訂單",
         },
         {
           cat_icon: "bi bi-box-seam",
-          cat_datas: "0",
+          cat_datas: 0,
           cat_name: "退貨/退款",
         },
         {
           cat_icon: "bi bi-check2-circle",
-          cat_datas: "0",
+          cat_datas: 0,
           cat_name: "已結案訂單",
         },
       ],
     };
-  },
+  }
 };
 </script>
 

@@ -1,18 +1,18 @@
 <template>
   <div>
-    <OrderNav></OrderNav>
+    <OrderNav :orderDatas = "AllDatas"></OrderNav>
 
     <div class="orders-wrapper">
-      <div class="container order" v-for="order in orders" :key="order.serial">
+      <div class="container order" v-for="order in AllDatas" :key="order.ORDER_ID">
         <div class="row g-0 order-info">
           <div class="col-2 order-no-container">
             <p>
-              訂單編號：<span class="order-no">{{ order.serial }}</span>
+              訂單編號：<span class="order-no">{{ order.ORDER_ID }}</span>
             </p>
           </div>
           <div class="col-3 order-date-container">
             <p>
-              訂單日期：<span class="order-date">{{ order.date }}</span>
+              訂單日期：<span class="order-date">{{ order.ORDER_DATETIME }}</span>
             </p>
           </div>
           <div class="col-5"></div>
@@ -20,18 +20,18 @@
             <button
               class="btn alert-comp"
               disabled
-              v-if="order.status === 'delivery'"
+              v-if="order.ORDER_STATUS_ID == 1"
             >
               &bull; 運送中
             </button>
             <button
               class="btn error-comp"
               disabled
-              v-else-if="order.status === 'return'"
+              v-if="order.ORDER_STATUS_ID == 5"
             >
               &bull; 退貨中
             </button>
-            <button class="btn success-comp" disabled v-else>
+            <button class="btn success-comp" disabled v-if="order.ORDER_STATUS_ID == 0">
               &bull; 已完成
             </button>
           </div>
@@ -40,24 +40,22 @@
           <div class="col-3 order-items">
             <img src="../assets/img/order-detail.png" alt="" />
             <div class="order-items-detail">
-              <p class="item-name">{{ order.item }}</p>
-              <p class="item-size">{{ order.itemSpec }}</p>
-              <span class="item-count">{{ order.orderItems }}</span
-              >件商品
+              <span class="item-count">{{ order.ORDER_ITEMS }}</span
+              >樣商品
             </div>
           </div>
 
           <div class="col-6 order-detail-info">
-            <p class="order-total">{{ order.ordersum }}</p>
-            <p class="order-payer">{{ order.placer }}</p>
-            <p class="order-paying-method">{{ order.payMethod }}</p>
-            <p class="order-delivery-method">{{ order.deliverMethod }}</p>
+            <p class="order-total">{{ order.ORDER_PRICE_TOTAL }}</p>
+            <p class="order-payer">{{ order.BUYER }}</p>
+            <p class="order-paying-method">{{ order.PAYMENT_METHOD }}</p>
+            <p class="order-delivery-method">{{ order.DELIVER_METHOD }}</p>
           </div>
 
           <div class="col-1"></div>
           <div class="col-2 detail-page-entrance">
             <router-link
-              :to="{ name: 'order_details', params: { id: order.serial } }"
+              :to="{ name: 'order_details', params: { OrderID: order.ORDER_ID } }"
             >
               <button type="button" class="btn go-to-detail">
                 <i class="bi bi-three-dots"></i>
@@ -69,9 +67,6 @@
     </div>
 
     <DataFooter
-      :start="DataStart"
-      :end="DataEnd"
-      :count="DataCount"
     ></DataFooter>
   </div>
 </template>
@@ -86,24 +81,13 @@ export default {
     return {
       func: false,
       checked: false,
-      DataStart: 0,
-      DataEnd: 0,
-      DataCount: 0,
-      orders: [
-        {
-          serial: "261201",
-          date: "2021/11/30 22:30:24",
-          status: "delivery",
-          item: "沙點白釉杯",
-          itemSpec: "18mm",
-          orderItems: "2",
-          ordersum: "2,700",
-          placer: "王大明",
-          payMethod: "信用卡",
-          deliverMethod: "宅配",
-        },
-      ],
+      AllDatas:[],
     };
+  },
+  beforeCreate() {
+    this.$store.dispatch("order/getAll").then(() => {
+        this.AllDatas = this.$store.getters["order/getTableData"];
+    });
   },
 };
 </script>
