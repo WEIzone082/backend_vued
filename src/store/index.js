@@ -14,7 +14,7 @@ const art = {
 		// 顯示每項tr
 		displayAPI(context, apiPath){
 			// 取得PHP資料
-			axios.get(`http://localhost:8080/api/yoshi/backend/${apiPath}`).then(
+			return axios.get(`http://localhost:8080/api/yoshi/backend/${apiPath}`).then(
 				response => {
 					let tempData = {}
 					let arrData = []
@@ -42,17 +42,36 @@ const art = {
 				}
 			)
 		},
+		// 刪除功能
 		deleteAPI(context, data){
-			console.log(data.finalCheckedArr);
-			axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
 				response => {
-					context.dispatch('displayAPI', data.useAPI.displayAPI).then(() => {
-						alert('刪除成功')
-						
-					});
+					alert('刪除成功')
 				},
 				error => {
-					// console.log(error.message);
+					console.log(error.message);
+				}
+			)
+		},
+		// 上架功能
+		upStatusAPI(context, data){
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+				response => {
+					alert('上架成功')
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 下架架功能
+		downStatusAPI(context, data){
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
+				response => {
+					alert('下架成功')
+				},
+				error => {
+					console.log(error.message);
 				}
 			)
 		}

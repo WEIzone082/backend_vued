@@ -24,11 +24,11 @@
     </div>
 
     <div class="right-contents">
-      <button type="button" class="btn btn-dark up-btn" v-if="Checked">
+      <button type="button" class="btn btn-dark up-btn" v-if="Checked" @click="upTr">
         <i class="bi bi-plus-lg"></i>
         上架
       </button>
-      <button type="button" class="btn btn-dark down-btn" v-if="Checked">
+      <button type="button" class="btn btn-dark down-btn" v-if="Checked" @click="downTr">
         <i class="bi bi-plus-lg"></i>
         下架
       </button>
@@ -82,10 +82,35 @@ export default {
   methods: {
 
     delTr(){
-      let flag = confirm('確定要刪除勾選的作品?')
+      let flag = confirm('確定要刪除勾選的作品?');
       if(flag){
         this.$store.dispatch('art/deleteAPI', {
-          useAPI:this.useAPI, finalCheckedArr:this.finalCheckedArr
+          useAPI:this.useAPI, 
+          finalCheckedArr:this.finalCheckedArr
+        }).then(() => {
+          this.$emit('refresh')
+        });
+      }
+    },
+    upTr(){
+      let flag = confirm('確定要將勾選的作品上架?');
+      if(flag){
+        this.$store.dispatch('art/upStatusAPI', {
+          useAPI:this.useAPI, 
+          finalCheckedArr:this.finalCheckedArr
+        }).then(() => {
+          this.$emit('refresh')
+        });
+      }
+    },
+    downTr(){
+      let flag = confirm('確定要將勾選的作品上架?');
+      if(flag){
+        this.$store.dispatch('art/downStatusAPI', {
+          useAPI:this.useAPI, 
+          finalCheckedArr:this.finalCheckedArr
+        }).then(() => {
+          this.$emit('refresh')
         });
       }
     }
