@@ -14,7 +14,7 @@
             ref="beTable" 
             @showDel='showDel'
         />
-        <FormModal :formInfo="formData.updateFormInfo" />
+        <FormModal :formInfo="formData.updateFormInfo" :isUpdateButton="isUpdateButton"/>
         <DataFooter
             :start="DataStart"
             :end="DataEnd"
@@ -48,6 +48,9 @@ export default {
             DataStart: 0,
             DataEnd: 0,
             DataCount: 0,
+
+            // 是否為編輯按鈕的彈窗
+            isUpdateButton: true,
 
             // table相關
             tableData:{
@@ -102,7 +105,7 @@ export default {
 
                 // 輸入框標題，有幾個就輸入幾個名稱
                 inputTitles: {
-                    ARTS_ID: "作品編號",
+                    // ARTS_ID: "作品編號",
                     NAME: "作品名稱",
                     LENTH: "長度",
                     WIDTH: "寬度",
@@ -110,11 +113,22 @@ export default {
                     MATERIAL: "材質",
                 },
 
-                // Textarea標題名稱
-                textareaTitle: "作品說明",
+                // id input標題
+                idInputTitle:'作品編號',
+
+                // Textarea 欄位名稱
+                aboutTextarea: {
+                    title: "作品說明",
+                    fieldName: "INFO"
+                },
+
                 // 是否上架的名稱
-                checkTitle: "作品上架",
-                // 上傳圖片的標題
+                aboutCheck:{
+                    title: '作品上架',
+                    fieldName: 'STATUS_TYPE'
+                },
+                
+                // 上傳圖片的標題(要修改成 上面那種形式)
                 imgUpload: "上傳作品圖片",
             },
 
@@ -142,14 +156,15 @@ export default {
                 this.checked = false
             }
         },
+        // 重新獲取資料庫資料
         refresh(){
             this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI).then(() => {
                 this.tableData.tableBodyData = this.$store.getters['art/getTableData']
-                console.log('refe');
             })
         }
     },
     watch:{
+        // 偵測抓來的資料變更(避免子元素來不及拿到資料)
         tableData:{
             deep:true,
             handler(){
@@ -159,12 +174,12 @@ export default {
     },
     created(){
         // 發出ajax請求
-        // this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI);
         this.refresh();
     },
     mounted() {
         // 傳給th
         this.$bus.$emit("tableData", this.tableData);
+        // 傳給tbody
         this.$bus.$emit("formData", this.formData);
     },
 };

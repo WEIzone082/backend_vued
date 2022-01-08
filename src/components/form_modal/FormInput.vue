@@ -5,6 +5,7 @@
             class="form-control"
             id="floatingInput"
             placeholder="name@example.com"
+            v-model="inputValue"
         />
         <label for="floatingInput" class="input-group-text">{{title}}</label>
     </div>
@@ -13,7 +14,13 @@
 <script>
 export default {
     name: 'FormInput',
-    props:['title'],
+    props:['title', 'fieldName'],
+    data() {
+        return {
+            inputValue: '',
+        }
+    },
+
 };
 </script>
 

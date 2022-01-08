@@ -70,7 +70,7 @@
 
         .input-group-text {
             background-color: #F9F9F9 !important;
-            border: 1px solid #F3F3F3;
+            border: 1px solid transparent;
             width: 100%;
             height: 5px;
         }
@@ -124,36 +124,3 @@
     padding-top: 22px;
 }
 
-.upload_cover {
-    display: inline-block;
-    position: relative;
-    width: 110px;
-    height: 110px;
-    text-align: center;
-    cursor: pointer;
-    background: #F8F8F8;
-    border: 1px dashed #979797;
-    border-radius: 4px;
-    margin-top: 5px;
-    margin-right: 5px;
-
-    #upload_input {
-        display: none;
-    }
-
-    .upload_icon {
-        font-weight: bold;
-        font-size: 12px;
-        width: 100%;
-        margin: 0 auto;
-        line-height: 110px;
-        color: #222222;
-        font-weight: normal;
-    }
-
-    .delAvatar {
-        position: absolute;
-        right: 2px;
-        top: 2px;
-    }
-}

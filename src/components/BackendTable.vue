@@ -28,9 +28,6 @@ export default {
             checkedArr: []
         }
     },
-    computed: {
-
-    },
     methods: {
         // 全選框 操控 tr多選框 功能
         allCheckedFun(isAllChecked){
@@ -110,8 +107,11 @@ export default {
         }
     },
     watch:{
+        // 偵測存放有勾選ID的陣列
         checkedArr(){
+            // 按鈕顯示
             this.$emit('showDel', this.checkedArr);
+            // 傳陣列過去
             this.$bus.$emit('sendCheckedArr', this.checkedArr)
             console.log(this.checkedArr);
         }

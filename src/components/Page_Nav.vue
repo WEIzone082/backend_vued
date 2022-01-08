@@ -64,7 +64,7 @@
         </button>
       </router-link>
       <!-- 新增彈窗 傳相關資料，若沒彈窗則不顯示 -->
-      <FormModal :formInfo="formInfo" v-if="formInfo" />
+      <FormModal :formInfo="formInfo" :isCreateForm='isCreateForm' v-if="formInfo" ref="createFM"/>
     </div>
   </div>
 </template>
@@ -76,22 +76,31 @@ export default {
   components: { FormModal },
   data() {
     return {
-      checkedArr:[]
+      checkedArr:[],
+      isCreateForm: true
     }
   },
   methods: {
-
+    // 刪除功能
     delTr(){
+      // 確認彈窗
       let flag = confirm('確定要刪除勾選的作品?');
+      // 確定刪除
       if(flag){
+        // 呼叫vuex的ajax方法
         this.$store.dispatch('art/deleteAPI', {
+          // php路徑
           useAPI:this.useAPI, 
+          // 有勾選的id
           finalCheckedArr:this.finalCheckedArr
         }).then(() => {
+          // 重新獲取資料庫資料
           this.$emit('refresh')
         });
       }
     },
+
+    // 上架
     upTr(){
       let flag = confirm('確定要將勾選的作品上架?');
       if(flag){
@@ -103,6 +112,8 @@ export default {
         });
       }
     },
+
+    // 下架
     downTr(){
       let flag = confirm('確定要將勾選的作品上架?');
       if(flag){
@@ -115,7 +126,6 @@ export default {
       }
     }
   },
-
 };
 </script>
 
