@@ -78,7 +78,7 @@ export default {
                 return false;
             }
         },
-        // 將目前有勾選的存入陣列
+        // 將目前有勾選的存入陣列(非共通部分 需修改)
         getCheckedId(isChecked){
         
             // 判斷哪個tr 有勾選 加入陣列 反之 刪除

@@ -10,8 +10,15 @@
         <div class="modal-dialog">
             <div class="modal-content create-modal-content">
                 <FormHeader :formInfoTitle='formInfo.title'/>
-                <FormBody :isUpdateButton="isUpdateButton" :isCreateForm="isCreateForm" ref="formBody"/>
-                <FormFooter :formInfoButtonName='formInfo.buttonName' @sendFormData="sendFormData"/>
+                <FormBody 
+                    :isUpdateButton="isUpdateButton" 
+                    :isCreateForm="isCreateForm" 
+                    ref="formBody"
+                />
+                <FormFooter 
+                    :formInfoButtonName='formInfo.buttonName' 
+                    @sendFormData="sendFormData"
+                />
             </div>
         </div>
     </div>

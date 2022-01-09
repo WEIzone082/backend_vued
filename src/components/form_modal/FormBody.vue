@@ -22,7 +22,11 @@
                 v-if="!courseFromData"
             />
             <FormCheck :aboutCheck='aboutCheck'/>
-            <FormImgUpload v-if="!courseFromData" :formImgUpload="formImgUpload" :isCreateForm="isCreateForm"/>
+            <FormImgUpload 
+                v-if="!courseFromData" 
+                :formImgUpload="formImgUpload" 
+                :isCreateForm="isCreateForm"
+            />
         </form>
     </div>
 </template>

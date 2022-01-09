@@ -64,7 +64,12 @@
         </button>
       </router-link>
       <!-- 新增彈窗 傳相關資料，若沒彈窗則不顯示 -->
-      <FormModal :formInfo="formInfo" :isCreateForm='isCreateForm' v-if="formInfo" ref="createFM"/>
+      <FormModal 
+        :formInfo="formInfo" 
+        :isCreateForm='isCreateForm' 
+        v-if="formInfo" 
+        ref="createFM"
+      />
     </div>
   </div>
 </template>
