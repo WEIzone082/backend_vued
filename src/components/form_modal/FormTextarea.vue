@@ -14,6 +14,7 @@
 <script>
 export default {
     name: "FormTextarea",
+    // Textarea 物件 欄位名: Textarea名稱
     props: ['aboutTextarea'],
     data() {
         return {

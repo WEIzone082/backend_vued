@@ -10,6 +10,7 @@
 <script>
 export default {
     name: "FormFooter",
+    // 確認按鈕(新增or儲存)
     props: ["formInfoButtonName"],
     methods: {
         // 點了送出呼叫FM的方法

@@ -35,6 +35,7 @@
 <script>
 export default {
     name: "FormImgUpload",
+    // 課程用、傳圖片標題(要改)、是否為新增表單(page_nav)
     props: ['courseFromData', 'formImgUpload', 'isCreateForm'],
     data() {
         return {
@@ -59,6 +60,11 @@ export default {
             }
             // 頁面上把預覽的圖刪掉
             e.target.parentNode.remove()
+
+            // 當全刪除時顯示加入圖片的文字
+            if ( Object.keys(this.previewImgs).length === 0) {
+                this.isShow = true;
+            }
         },
         // 顯示上傳的預覽圖，並存入data中
         fileChange(event){
@@ -74,6 +80,7 @@ export default {
             if(imgs && imgs.length <= 4){
                 // 上傳的文字消失
                 this.isShow = false;
+                console.log(456);
                 // 迭代圖片陣列
                 for (let i = 0; i < imgs.length; i++) {
                     // 建立FileReader物件
@@ -97,6 +104,15 @@ export default {
             }else{
                 alert('上傳圖片失敗')        
             }
+
+            // 當沒上傳圖片時顯示加入圖片的文字
+            setTimeout(() => {
+                if (Object.keys(this.previewImgs).length === 0) {
+                    console.log(123);
+                    this.isShow = true;
+                }
+            }, 0);
+
         }
     },
 };

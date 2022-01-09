@@ -7,6 +7,7 @@
 <script>
 export default {
     name: 'FormHeader',
+    // 表單標題(新增or編輯)
     props:['formInfoTitle']
 };
 </script>

@@ -130,6 +130,15 @@ export default {
                 
                 // 上傳圖片的標題(要修改成 上面那種形式)
                 imgUpload: "上傳作品圖片",
+                aboutUpload: {
+                    title: '上傳作品圖片',
+                    fieldName: [
+                        'IN_IMG_1', 
+                        'IN_IMG_2', 
+                        'IN_IMG_3', 
+                        'IN_IMG_4'
+                    ]
+                }
             },
 
             // 儲存有勾選tr的id
