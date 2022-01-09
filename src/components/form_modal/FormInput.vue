@@ -14,6 +14,7 @@
 <script>
 export default {
     name: 'FormInput',
+    // input名稱、資料庫欄位名
     props:['title', 'fieldName'],
     data() {
         return {

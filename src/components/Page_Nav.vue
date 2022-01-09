@@ -77,6 +77,7 @@
 <script>
 import FormModal from "./FormModal.vue";
 export default {
+  // 頁面名稱、是否有刪除等按鈕、新增按鈕、新增彈窗header...、最終儲存有勾選的陣列、PHP網址
   props: ["PageName", "WithFunc", "Checked", "formInfo", "finalCheckedArr", "useAPI"],
   components: { FormModal },
   data() {

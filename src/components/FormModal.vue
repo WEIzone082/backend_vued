@@ -36,7 +36,8 @@ export default {
         FormBody,
         FormFooter,
     },
-    props:['modalId', 'modalTitle', 'modalButtonName', 'formInfo', 'isUpdateButton', 'isCreateForm'],
+    // 新增彈窗header...(page_nav)、是否為編輯按鈕、是否為新增表單(page_nav)
+    props:['formInfo', 'isUpdateButton', 'isCreateForm'],
     data() {
         return {
             trData: {}

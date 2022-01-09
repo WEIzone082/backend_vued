@@ -87,8 +87,11 @@ export default {
     props: ["trData", 'tableData'],
     data() {
         return {
+            // 是否有Checkbox
             hasCheckbox: this.tableData.hasCheckbox,
+            // tr的格式(有無上架、編輯紐、額滿等)
             tableType: this.tableData.tableType,
+            // th資料(用於比對tr該填入什麼資料)
             tableHeadTitle: this.tableData.tableHeadTitle,
             // tr勾選狀態
             trIsChecked: false,
