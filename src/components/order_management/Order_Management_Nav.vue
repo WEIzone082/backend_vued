@@ -11,6 +11,8 @@
         class="inner-pages-info-wrapper"
         v-for="cat of page_cat"
         :key="cat.cat_name"
+        :class = "{ inner_now:cat.now }"
+        @click="toggle(cat.cat_serial)"
       >
         <div class="inner-pages-info">
           <div class="inner-page-details">
@@ -71,31 +73,50 @@ export default {
           cat_icon: "bi bi-file-earmark-spreadsheet",
           cat_datas: 0,
           cat_name: "所有訂單",
+          now:true,
+          cat_serial: 0
         },
         {
           cat_icon: "bi bi-truck",
           cat_datas: 0,
           cat_name: "進行中訂單",
+          now:false,
+          cat_serial: 1
         },
         {
           cat_icon: "bi bi-box-seam",
           cat_datas: 0,
           cat_name: "退貨/退款",
+          now:false,
+          cat_serial: 2
         },
         {
           cat_icon: "bi bi-check2-circle",
           cat_datas: 0,
           cat_name: "已結案訂單",
+          now:false,
+          cat_serial: 3
         },
       ],
     };
   },
+  methods:{
+    toggle: function(num){
+      for(const ele of this.page_cat){
+        if(ele.now == true){
+          ele.now = false;
+        }
+      }
+      this.page_cat[num].now = true;
+      this.$emit("filter",String(num));
+    }
+  },
   watch:{
     orderDatas:function(){
       this.page_cat[0].cat_datas = this.orderDatas.length;
-      this.page_cat[1].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '1')).length;
+      this.page_cat[1].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '0')).length;
       this.page_cat[2].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '2')).length;
-      this.page_cat[3].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '0')).length;
+      this.page_cat[3].cat_datas = (this.orderDatas.filter(order => order.ORDER_STATUS_ID === '1')).length;
     }
   }
 };

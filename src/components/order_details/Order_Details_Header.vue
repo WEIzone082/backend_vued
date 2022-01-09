@@ -10,7 +10,8 @@
         </div>
       </div>
       <div class="col-2">
-        <button class="btn alert-comp">已出貨</button>
+        <button class="btn alert-comp" v-if="info.ORDER_STATUS_ID == '0' ">進行中</button>
+        <button class="btn success-comp" v-if="info.ORDER_STATUS_ID == '1' ">已完成</button>
       </div>
       <div class="col-2"></div>
       <div class="col-3 order-total">

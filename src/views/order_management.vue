@@ -1,9 +1,9 @@
 <template>
   <div>
-    <OrderNav :orderDatas = "AllDatas"></OrderNav>
+    <OrderNav :orderDatas = "AllDatas" @filter="orderFilter"></OrderNav>
 
     <div class="orders-wrapper">
-      <div class="container order" v-for="order in AllDatas" :key="order.ORDER_ID">
+      <div class="container order" v-for="order in showDatas" :key="order.ORDER_ID">
         <div class="row g-0 order-info">
           <div class="col-2 order-no-container">
             <p>
@@ -20,18 +20,18 @@
             <button
               class="btn alert-comp"
               disabled
-              v-if="order.ORDER_STATUS_ID == 1"
+              v-if="order.ORDER_STATUS_ID == 0"
             >
               &bull; 運送中
             </button>
             <button
               class="btn error-comp"
               disabled
-              v-if="order.ORDER_STATUS_ID == 5"
+              v-if="order.ORDER_STATUS_ID == 2"
             >
               &bull; 退貨中
             </button>
-            <button class="btn success-comp" disabled v-if="order.ORDER_STATUS_ID == 0">
+            <button class="btn success-comp" disabled v-if="order.ORDER_STATUS_ID == 1">
               &bull; 已完成
             </button>
           </div>
@@ -82,11 +82,38 @@ export default {
       func: false,
       checked: false,
       AllDatas:[],
+      showDatas:[]
     };
+  },
+  methods:{
+    orderFilter:function(num){
+      if(num !== "0"){
+
+        let serial = "";
+        if(num == "1"){
+          serial = "0"
+        }else if(num == "2"){
+          serial = "2"
+        }else{
+          serial = "1"
+        }
+
+        this.showDatas = [];
+        for(const data of this.AllDatas){
+          if(data.ORDER_STATUS_ID === serial){
+            this.showDatas.push(data);
+          }
+        }
+      }else{
+        this.showDatas = this.AllDatas;
+      }
+    }
+  
   },
   beforeCreate() {
     this.$store.dispatch("order/getAll").then(() => {
         this.AllDatas = this.$store.getters["order/getTableData"];
+        this.showDatas = this.AllDatas;
     });
   },
 };
