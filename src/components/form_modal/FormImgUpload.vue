@@ -1,6 +1,6 @@
 <template>
     <div class="img-upload-wrapper">
-        <span class="img-title">{{formImgUpload || courseFromData}}</span>
+        <span class="img-title">{{aboutUpload.title || courseFromData}}</span>
         <span class="img-limit">最多 4 張</span>
         <div class="upload-content-wrapper">
             <label class="upload_cover">
@@ -10,6 +10,7 @@
                     multiple
                     @change="fileChange" 
                     ref="uploader"
+                    name="test[]"
                 />
                 <span class="addText" v-show="isShow">+ 加入圖片</span>
                 <!-- 新增用 -->
@@ -35,8 +36,8 @@
 <script>
 export default {
     name: "FormImgUpload",
-    // 課程用、傳圖片標題(要改)、是否為新增表單(page_nav)
-    props: ['courseFromData', 'formImgUpload', 'isCreateForm'],
+    // 課程用、傳圖片標題、是否為新增表單(page_nav)
+    props: ['courseFromData', 'aboutUpload', 'isCreateForm'],
     data() {
         return {
             isShow: true,
@@ -80,7 +81,6 @@ export default {
             if(imgs && imgs.length <= 4){
                 // 上傳的文字消失
                 this.isShow = false;
-                console.log(456);
                 // 迭代圖片陣列
                 for (let i = 0; i < imgs.length; i++) {
                     // 建立FileReader物件
@@ -89,6 +89,7 @@ export default {
                     reader.onload = (e) => {
                         // 將讀取結果存入陣列 (e.target為FileReader本身)
                         imgArr.push(e.target.result);
+                        // 檔名: url
                         imgsObj[input.files[i].name] = e.target.result
                     }
                     // 將檔名存入陣列
@@ -105,15 +106,7 @@ export default {
                 alert('上傳圖片失敗')        
             }
 
-            // 當沒上傳圖片時顯示加入圖片的文字
-            setTimeout(() => {
-                if (Object.keys(this.previewImgs).length === 0) {
-                    console.log(123);
-                    this.isShow = true;
-                }
-            }, 0);
-
-        }
+        },
     },
 };
 </script>

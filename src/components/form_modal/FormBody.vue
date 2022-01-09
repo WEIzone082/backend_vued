@@ -24,7 +24,7 @@
             <FormCheck :aboutCheck='aboutCheck'/>
             <FormImgUpload 
                 v-if="!courseFromData" 
-                :formImgUpload="formImgUpload" 
+                :aboutUpload="aboutUpload" 
                 :isCreateForm="isCreateForm"
             />
         </form>
@@ -51,8 +51,8 @@ export default {
             aboutTextarea: {},
             // 上下架切換
             aboutCheck: {},
-            // 上傳圖片標題(要改)
-            formImgUpload: '',
+            // 上傳圖片標題
+            aboutUpload: '',
             // id input框標題(編輯表單用)
             idInputTitle: '',
 
@@ -67,7 +67,7 @@ export default {
             this.inputTitles = formData.inputTitles;
             this.aboutTextarea = formData.aboutTextarea;
             this.aboutCheck = formData.aboutCheck;
-            this.formImgUpload = formData.imgUpload;
+            this.aboutUpload = formData.aboutUpload;
             this.idInputTitle = formData.idInputTitle
         });
         // 
