@@ -31,6 +31,9 @@
         <td class="status" v-if="tableType.hasStatus && trData.STATUS_TYPE === '2'">
             <span class="badge down-clr">&bull;下架</span>
         </td>
+        <td class="status" v-if="tableType.hasStatus && trData.STATUS_TYPE === '3'">
+            <span class="badge course-full">&bull;已額滿</span>
+        </td>
 
         <!-- 編輯按鈕 -->
         <td v-if="tableType.hasUpdateButton">
@@ -50,7 +53,7 @@
                 :to="{
                     name: 'course_update',
                     params:{
-                        name: trData.name
+                        name: trData.COURSE_TYPE_NAME
                     }
                 }"
             >
@@ -148,6 +151,13 @@ td {
 
     .down-clr{
         background-color: #ffc542;
+        color: #000;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    .course-full{
+        background-color: #97b0f5;
         color: #000;
         font-size: 16px;
         font-weight: normal;

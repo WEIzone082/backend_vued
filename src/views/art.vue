@@ -41,7 +41,7 @@ export default {
     data() {
         return {
             // 新增按鈕
-            func: true,
+            func: false,
             // 上下架刪除按鈕
             checked: false,
             // data起始結束 總數
@@ -105,7 +105,6 @@ export default {
 
                 // 輸入框標題，有幾個就輸入幾個名稱
                 inputTitles: {
-                    // ARTS_ID: "作品編號",
                     NAME: "作品名稱",
                     LENTH: "長度",
                     WIDTH: "寬度",

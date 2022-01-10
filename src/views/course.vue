@@ -79,7 +79,6 @@ export default {
             deep:true,
             handler(){
                 this.$refs.beTable.tableBodyData = this.tableData.tableBodyData
-                console.log(this.$refs.beTable.tableBodyData);
             }
         }
     },

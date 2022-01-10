@@ -3,15 +3,25 @@
         <FromSection :courseFromData="courseFromData"/>
 
         <PageNav
-            PageName="藝術陶管理"
+            PageName="課程管理"
             :WithFunc="func"
             :Checked="checked"
             :formInfo="formData.createFormInfo"
+            :useAPI="useAPI"
+            :finalCheckedArr="finalCheckedArr"
+            @refresh = "refresh()"
         ></PageNav>
 
-        <BackendTable :tableData='tableData'/>
+        <BackendTable 
+            :tableData='tableData'
+            ref="beTable" 
+            @showDel='showDel'
+        />
 
-        <FormModal :formInfo="formData.updateFormInfo" />
+        <FormModal 
+            :formInfo="formData.updateFormInfo" 
+            :isUpdateButton="isUpdateButton"
+        />
     </div>
 </template>
 
@@ -38,6 +48,9 @@ export default {
             DataEnd: 0,
             DataCount: 0,
 
+            // 是否為編輯按鈕的彈窗
+            isUpdateButton: true,
+
             // table相關
             tableData:{
                 // 是否有Checkbox
@@ -48,33 +61,22 @@ export default {
                     hasUpdateButton: true,
                     hasDropdown: false,
                     pathData: '',
-                    hasFull: true
+                    hasFull: false
                 },
                 // 表頭名稱
-                tableHeadTitle: [
-                    "課程編號",
-                    "時段",
-                    "價格",
-                    "堂數",
-                    "人數",
-                    "起始日期",
-                    "結束日期",
-                    "額滿",
-                    "狀態",
-                    ""
-                ],
+                tableHeadTitle: {
+                    COURSE_ID: "課程編號",
+                    COURSE_TIME: "時段",
+                    COURSE_PRICE: "價格",
+                    COURSE_CLASSES: "堂數",
+                    COURSE_PARTY: "人數",
+                    COURSE_START_DATE: "起始日期",
+                    COURSE_END_DATE: "結束日期",
+                    STATUS_TYPE: "狀態",
+                    space: ""
+                },
                 // 表的內容
-                tableBodyData: [
-                    {
-                        id: "0000001",
-                        date: "週二 16:00-19:00",
-                        price: "3500",
-                        classCount: "10",
-                        personCount: "8",
-                        startDate: "2021-12-01",
-                        endDate: "2022-02-01",
-                    },
-                ],
+                tableBodyData: [],
             },
 
             // form相關
@@ -95,41 +97,76 @@ export default {
                 },
 
                 // 輸入框標題，有幾個就輸入幾個名稱
-                inputTitles: [
-                    "課程編號",
-                    "時間",
-                    "價格",
-                    "人數",
-                    "起始日期",
-                    "結束日期",
-                    "堂數"
-                ],
+                inputTitles: {
+                    COURSE_TIME: "時間",
+                    COURSE_PRICE: "價格",
+                    COURSE_PARTY: "人數",
+                    COURSE_START_DATE: "起始日期",
+                    COURSE_END_DATE: "結束日期",
+                    COURSE_CLASSES: "堂數"
+                },
 
                 // Textarea標題名稱
                 textareaTitle: "",
                 // 是否上架的名稱
-                checkTitle: "課程上架",
+                aboutCheck:{
+                    title: '課程上架',
+                    fieldName: 'STATUS_TYPE'
+                },
                 // 上傳圖片的標題
                 imgUpload: "",
             },
 
             // 上方表單資料
             courseFromData:{
-                formCheckTitle: "課程上架",
-                courseInputTitle:['課程名稱', '費用', '期間', '名額'],
-                formTextareaTitle: "課程說明",
-                scheduleImageTitle: '課程時間表',
-                teacherImageTitle: '講師作品',
-                studentImageTitle: '學員作品',
-                courseFormModal: true,
+
             },
+
+            // 儲存有勾選tr的id
+            finalCheckedArr:[],
+
+            // api路徑檔名
+            useAPI:{
+                displayAPI: 'course_update/courseUpDisplay.php',
+            }, 
         };
+    },
+    methods: {
+        // 上下架刪除按鈕是否顯示功能
+        showDel(checkedArr){
+            // 儲存要刪除ID的陣列
+            this.finalCheckedArr = checkedArr;
+            // 存取有勾選的陣列長度 > 0 出現
+            if(checkedArr.length > 0){
+                this.checked = true
+            }else{
+                this.checked = false
+            }
+        },
+        // 重新獲取資料庫資料
+        refresh(){
+            this.$store.dispatch('course_update/displayAPI', this.useAPI.displayAPI).then(() => {
+                this.tableData.tableBodyData = this.$store.getters['course_update/getTableData']
+            })
+        }
+    },
+    watch:{
+        // 偵測抓來的資料變更(避免子元素來不及拿到資料)
+        tableData:{
+            deep:true,
+            handler(){
+                this.$refs.beTable.tableBodyData = this.tableData.tableBodyData
+            }
+        }
+    },
+    created(){
+        // 發出ajax請求
+        this.refresh();
     },
     mounted() {
         this.$bus.$emit("tableData", this.tableData);
         this.$bus.$emit("formData", this.formData);
         this.$bus.$emit("courseFromData", this.courseFromData);
-
     },
 }
 </script>
