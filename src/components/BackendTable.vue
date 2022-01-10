@@ -117,7 +117,7 @@ export default {
             // 傳陣列過去
             this.$bus.$emit('sendCheckedArr', this.checkedArr)
             // 每次checkbox變動 印出有勾選ID的陣列
-            console.log(this.checkedArr);
+            // console.log(this.checkedArr);
         }
     },
 };

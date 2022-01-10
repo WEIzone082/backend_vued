@@ -4,23 +4,6 @@
       <div class="page-name">
         <p>{{ PageName }}</p>
       </div>
-
-      <div class="dropdown account-toggler">
-        <button
-          class="btn dropdown-toggle data-per-page"
-          type="button"
-          id="dropdownMenuButton1"
-          data-bs-toggle="dropdown"
-          aria-expanded="false"
-        >
-          顯示10筆
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-          <li><a class="dropdown-item">顯示10筆</a></li>
-          <li><a class="dropdown-item">顯示20筆</a></li>
-          <li><a class="dropdown-item">顯示30筆</a></li>
-        </ul>
-      </div>
     </div>
 
     <div class="right-contents">
@@ -141,16 +124,18 @@ export default {
         createFormFile: createFormFile
 
       }).then(() => {
-
         // 存入資料庫
         this.$store.dispatch('art/createAPI',{
           useAPI:this.useAPI,
           createFormValue: createFormValue
-        })
-      }).then(() => {
-        // 重新抓資料
-        this.$emit('refresh');
-      })
+
+        }).then(() => {
+          // 重新抓資料
+          this.$emit('refresh');
+          // 清空表單
+          this.$refs.createFM.clearForm()
+        });
+      });
 
     }
   },
