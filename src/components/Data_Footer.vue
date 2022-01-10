@@ -1,26 +1,16 @@
 <template>
   <footer>
-    <div class="data-info">{{ start }} - {{ end }} | {{ count }}項</div>
+    <div class="data-info">{{ start }} - {{ end }} | {{ count }}項 | 第{{recent}}頁，共{{availPages}}頁</div>
 
     <div aria-label="Page navigation example page-changer">
       <ul class="pagination">
         <li class="page-item">
-          <a
-            class="page-link"
-            aria-label="Previous"
-          >
+          <a class="page-link" aria-label="Previous" @click="change('prev')">
             <span aria-hidden="true"><i class="bi bi-chevron-left"></i></span>
           </a>
         </li>
-        <li
-          class="page-item"
-          v-for="index in AvailPages"
-          :key="index"
-        >
-          <a class="page-link" href="#">{{ index }}</a>
-        </li>
         <li class="page-item">
-          <a class="page-link" aria-label="Next">
+          <a class="page-link" aria-label="Next" @click="change('next')">
             <span aria-hidden="true"><i class="bi bi-chevron-right"></i></span>
           </a>
         </li>
@@ -31,51 +21,37 @@
 
 <script>
 export default {
-  props: ["count", "DPP", "start", "end", "pages"],
+  props: ["count", "DPP"],
   data() {
     return {
-      AvailPages: [],
+      start:1,
+      end:this.DPP,
+      availPages:0,
+      recent:1
     };
   },
-  // methods: {
-  //   PageInitialize: function () {
-  //     if (this.count >= 3) {
-  //       this.AvailPages = [1, 2, 3];
-  //     } else {
-  //       for (let i = 1; i <= this.pages; i++) {
-  //         this.AvailPages.push(i);
-  //       }
-  //     }
-  //   },
-  //   pageChanger: function (page) {
-  //     if (page === "prev") {
-  //       if (this.start !== 1) {
-  //         this.AvailPages.pop();
-  //         this.AvailPages.unshifit(Math.min(...this.AvailPages) - 1);
-  //         let num = Math.max(...this.AvailPages) * this.DPP;
-  //         this.$emit("changeData", { begin: num - this.DPP, end: num + 1 });
-  //       }
-  //     } else if (page === "next") {
-  //       if (this.end !== this.count) {
-  //         this.AvailPages.shift();
-  //         this.AvailPages.push(Math.max(...this.AvailPages) + 1);
-  //         console.log(this.AvailPages);
-  //         let num = Math.min(...this.AvailPages) * this.DPP;
-  //         this.$emit("changeData", { begin: num - this.DPP, end: num });
-  //       }
-  //     } else {
-  //       console.log("triggered!");
-  //       this.$emit(
-  //         "changeData",
-  //         page * this.DPP,
-  //         page * this.DPP + this.DPP + 1
-  //       );
-  //     }
-  //   },
-  // },
-  // beforeUpdate: function () {
-  //   this.PageInitialize();
-  // },
+  methods:{
+    change: function(dir){
+      if(dir === 'prev'){
+        if(this.recent != 1){
+          this.recent-=1;
+          this.start-=this.DPP;
+          this.end = this.recent*this.DPP;
+          this.$emit('pageChange',{beg:this.start-1,fin:this.end});
+        }
+      }else if(dir === 'next'){
+        if(this.recent != this.availPages){
+          this.recent+=1;
+          this.start+=this.DPP;
+          this.recent * this.DPP > this.count ? this.end = this.count : this.end = this.recent*this.DPP;
+          this.$emit('pageChange',{beg:this.start-1,fin:this.end});       
+        }
+      }
+    }
+  },
+  beforeUpdate(){
+    this.availPages = Math.ceil(this.count/this.DPP);
+  }
 };
 </script>
 

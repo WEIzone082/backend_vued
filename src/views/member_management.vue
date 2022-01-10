@@ -15,7 +15,7 @@
       <tbody>
         <tr
           class="table-rows"
-          v-for="member in AllDatas"
+          v-for="member in ShowDatas"
           :key="member.MEMBER_ID"
         >
           <th scope="row">{{ member.MEMBER_ID }}</th>
@@ -38,9 +38,7 @@
     <DataFooter
       :count="DataCount"
       :DPP="DPP"
-      :start="start"
-      :end="end"
-      :pages="pages"
+      @pageChange = "pageChange"
     ></DataFooter>
   </div>
 </template>
@@ -57,18 +55,23 @@ export default {
       func: false,
       // Data Per Page
       DPP: 10,
-      start: 0,
-      end: 0,
-      pages: 0,
       DataCount: 0,
       AllDatas: [],
+      ShowDatas:[],
       displayAPI: "fetch.php",
     };
   },
   methods: {
+    pageChange:function(pos){
+      console.log(pos);
+      this.ShowDatas = this.AllDatas.slice(pos.beg,pos.fin);
+    },
     refresh: function () {
       this.$store.dispatch("member/getAll", this.displayAPI).then(() => {
         this.AllDatas = this.$store.getters["member/getTableData"];
+        this.DataCount = this.AllDatas.length;
+        this.pages = Math.ceil(this.DataCount/this.DPP);
+        this.ShowDatas = this.AllDatas.slice(0,this.DPP)
       });
     },
   },
