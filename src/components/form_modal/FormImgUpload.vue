@@ -130,7 +130,7 @@ export default {
         display: inline-block;
         position: relative;
         width: 100%;
-        height: 110px;
+        min-height: 110px;
         text-align: center;
         cursor: pointer;
         background: #F8F8F8;

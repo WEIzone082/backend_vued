@@ -69,6 +69,7 @@
         :isCreateForm='isCreateForm' 
         v-if="formInfo" 
         ref="createFM"
+        @sendCreateData="sendCreateData"
       />
     </div>
   </div>
@@ -130,6 +131,27 @@ export default {
           this.$emit('refresh')
         });
       }
+    },
+    // 上傳檔案及新增 (上傳檔案成功 > 存入資料庫 > 重新獲取資料庫資料)
+    sendCreateData(createFormFile, createFormValue){
+
+      // 上傳檔案
+      this.$store.dispatch('art/filesUploadAPI',{
+        useAPI:this.useAPI,
+        createFormFile: createFormFile
+
+      }).then(() => {
+
+        // 存入資料庫
+        this.$store.dispatch('art/createAPI',{
+          useAPI:this.useAPI,
+          createFormValue: createFormValue
+        })
+      }).then(() => {
+        // 重新抓資料
+        this.$emit('refresh');
+      })
+
     }
   },
 };

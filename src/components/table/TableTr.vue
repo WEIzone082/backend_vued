@@ -12,6 +12,7 @@
             <img
                 :src="require(`../../assets/img/${val}`)"
                 v-if="title === 'IN_IMG_1'"
+                class="trPreviewImg"
             />
 
             <!-- 不是圖片則正常顯示 -->
@@ -134,6 +135,10 @@ export default {
 
 <style lang="scss" scoped>
 td {
+    .trPreviewImg{
+        width: 60px;
+        height: 60px;
+    }
     .success-clr {
         background-color: #f4fbdb;
         color: #b8d935;
