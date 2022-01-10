@@ -83,7 +83,7 @@ const art = {
 				data: data.createFormFile
 			}).then(
 				response => {
-					console.log(response.data);
+					// console.log(response.data);
 				},
 				error => {
 					alert('上傳檔案失敗')

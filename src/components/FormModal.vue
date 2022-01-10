@@ -1,5 +1,4 @@
 <template>
-    <form enctype="multipart/form-data" method="POST" ref="test">
     <div
         class="modal fade"
         :id="formInfo.targetId"
@@ -7,6 +6,7 @@
         aria-labelledby="update-modalLabel"
         aria-hidden="true"
         style="display: none"
+        ref="fm"
     >
         <div class="modal-dialog">
             <div class="modal-content create-modal-content">
@@ -23,7 +23,6 @@
             </div>
         </div>
     </div>
-    </form>
 </template>
 
 <script>
@@ -119,13 +118,13 @@ export default {
                     }
                 }
             }
-            
+
             // 印出formdata裡有的檔案
-            for (const key of formData.entries()) {
-                console.log(key);
-            }
+            // for (const key of formData.entries()) {
+            //     console.log(key);
+            // }
             // 印出存入的值
-            console.log(dataValue);
+            // console.log(dataValue);
 
             // 將最終資料存入data
             this.createFormFile = formData;
@@ -149,13 +148,43 @@ export default {
                 }
             }
             return flag;
+        },
+        // 清空表單
+        clearForm(){
+
+            for (const component of this.$refs.formBody.$children) {
+                // input
+                if (component.fieldName) {
+
+                    // 判斷是否有空值
+                    component.inputValue = '';
+
+                // textarea
+                }else if(component.aboutTextarea && component.aboutTextarea.fieldName){
+                    
+                    // 判斷是否有空值
+                    component.inputValue = '';
+
+                // 上下架切換
+                }else if(component.aboutCheck && component.aboutCheck.fieldName){
+                    
+                    // 判斷上架為1 下架為2
+                    component.inputValue = false;
+
+                // 圖片檔名
+                }else if(component.previewImgs){
+                    component.urlArr = [];
+                    component.previewImgs = {};
+                }
+            }
         }
     },
     watch:{
+        // 偵測儲存檔案的data變動 存完傳給page_nav
         createFormFile(){
             this.$emit('sendCreateData', this.createFormFile, this.createFormValue)
         }
-    }
+    },
 };
 </script>
 
