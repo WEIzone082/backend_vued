@@ -4,8 +4,9 @@
             PageName="課程管理"
             :WithFunc="func"
             :Checked="checked"
+            :useAPI="useAPI"
         ></PageNav>
-        <BackendTable :tableData='tableData'/>
+        <BackendTable :tableData='tableData' ref="beTable"/>
         <DataFooter
             :start="DataStart"
             :end="DataEnd"
@@ -36,7 +37,7 @@ export default {
 
             tableData:{
                 // 是否有Checkbox
-                hasCheckbox: true,
+                hasCheckbox: false,
                 // 是否有上架狀態、編輯按鈕、下拉選單
                 tableType: {
                     hasStatus: false,
@@ -46,26 +47,45 @@ export default {
                     hasFull: false
                 },
                 // 表頭名稱
-                tableHeadTitle: [
-                    "封面",
-                    "課程名稱",
-                    "費用說明",
-                    "期間說明",
-                    "名額說明",
-                    ""
-                ],
+                tableHeadTitle: {
+                    IN_IMG_1: "封面",
+                    COURSE_TYPE_NAME: "課程名稱",
+                    COURSE_PRICE_INFO: "費用說明",
+                    COURSE_CLASSES_INFO: "期間說明",
+                    COURSE_PARTY_INFO: "名額說明",
+                    space: ""
+                },
                 // 表的內容
-                tableBodyData: [
-                    {
-                        img: "course.png",
-                        name: "手捏器皿",
-                        price: "3500, 燒製費另計",
-                        date: "全8堂|1堂2.5HR",
-                        quota: "10人滿班"
-                    },
-                ],
+                tableBodyData: []
             },
+
+            // api路徑檔名
+            useAPI:{
+                displayAPI: 'course/courseDisplay.php',
+            }, 
         };
+    },
+    methods: {
+        // 重新獲取資料庫資料
+        refresh(){
+            this.$store.dispatch('course/displayAPI', this.useAPI.displayAPI).then(() => {
+                this.tableData.tableBodyData = this.$store.getters['course/getTableData']
+            })
+        }
+    },
+    watch:{
+        // 偵測抓來的資料變更(避免子元素來不及拿到資料)
+        tableData:{
+            deep:true,
+            handler(){
+                this.$refs.beTable.tableBodyData = this.tableData.tableBodyData
+                console.log(this.$refs.beTable.tableBodyData);
+            }
+        }
+    },
+    created() {
+        // 發出ajax請求
+        this.refresh();
     },
     mounted() {
         this.$bus.$emit("tableData", this.tableData);
