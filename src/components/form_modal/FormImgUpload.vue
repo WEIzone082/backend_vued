@@ -1,6 +1,6 @@
 <template>
     <div class="img-upload-wrapper">
-        <span class="img-title">{{formImgUpload || courseFromData}}</span>
+        <span class="img-title">{{aboutUpload.title || courseFromData}}</span>
         <span class="img-limit">最多 4 張</span>
         <div class="upload-content-wrapper">
             <label class="upload_cover">
@@ -10,6 +10,7 @@
                     multiple
                     @change="fileChange" 
                     ref="uploader"
+                    name="test[]"
                 />
                 <span class="addText" v-show="isShow">+ 加入圖片</span>
                 <!-- 新增用 -->
@@ -35,7 +36,8 @@
 <script>
 export default {
     name: "FormImgUpload",
-    props: ['courseFromData', 'formImgUpload', 'isCreateForm'],
+    // 課程用、傳圖片標題、是否為新增表單(page_nav)
+    props: ['courseFromData', 'aboutUpload', 'isCreateForm'],
     data() {
         return {
             isShow: true,
@@ -59,6 +61,11 @@ export default {
             }
             // 頁面上把預覽的圖刪掉
             e.target.parentNode.remove()
+
+            // 當全刪除時顯示加入圖片的文字
+            if ( Object.keys(this.previewImgs).length === 0) {
+                this.isShow = true;
+            }
         },
         // 顯示上傳的預覽圖，並存入data中
         fileChange(event){
@@ -82,6 +89,7 @@ export default {
                     reader.onload = (e) => {
                         // 將讀取結果存入陣列 (e.target為FileReader本身)
                         imgArr.push(e.target.result);
+                        // 檔名: url
                         imgsObj[input.files[i].name] = e.target.result
                     }
                     // 將檔名存入陣列
@@ -97,7 +105,8 @@ export default {
             }else{
                 alert('上傳圖片失敗')        
             }
-        }
+
+        },
     },
 };
 </script>

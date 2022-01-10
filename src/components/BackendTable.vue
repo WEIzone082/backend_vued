@@ -20,11 +20,14 @@ import TableThead from "./table/TableThead.vue";
 import TableTr from "./table/TableTr.vue";
 export default {
     name: "BackendTable",
-    props: ["formInfo",'tableData'],
+    // 資料庫傳來的tr資料
+    props: ['tableData'],
     components: { TableThead, TableTr },
     data() {
         return {
+            // tr的資料
             tableBodyData: this.tableData.tableBodyData,
+            // 儲存有勾選ID的陣列
             checkedArr: []
         }
     },
@@ -113,6 +116,7 @@ export default {
             this.$emit('showDel', this.checkedArr);
             // 傳陣列過去
             this.$bus.$emit('sendCheckedArr', this.checkedArr)
+            // 每次checkbox變動 印出有勾選ID的陣列
             console.log(this.checkedArr);
         }
     },

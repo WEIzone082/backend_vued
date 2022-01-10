@@ -36,7 +36,8 @@ export default {
         FormBody,
         FormFooter,
     },
-    props:['modalId', 'modalTitle', 'modalButtonName', 'formInfo', 'isUpdateButton', 'isCreateForm'],
+    // 新增彈窗header...(page_nav)、是否為編輯按鈕、是否為新增表單(page_nav)
+    props:['formInfo', 'isUpdateButton', 'isCreateForm'],
     data() {
         return {
             trData: {}
@@ -46,20 +47,29 @@ export default {
         sendFormData(){
             // console.log(123);
             let dataValue = {};
+            let formData = new FormData();
 
             // 獲取body的資料
             
             // 迭代所有子元件 屬性為資料庫欄位名，值為輸入的 加入物件中
             for (const component of this.$refs.formBody.$children) {
-                console.log(component);
+                // console.log(component);
                 // input
                 if (component.fieldName) {
-                    // ex: {NAME: 123, WIDTH: 456, ...}
+
+                    // 判斷是否有空值
+                    // if (this.valueIsNull(component.inputValue)) return
+
+                    // 存入input值 ex: {NAME: 123, WIDTH: 456, ...}
                     dataValue[component.fieldName] = component.inputValue
 
                 // textarea
                 }else if(component.aboutTextarea && component.aboutTextarea.fieldName){
                     
+                    // 判斷是否有空值
+                    // if (this.valueIsNull(component.inputValue)) return
+
+                    // 存入textarea值
                     dataValue[component.aboutTextarea.fieldName] = component.inputValue
 
                 // 上下架切換
@@ -72,14 +82,47 @@ export default {
                         dataValue[component.aboutCheck.fieldName] = '2'
                     }
 
+                // 圖片檔名
                 }else if(component.previewImgs){
-                    // 獲取圖片檔名
+                    let keyArr = [];
+
+                    // 將檔名存在陣列
+                    for (const key in component.previewImgs) {
+                        keyArr.push(key)
+                    }
+
+                    // 判斷是否有空值
+                    // if (!keyArr.length) {
+                    //     alert('至少上傳一張圖片');
+                    //     return
+                    // }
+
+                    // 將檔名依序給欄位
+                    for (let i = 0; i < keyArr.length; i++) {
+                        dataValue[component.aboutUpload.fieldName[i]] = keyArr[i];
+                    }
+
+                    for (let i = 0; i < component.$refs.uploader.files.length; i++) {
+                        formData.append('test[]', component.$refs.uploader.files[i]);
+                    }
+                    console.log(component.$refs.uploader);
                 }
             }
             // 可能把要送出的檔案存在data，在art dispatch比較好寫
             // 要寫兩個php，上傳檔案(成功後)>存入資料庫
-            console.log(dataValue);
+            // console.log(dataValue);
+            console.log(formData);
             // 把資料dispatch出去
+
+            
+            // console.log(this.$refs.formBody);
+            // formData.append('file', this.$refs.formBody)
+        },
+        valueIsNull(value){
+            if(!value){
+                alert('欄位尚未填寫');
+                return true;
+            }
         }
     },
 };

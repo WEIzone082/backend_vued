@@ -24,7 +24,7 @@
             <FormCheck :aboutCheck='aboutCheck'/>
             <FormImgUpload 
                 v-if="!courseFromData" 
-                :formImgUpload="formImgUpload" 
+                :aboutUpload="aboutUpload" 
                 :isCreateForm="isCreateForm"
             />
         </form>
@@ -39,29 +39,40 @@ import FormImgUpload from "./FormImgUpload.vue";
 export default {
     name: "FormBody",
     components: { FormInput, FormTextarea, FormCheck, FormImgUpload },
+    // 是否為編輯按鈕、是否為新增表單(page_nav)
     props: ['isUpdateButton', 'isCreateForm'],
     data() {
         return {
             // 共通元件的樣式資料
+
+            // input名稱 欄位名: 名稱(值)
             inputTitles: {},
+            // textarea
             aboutTextarea: {},
+            // 上下架切換
             aboutCheck: {},
-            formImgUpload: '',
-            courseFromData: '',
+            // 上傳圖片標題
+            aboutUpload: '',
+            // id input框標題(編輯表單用)
             idInputTitle: '',
+
+            
+            courseFromData: '',
             trData: {},
         }
     },
     mounted() {
-        // 共通元件樣式資料傳遞
+        // 共通元件樣式資料傳遞(from views)
         this.$bus.$on("formData", (formData) => {
             this.inputTitles = formData.inputTitles;
             this.aboutTextarea = formData.aboutTextarea;
             this.aboutCheck = formData.aboutCheck;
-            this.formImgUpload = formData.imgUpload;
+            this.aboutUpload = formData.aboutUpload;
             this.idInputTitle = formData.idInputTitle
         });
+        // 
         this.$bus.$on("courseFromData", (data) => {this.courseFromData = data;});
+        // 
         this.$bus.$on("trData", (trData) => {this.trData = trData;});
     },
     beforeDestroy() {

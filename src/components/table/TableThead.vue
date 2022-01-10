@@ -14,7 +14,9 @@ export default {
     name: 'TableThead',
     data() {
         return {
+            // 是否有Checkbox
             hasCheckbox: false,
+            // th欄位名稱
             tableHeadTitle: [],
             // 全選checkoutbox
             isAllChecked: false

@@ -128,8 +128,16 @@ export default {
                     fieldName: 'STATUS_TYPE'
                 },
                 
-                // 上傳圖片的標題(要修改成 上面那種形式)
-                imgUpload: "上傳作品圖片",
+                // 上傳圖片的標題
+                aboutUpload: {
+                    title: '上傳作品圖片',
+                    fieldName: [
+                        'IN_IMG_1', 
+                        'IN_IMG_2', 
+                        'IN_IMG_3', 
+                        'IN_IMG_4'
+                    ]
+                }
             },
 
             // 儲存有勾選tr的id
@@ -179,7 +187,7 @@ export default {
     mounted() {
         // 傳給th
         this.$bus.$emit("tableData", this.tableData);
-        // 傳給tbody
+        // 傳給formbody
         this.$bus.$emit("formData", this.formData);
     },
 };
