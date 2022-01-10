@@ -1,4 +1,5 @@
 <template>
+    <form enctype="multipart/form-data" method="POST" ref="test">
     <div
         class="modal fade"
         :id="formInfo.targetId"
@@ -22,6 +23,7 @@
             </div>
         </div>
     </div>
+    </form>
 </template>
 
 <script>
@@ -40,25 +42,29 @@ export default {
     props:['formInfo', 'isUpdateButton', 'isCreateForm'],
     data() {
         return {
-            trData: {}
+            // 可上傳的檔案類型
+            allowFileType: ['jpg', 'jpeg', 'png', 'gif' ],
+            // 要上傳的檔案
+            createFormFile: {},
+            // 要存入資料庫的資料
+            createFormValue: {},
         }
     },
     methods: {
+        // 取得新增表單的內容
         sendFormData(){
-            // console.log(123);
             let dataValue = {};
             let formData = new FormData();
 
-            // 獲取body的資料
+            // 獲取新增表單的資料
             
             // 迭代所有子元件 屬性為資料庫欄位名，值為輸入的 加入物件中
             for (const component of this.$refs.formBody.$children) {
-                // console.log(component);
                 // input
                 if (component.fieldName) {
 
                     // 判斷是否有空值
-                    // if (this.valueIsNull(component.inputValue)) return
+                    if (this.valueIsNull(component.inputValue)) return
 
                     // 存入input值 ex: {NAME: 123, WIDTH: 456, ...}
                     dataValue[component.fieldName] = component.inputValue
@@ -67,7 +73,7 @@ export default {
                 }else if(component.aboutTextarea && component.aboutTextarea.fieldName){
                     
                     // 判斷是否有空值
-                    // if (this.valueIsNull(component.inputValue)) return
+                    if (this.valueIsNull(component.inputValue)) return
 
                     // 存入textarea值
                     dataValue[component.aboutTextarea.fieldName] = component.inputValue
@@ -91,40 +97,65 @@ export default {
                         keyArr.push(key)
                     }
 
-                    // 判斷是否有空值
-                    // if (!keyArr.length) {
-                    //     alert('至少上傳一張圖片');
-                    //     return
-                    // }
+                    // 判斷是否有上傳圖片
+                    if (!keyArr.length) {
+                        return alert('至少上傳一張圖片');
+                    }
 
                     // 將檔名依序給欄位
                     for (let i = 0; i < keyArr.length; i++) {
                         dataValue[component.aboutUpload.fieldName[i]] = keyArr[i];
                     }
 
+                    // 上傳圖檔用
                     for (let i = 0; i < component.$refs.uploader.files.length; i++) {
-                        formData.append('test[]', component.$refs.uploader.files[i]);
+                        // 判斷檔案格式
+                        if(!this.checkFileType(component.$refs.uploader.files[i].type)){
+                            return alert('檔案格式錯誤');
+                        } 
+
+                        // 將檔案存入formdata物件 (上傳檔案用)
+                        formData.append(`imgData${i}`, component.$refs.uploader.files[i]);
                     }
-                    console.log(component.$refs.uploader);
                 }
             }
-            // 可能把要送出的檔案存在data，在art dispatch比較好寫
-            // 要寫兩個php，上傳檔案(成功後)>存入資料庫
-            // console.log(dataValue);
-            console.log(formData);
-            // 把資料dispatch出去
-
             
-            // console.log(this.$refs.formBody);
-            // formData.append('file', this.$refs.formBody)
+            // 印出formdata裡有的檔案
+            for (const key of formData.entries()) {
+                console.log(key);
+            }
+            // 印出存入的值
+            console.log(dataValue);
+
+            // 將最終資料存入data
+            this.createFormFile = formData;
+            this.createFormValue = dataValue;
         },
+        // 判斷是否為空值
         valueIsNull(value){
             if(!value){
                 alert('欄位尚未填寫');
                 return true;
             }
+        },
+        //  判斷是否為可上傳的檔案類型
+        checkFileType(fileType){
+            let flag = false;
+            for (const type of this.allowFileType) {
+
+                if(fileType.indexOf(type) !== -1){
+                    flag = true;
+                    break;
+                }
+            }
+            return flag;
         }
     },
+    watch:{
+        createFormFile(){
+            this.$emit('sendCreateData', this.createFormFile, this.createFormValue)
+        }
+    }
 };
 </script>
 

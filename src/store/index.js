@@ -64,11 +64,41 @@ const art = {
 				}
 			)
 		},
-		// 下架架功能
+		// 下架功能
 		downStatusAPI(context, data){
 			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('下架成功')
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 上傳檔案
+		filesUploadAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.useAPI.uploadAPI}`,
+				method: 'post', 
+				data: data.createFormFile
+			}).then(
+				response => {
+					console.log(response.data);
+				},
+				error => {
+					alert('上傳檔案失敗')
+				}
+			)
+		},
+		// 新增資料進資料庫
+		createAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.useAPI.createAPI}`,
+				method: 'post', 
+				data: data.createFormValue
+			}).then(
+				response => {
+					alert('新增成功');
 				},
 				error => {
 					console.log(error.message);

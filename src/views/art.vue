@@ -149,6 +149,8 @@ export default {
                 deleteAPI: 'art/artDelete.php',
                 upStatusAPI: 'art/artUpStatus.php',
                 downStatusAPI: 'art/artDownStatus.php',
+                uploadAPI: 'art/artUpload.php',
+                createAPI: 'art/artCreate.php'
             }, 
         };
     },
