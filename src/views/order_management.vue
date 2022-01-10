@@ -113,7 +113,7 @@ export default {
   beforeCreate() {
     this.$store.dispatch("order/getAll").then(() => {
         this.AllDatas = this.$store.getters["order/getTableData"];
-        this.showDatas = this.AllDatas;
+        this.showDatas = this.AllDatas.reverse();
     });
   },
 };
