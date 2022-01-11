@@ -176,11 +176,48 @@ const course = {
 const course_update = {
 	namespaced: true,
 	actions: {
-		// 顯示每項tr
-		displayAPI(context, apiPath){
+		// 顯示該課程類型的內容
+		displayFormAPI(context, data){
+			console.log();
 			// 取得PHP資料
-			return axios.get(`http://localhost:8080/api/yoshi/backend/${apiPath}`).then(
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				method: 'post',
+				data: data.cid
+			}).then(
 				response => {
+
+					let tempData = {}
+					// 只取要的資料
+					// 找陣列中每個art物件
+					for (const item of response.data) {
+	
+						// 去掉art物件中不需要的屬性(1~12)
+						for (const key in item) {
+							// 判斷是否為1~12，不是則加到新的物件中
+							if( !parseInt(key) && parseInt(key) !== 0){
+								tempData[key] = item[key]
+							}
+						}
+					}
+					// 將處理完的傳給mutations displayAPI方法
+					context.commit('displayFormAPI', tempData);
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 顯示每項tr
+		displayAPI(context, data){
+			// 取得PHP資料
+			return axios({
+				url:`http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				method: 'post',
+				data: data.cid
+			}).then(
+				response => {
+
 					let tempData = {}
 					let arrData = []
 					// 只取要的資料
@@ -195,7 +232,7 @@ const course_update = {
 							}
 						}
 						// 再將該物件加入新陣列
-						arrData.unshift(tempData)
+						arrData.push(tempData)
 						// 把暫存物件資料歸零
 						tempData = {}
 					}
@@ -209,15 +246,23 @@ const course_update = {
 		},
 	},
 	mutations: {
+		displayFormAPI(state, data){
+			state.formData = data;
+		},
 		// 收到資料後存入state中
 		displayAPI(state, data){
 			state.tableData = data;
 		},
 	},
 	state: {
+		formData: [],
 		tableData: [],
 	},
 	getters:{
+		// 回傳formData
+		getFormData(state){
+			return state.formData
+		},
 		// 回傳tableData
 		getTableData(state){
 			return state.tableData

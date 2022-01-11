@@ -25,9 +25,10 @@ const routes = [
   },
 
   {
-    path: '/course/:name',
+    path: '/course/:COURSE_TYPE_NAME/:COURSE_TYPE_ID',
     name: 'course_update',
-    component: Course_Update
+    component: Course_Update,
+    props: true
   },
 
   { 

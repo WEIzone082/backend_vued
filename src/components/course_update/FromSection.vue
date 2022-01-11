@@ -6,7 +6,7 @@
                     <router-link :to="{name:'course'}" class="return-link">
                         <i class="bi bi-chevron-left"></i>
                     </router-link>
-                    <p>手捏器皿</p>
+                    <p>{{COURSE_TYPE_NAME}}</p>
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                         id="flexSwitchCheckDefault"
                     />
                 </div>
-                
+                <!-- inputs textarea -->
                 <div class="input-wrap">
                     <!-- input -->
                     <div class="form-floating mb-3">
@@ -33,9 +33,41 @@
                             class="form-control"
                             id="floatingInput"
                             placeholder="name@example.com"
+                            v-model="formData.COURSE_TYPE_NAME"
                         />
-                        <label for="floatingInput" class="input-group-text">暫時</label>
+                        <label for="floatingInput" class="input-group-text">{{courseFromData.inputTitles.COURSE_TYPE_NAME}}</label>
                     </div>
+                    <div class="form-floating mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="floatingInput"
+                            placeholder="name@example.com"
+                            v-model="formData.COURSE_PRICE_INFO"
+                        />
+                        <label for="floatingInput" class="input-group-text">{{courseFromData.inputTitles.COURSE_PRICE_INFO}}</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="floatingInput"
+                            placeholder="name@example.com"
+                            v-model="formData.COURSE_CLASSES_INFO"
+                        />
+                        <label for="floatingInput" class="input-group-text">{{courseFromData.inputTitles.COURSE_CLASSES_INFO}}</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="floatingInput"
+                            placeholder="name@example.com"
+                            v-model="formData.COURSE_PARTY_INFO"
+                        />
+                        <label for="floatingInput" class="input-group-text">{{courseFromData.inputTitles.COURSE_PARTY_INFO}}</label>
+                    </div>
+
                     <!-- textarea -->
                     <div class="form-floating form-floating-textarea">
                         <textarea
@@ -43,6 +75,7 @@
                             placeholder="Leave a comment here"
                             id="floatingTextarea2"
                             style="height: 100px"
+                            v-model="formData.COURSE_INFO"
                         ></textarea>
                         <label for="floatingTextarea2" class="input-group-text">課程說明</label>
                     </div>
@@ -59,12 +92,17 @@
                                     type="file" 
                                     multiple
                                     ref="uploader"
+                                    @change="fileChange"
                                 />
                                 <span class="addText">+ 加入圖片</span>
-                                    <div class="img-wrapper">
-                                        <!-- <i class="bi bi-x-circle-fill"></i> -->
-                                        <!-- <img src="#" class="upImg"> -->
-                                    </div>
+                                <div class="img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_1)"></i>
+                                    <img :src="require(`../../assets/img/${formData.IN_IMG_1}`)" class="upImg">
+                                </div>
+                                <div class="img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_2)"></i>
+                                    <img :src="require(`../../assets/img/${formData.IN_IMG_2}`)" class="upImg">
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -83,45 +121,207 @@
                                     ref="uploader"
                                 />
                                 <span class="addText">+ 加入圖片</span>
-                                    <div class="img-wrapper">
-                                        <!-- <i class="bi bi-x-circle-fill"></i> -->
-                                        <!-- <img src="#" class="upImg"> -->
-                                    </div>
+                                <div class="student-img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_1)"></i>
+                                    <img :src="require(`../../assets/img/${formData.STUDENT_IMG_1}`)" class="upImg">
+                                </div>
+                                <div class="student-img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_2)"></i>
+                                    <img :src="require(`../../assets/img/${formData.STUDENT_IMG_2}`)" class="upImg">
+                                </div>
+                                <div class="student-img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_3)"></i>
+                                    <img :src="require(`../../assets/img/${formData.STUDENT_IMG_3}`)" class="upImg">
+                                </div>
+                                <div class="student-img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_4)"></i>
+                                    <img :src="require(`../../assets/img/${formData.STUDENT_IMG_4}`)" class="upImg">
+                                </div>
+                                <div class="student-img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_5)"></i>
+                                    <img :src="require(`../../assets/img/${formData.STUDENT_IMG_5}`)" class="upImg">
+                                </div>
+                                <div class="student-img-wrapper">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_6)"></i>
+                                    <img :src="require(`../../assets/img/${formData.STUDENT_IMG_6}`)" class="upImg">
+                                </div>
                             </label>
                         </div>
                     </div>
                 </div>
+                <!-- 學員名稱 -->
                 <div class="student-name-wrapper">
-
+                    <div 
+                        class="form-floating mb-3 student-floating" >
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="floatingInput" 
+                            placeholder="name@example.com"
+                            v-model="formData.STUDENT_NAME_1"
+                        >
+                        <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_1}}</label>
+                    </div>
+                    <div 
+                        class="form-floating mb-3 student-floating" >
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="floatingInput" 
+                            placeholder="name@example.com"
+                            v-model="formData.STUDENT_NAME_2"
+                        >
+                        <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_2}}</label>
+                    </div>
+                    <div 
+                        class="form-floating mb-3 student-floating" >
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="floatingInput" 
+                            placeholder="name@example.com"
+                            v-model="formData.STUDENT_NAME_3"
+                        >
+                        <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_3}}</label>
+                    </div>
+                    <div 
+                        class="form-floating mb-3 student-floating" >
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="floatingInput" 
+                            placeholder="name@example.com"
+                            v-model="formData.STUDENT_NAME_4"
+                        >
+                        <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_4}}</label>
+                    </div>
+                    <div 
+                        class="form-floating mb-3 student-floating" >
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="floatingInput" 
+                            placeholder="name@example.com"
+                            v-model="formData.STUDENT_NAME_5"
+                        >
+                        <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_5}}</label>
+                    </div>
+                    <div 
+                        class="form-floating mb-3 student-floating" >
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="floatingInput" 
+                            placeholder="name@example.com"
+                            v-model="formData.STUDENT_NAME_6"
+                        >
+                        <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_6}}</label>
+                    </div>
                 </div>
+
+                <button type="button" class="btn btn-submit">儲存編輯</button>
             </form>
         </div>
     </section>
 </template>
 
 <script>
-import FormCheck from '../form_modal/FormCheck.vue';
-import FormInput from '../form_modal/FormInput.vue';
-import FormTextarea from '../form_modal/FormTextarea.vue';
-import FormImgUpload from '../form_modal/FormImgUpload.vue';
 export default {
     name: 'FromSection',
-    components: {FormCheck, FormInput, FormTextarea, FormImgUpload},
-    props:['courseFromData']
+    components: {},
+    props:['courseFromData', 'COURSE_TYPE_NAME', 'COURSE_TYPE_ID', 'useAPI'],
+    data() {
+        return {
+            // form的資料
+            formData: {
+                COURSE_CLASSES_INFO: "",
+                COURSE_INFO: "",
+                COURSE_PARTY_INFO: "",
+                COURSE_PRICE_INFO: "",
+                COURSE_TYPE_ID: "",
+                COURSE_TYPE_NAME: "",
+                IN_IMG_1: "",
+                IN_IMG_2: "",
+                STUDENT_IMG_1: "",
+                STUDENT_IMG_2: "",
+                STUDENT_IMG_3: "",
+                STUDENT_IMG_4: "",
+                STUDENT_IMG_5: "",
+                STUDENT_IMG_6: "",
+                STUDENT_NAME_1: "",
+                STUDENT_NAME_2: "",
+                STUDENT_NAME_3: "",
+                STUDENT_NAME_4: "",
+                STUDENT_NAME_5: "",
+                STUDENT_NAME_6: ""
+            }
+        }
+    },
+    methods: {
+        // 重新獲取資料庫資料
+        refresh(){
+            this.$store.dispatch('course_update/displayFormAPI', {
+                apiPath: this.useAPI.displayFormAPI, 
+                cid: this.COURSE_TYPE_ID
+            }).then(() => {
+                this.formData = this.$store.getters['course_update/getFormData']
+            })
+        },
+        // 刪除圖片
+        removeImg(e, imgName){
+
+            // 把data裡的圖檔名稱改為空值
+            for (const fieldName in this.formData) {
+                if(this.formData[fieldName] === imgName){
+                    this.formData[fieldName] = ''
+                }
+            }
+            // 頁面上把預覽的圖刪掉
+            e.target.parentNode.remove()
+
+        },
+        fileChange(event){
+            // input 本身
+            let input = event.target;
+            // 檔案的陣列
+            let imgs = input.files;
+            let imgC = 0;
+            for (const fieldName in this.formData) {
+                if(fieldName.indexOf('IN_IMG_') !== -1){
+                    imgC++
+                }
+            }
+            switch (key) {
+                case value:
+                    
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+    },
+    created() {
+        // 發出ajax請求
+        this.refresh();
+    },
 }
 </script>
 
 <style lang="scss" scoped>
 
+    // 整個form區塊
     .content-section {
         margin-bottom: 50px;
         width: 100%;
     }
 
+    // 標題
     .page-nav{
         margin: 5px 0;
     }
 
+    // 頁面標題
     .page-name {
         display: flex;
 
@@ -149,6 +349,7 @@ export default {
         }
     }
 
+    // 整個內容區塊
     .course-content-wrap {
         box-sizing: border-box;
         width: 100%;
@@ -160,15 +361,25 @@ export default {
             font-weight: normal;
             font-size: 20px;
         }
+
+        .form-control{
+            box-sizing: border-box;
+            width: 100%;
+            height: 100%;
+            background-color: #F9F9F9 !important;
+            border: 1px solid #F3F3F3;
+            outline: none;
+            font-size: 1rem;
+        }
     }
 
+    // 
     .content-form {
 
         .form-check {
             transform: translateY(-15px);
             justify-content: flex-end;
         }
-
 
         .up-upload-wrap {
             display: flex;
@@ -177,28 +388,62 @@ export default {
 
     }
 
+    // 講師作品上傳區塊大小
     .up-upload-wrap{
 
         &>.img-upload-wrapper{
-            width: 20%;
+            width: 25%;
         }
     }
+
+    // 學生作品上傳區塊大小
     .student-upload-wrap{
 
         &>.img-upload-wrapper{
-            width: 60%;
+            width: 70%;
         }
     }
+
+    // 上傳區塊
     .img-upload-wrapper{
         width: 100%;
         margin-top: 20px;
         width: 100%;
+
+        .img-title{
+            font-weight: 400;
+        }
     }
 
+    // 上傳幾張
     .img-limit{
         float: right;
     }
 
+    // 學員名稱
+    .student-name-wrapper{
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+
+        .student-floating{
+            box-sizing: border-box;
+            width: 32%;
+            margin-bottom: 20px;
+            overflow: hidden;
+
+            .student-lab{
+                background-color: #F9F9F9 !important;
+                border: 1px solid transparent;
+                width: 100%;
+                height: 5px;
+                font-weight: 400;
+            }
+        }
+    }
+
+    // 上傳圖片
     .upload_cover {
         display: inline-block;
         position: relative;
@@ -214,10 +459,12 @@ export default {
 
         display: flex;
 
+        // input
         #upload_input {
             display: none;
         }
 
+        // 加入圖片的文字
         .addText{
             position: absolute;
             top: 50%;
@@ -225,11 +472,13 @@ export default {
             transform: translateX(-50%) translateY(-50%);
         }
 
+        // 圖片外層
         .img-wrapper{
-            width: 23%;
+            width: 45%;
             position: relative;
             z-index: 100;
 
+            // 上面的X
             .bi-x-circle-fill{
                 position: absolute;
                 right: 0;
@@ -238,11 +487,42 @@ export default {
                     opacity: 0.7;
                 }
             }
+
+            // 圖片
             .upImg{
-                width: 90%;
+                width: 95%;
                 margin: 5px;
             }
-
         }
+
+        // 學生圖片
+        .student-img-wrapper{
+            width: 16%;
+            position: relative;
+            z-index: 100;
+
+            // 上面的X
+            .bi-x-circle-fill{
+                position: absolute;
+                right: 0;
+
+                &:hover{
+                    opacity: 0.7;
+                }
+            }
+
+            // 圖片
+            .upImg{
+                width: 95%;
+                margin: 5px;
+            }
+        }
+    }
+
+    // 按鈕
+    .btn-submit{
+        margin-top: 20px;
+        background-color: #6C4D41;
+        color: white;
     }
 </style>

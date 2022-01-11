@@ -1,6 +1,11 @@
 <template>
     <div>
-        <FromSection :courseFromData="courseFromData"/>
+        <FromSection 
+            :courseFromData="courseFromData"
+            :COURSE_TYPE_NAME="COURSE_TYPE_NAME"
+            :COURSE_TYPE_ID="COURSE_TYPE_ID"
+            :useAPI="useAPI"
+        />
 
         <PageNav
             PageName="課程管理"
@@ -40,6 +45,7 @@ export default {
         FormModal,
         DataFooter,
     },
+    props:['COURSE_TYPE_NAME','COURSE_TYPE_ID'],
     data() {
         return {
             func: true,
@@ -120,6 +126,38 @@ export default {
             // 上方表單資料
             courseFromData:{
 
+                // 輸入框標題，有幾個就輸入幾個名稱
+                inputTitles: {
+                    COURSE_TYPE_NAME: "課程名稱",
+                    COURSE_PRICE_INFO: "費用說明",
+                    COURSE_CLASSES_INFO: "期間說明",
+                    COURSE_PARTY_INFO: "名額",
+                    MATERIAL: "材質",
+                },
+
+                // Textarea 欄位名稱
+                aboutTextarea: {
+                    title: "課程說明",
+                    fieldName: "COURSE_INFO"
+                },
+
+                // 上傳圖片的標題
+                aboutUpload: {
+                    title: '講師作品照',
+                    fieldName: [
+                        'IN_IMG_1', 
+                        'IN_IMG_2', 
+                    ]
+                },
+                // 上傳圖片的標題
+                aboutStudentUpload: {
+                    STUDENT_NAME_1: "圖一學員名",
+                    STUDENT_NAME_2: "圖二學員名",
+                    STUDENT_NAME_3: "圖三學員名",
+                    STUDENT_NAME_4: "圖四學員名",
+                    STUDENT_NAME_5: "圖五學員名",
+                    STUDENT_NAME_6: "圖六學員名"
+                },
             },
 
             // 儲存有勾選tr的id
@@ -127,6 +165,7 @@ export default {
 
             // api路徑檔名
             useAPI:{
+                displayFormAPI: 'course_update/courseFormDisplay.php',
                 displayAPI: 'course_update/courseUpDisplay.php',
             }, 
         };
@@ -145,7 +184,10 @@ export default {
         },
         // 重新獲取資料庫資料
         refresh(){
-            this.$store.dispatch('course_update/displayAPI', this.useAPI.displayAPI).then(() => {
+            this.$store.dispatch('course_update/displayAPI', {
+                apiPath: this.useAPI.displayAPI,
+                cid: this.COURSE_TYPE_ID
+            }).then(() => {
                 this.tableData.tableBodyData = this.$store.getters['course_update/getTableData']
             })
         }

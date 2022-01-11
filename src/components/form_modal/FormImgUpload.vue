@@ -10,7 +10,6 @@
                     multiple
                     @change="fileChange" 
                     ref="uploader"
-                    name="test[]"
                 />
                 <span class="addText" v-show="isShow">+ 加入圖片</span>
                 <!-- 新增用 -->

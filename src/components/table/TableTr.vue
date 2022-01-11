@@ -53,7 +53,8 @@
                 :to="{
                     name: 'course_update',
                     params:{
-                        name: trData.COURSE_TYPE_NAME
+                        COURSE_TYPE_NAME: trData.COURSE_TYPE_NAME,
+                        COURSE_TYPE_ID: trData.COURSE_TYPE_ID
                     }
                 }"
             >

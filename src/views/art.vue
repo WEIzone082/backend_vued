@@ -41,7 +41,7 @@ export default {
     data() {
         return {
             // 新增按鈕
-            func: false,
+            func: true,
             // 上下架刪除按鈕
             checked: false,
             // data起始結束 總數
