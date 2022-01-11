@@ -94,14 +94,18 @@
                                     ref="uploader"
                                     @change="fileChange"
                                 />
-                                <span class="addText">+ 加入圖片</span>
+                                <span class="addText" v-if="tSpanIsShow">+ 加入圖片</span>
                                 <div class="img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_1)"></i>
-                                    <img :src="require(`../../assets/img/${formData.IN_IMG_1}`)" class="upImg">
+                                    <img :src="require('../../assets/img/'+ formData.IN_IMG_1)" class="upImg">
                                 </div>
                                 <div class="img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_2)"></i>
                                     <img :src="require(`../../assets/img/${formData.IN_IMG_2}`)" class="upImg">
+                                </div>
+                                <div class="img-wrapper" v-for="(url, index) in urlArr" :key="index">
+                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_2)"></i>
+                                    <img :src="url" class="upImg">
                                 </div>
                             </label>
                         </div>
@@ -120,7 +124,7 @@
                                     multiple
                                     ref="uploader"
                                 />
-                                <span class="addText">+ 加入圖片</span>
+                                <span class="addText" v-show="sSpanIsShow">+ 加入圖片</span>
                                 <div class="student-img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_1)"></i>
                                     <img :src="require(`../../assets/img/${formData.STUDENT_IMG_1}`)" class="upImg">
@@ -254,7 +258,10 @@ export default {
                 STUDENT_NAME_4: "",
                 STUDENT_NAME_5: "",
                 STUDENT_NAME_6: ""
-            }
+            },
+            tSpanIsShow: false,
+            sSpanIsShow: false,
+            urlArr: []
         }
     },
     methods: {
@@ -276,8 +283,15 @@ export default {
                     this.formData[fieldName] = ''
                 }
             }
-            // 頁面上把預覽的圖刪掉
+            // 把頁面上預覽的圖刪掉
             e.target.parentNode.remove()
+
+
+            if(!this.getCurrentImgCount('t')){
+                this.tSpanIsShow = true;
+            }else if(!this.getCurrentImgCount('s')){
+                this.sSpanIsShow = true;
+            }
 
         },
         fileChange(event){
@@ -285,19 +299,74 @@ export default {
             let input = event.target;
             // 檔案的陣列
             let imgs = input.files;
-            let imgC = 0;
+            // 圖片上傳張數上限
+            let imgLimitCount = 0;
+            // 目前已有幾張圖
+            let currentImgCount = 0;
+            let canUploadCount = 0;
+
             for (const fieldName in this.formData) {
+                // 若為講師做品
                 if(fieldName.indexOf('IN_IMG_') !== -1){
-                    imgC++
+                    // 計算圖片上傳張數上限
+                    imgLimitCount++
+
+                    // 
+                    currentImgCount = this.getCurrentImgCount('t');
                 }
             }
-            switch (key) {
-                case value:
-                    
-                    break;
-            
-                default:
-                    break;
+
+            // 還能上傳幾張
+            canUploadCount = imgLimitCount - currentImgCount
+
+            // 判斷是否有超出張數限制
+            if(imgs.length <= canUploadCount){
+                for (let i = 0; i < imgs.length; i++) {
+                    // 建立FileReader物件
+                    let reader = new FileReader();
+                    // 當讀取完成
+                    reader.onload = (e) => {
+                        // 將讀取結果存入陣列 (e.target為FileReader本身)
+                        this.urlArr.push(e.target.result);
+                        // 檔名: url
+                    }
+                    // 將檔名存入陣列
+                    // this.imageName.push(input.files[i].name);
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }else{
+                alert('超出張數限制')
+            }
+        },
+        // 取得目前有幾張圖
+        getCurrentImgCount(who){
+            // 目前已有幾張圖
+            let currentTeacherImgCount = 0;
+            let currentStudentImgCount = 0;
+            for (const fieldName in this.formData) {
+                switch (who) {
+                    case 't':{
+                        if(fieldName.indexOf('IN_IMG_') !== -1){
+                            if(this.formData[fieldName]){
+                                currentTeacherImgCount++
+                            }
+                        }
+                        break;
+                    }
+                    case 's':{
+                        if(fieldName.indexOf('STUDENT_IMG_') !== -1){
+                            if(this.formData[fieldName]){
+                                currentStudentImgCount++
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            switch (who) {
+                case 't': return currentTeacherImgCount;
+                case 's': return currentStudentImgCount;
             }
         }
     },
