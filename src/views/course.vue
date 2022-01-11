@@ -29,7 +29,7 @@ export default {
     },
     data: function () {
         return {
-            func: true,
+            func: false,
             checked: false,
             DataStart: 0,
             DataEnd: 0,

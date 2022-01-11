@@ -101,7 +101,7 @@ export default {
             // tr勾選狀態
             trIsChecked: false,
             // tr的id
-            trId: this.trData.ARTS_ID
+            trId: this.trData.ARTS_ID || this.trData.COURSE_ID
         };
     },
     computed: {

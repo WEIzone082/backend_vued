@@ -62,7 +62,7 @@
 import FormModal from "./FormModal.vue";
 export default {
   // 頁面名稱、是否有刪除等按鈕、新增按鈕、新增彈窗header...、最終儲存有勾選的陣列、PHP網址
-  props: ["PageName", "WithFunc", "Checked", "formInfo", "finalCheckedArr", "useAPI"],
+  props: ["PageName", "WithFunc", "Checked", "formInfo", "finalCheckedArr", "useAPI", "COURSE_TYPE_ID"],
   components: { FormModal },
   data() {
     return {
@@ -78,7 +78,7 @@ export default {
       // 確定刪除
       if(flag){
         // 呼叫vuex的ajax方法
-        this.$store.dispatch('art/deleteAPI', {
+        this.$store.dispatch(`${this.useAPI.pageName}/deleteAPI`, {
           // php路徑
           useAPI:this.useAPI, 
           // 有勾選的id
@@ -94,7 +94,7 @@ export default {
     upTr(){
       let flag = confirm('確定要將勾選的作品上架?');
       if(flag){
-        this.$store.dispatch('art/upStatusAPI', {
+        this.$store.dispatch(`${this.useAPI.pageName}/upStatusAPI`, {
           useAPI:this.useAPI, 
           finalCheckedArr:this.finalCheckedArr
         }).then(() => {
@@ -107,7 +107,7 @@ export default {
     downTr(){
       let flag = confirm('確定要將勾選的作品上架?');
       if(flag){
-        this.$store.dispatch('art/downStatusAPI', {
+        this.$store.dispatch(`${this.useAPI.pageName}/downStatusAPI`, {
           useAPI:this.useAPI, 
           finalCheckedArr:this.finalCheckedArr
         }).then(() => {
@@ -118,25 +118,42 @@ export default {
     // 上傳檔案及新增 (上傳檔案成功 > 存入資料庫 > 重新獲取資料庫資料)
     sendCreateData(createFormFile, createFormValue){
 
-      // 上傳檔案
-      this.$store.dispatch('art/filesUploadAPI',{
-        useAPI:this.useAPI,
-        createFormFile: createFormFile
+      if(this.useAPI.pageName === 'course_update'){
 
-      }).then(() => {
         // 存入資料庫
-        this.$store.dispatch('art/createAPI',{
+        this.$store.dispatch(`${this.useAPI.pageName}/createAPI`,{
           useAPI:this.useAPI,
-          createFormValue: createFormValue
-
+          createFormValue: createFormValue,
+          COURSE_TYPE_ID: this.COURSE_TYPE_ID
         }).then(() => {
           // 重新抓資料
           this.$emit('refresh');
           // 清空表單
           this.$refs.createFM.clearForm()
         });
-      });
 
+      }else{
+
+        // 上傳檔案
+        this.$store.dispatch('art/filesUploadAPI',{
+          useAPI:this.useAPI,
+          createFormFile: createFormFile
+  
+        }).then(() => {
+          // 存入資料庫
+          this.$store.dispatch('art/createAPI',{
+            useAPI:this.useAPI,
+            createFormValue: createFormValue
+  
+          }).then(() => {
+            // 重新抓資料
+            this.$emit('refresh');
+            // 清空表單
+            this.$refs.createFM.clearForm()
+          });
+
+        });
+      }
     }
   },
 };

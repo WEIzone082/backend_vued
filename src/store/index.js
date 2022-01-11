@@ -244,6 +244,75 @@ const course_update = {
 				}
 			)
 		},
+		// 課程類別資料修改
+		courseTypeUpdataAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				method: 'post',
+				data: {
+					cid: data.cid,
+					formData: data.formData
+				}
+			}).then(
+				response => {
+					alert('儲存成功');
+				},
+				error => {}
+			)
+		},
+		// 刪除功能
+		deleteAPI(context, data){
+			console.log(data);
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+				response => {
+					alert('刪除成功')
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 上架功能
+		upStatusAPI(context, data){
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+				response => {
+					alert('上架成功')
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 下架功能
+		downStatusAPI(context, data){
+			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
+				response => {
+					alert('下架成功')
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 新增功能
+		createAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.useAPI.createAPI}`,
+				method: 'post', 
+				data: {
+					createFormValue: data.createFormValue,
+					COURSE_TYPE_ID: data.COURSE_TYPE_ID
+				}
+			}).then(
+				response => {
+					console.log(response.data);
+					alert('新增成功');
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		}
 	},
 	mutations: {
 		displayFormAPI(state, data){

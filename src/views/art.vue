@@ -144,6 +144,7 @@ export default {
 
             // api路徑檔名
             useAPI:{
+                pageName: 'art',
                 displayAPI: 'art/artDisplay.php',
                 deleteAPI: 'art/artDelete.php',
                 upStatusAPI: 'art/artUpStatus.php',

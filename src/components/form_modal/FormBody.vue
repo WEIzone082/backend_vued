@@ -21,12 +21,18 @@
                 :aboutTextarea='aboutTextarea' 
                 v-if="!courseFromData"
             />
-            <FormCheck :aboutCheck='aboutCheck'/>
+            <FormCheck :aboutCheck='aboutCheck' v-if="!courseFromData"/>
             <FormImgUpload 
                 v-if="!courseFromData" 
                 :aboutUpload="aboutUpload" 
                 :isCreateForm="isCreateForm"
             />
+            <select class="form-select" aria-label="Default select example" v-if="courseFromData" ref="statusSelect">
+                <option selected disabled>課程狀態</option>
+                <option value="1">上架</option>
+                <option value="2">下架</option>
+                <option value="3">已額滿</option>
+            </select>
         </form>
     </div>
 </template>
@@ -84,5 +90,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+    .form-select{
+        width: 48%;
+        margin-bottom: 20px;
+    }
 </style>

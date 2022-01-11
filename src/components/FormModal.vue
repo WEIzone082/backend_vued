@@ -54,7 +54,6 @@ export default {
         sendFormData(){
             let dataValue = {};
             let formData = new FormData();
-
             // 獲取新增表單的資料
             
             // 迭代所有子元件 屬性為資料庫欄位名，值為輸入的 加入物件中
@@ -65,8 +64,17 @@ export default {
                     // 判斷是否有空值
                     if (this.valueIsNull(component.inputValue)) return
 
+                    // 判斷欄位資料型態(若為int型態則進入)
+                    if (this.dataTypeCheck(component.fieldName)) {
+                        // 若無法轉為int則跳出警告
+                        if(!parseInt(component.inputValue)){
+                            return alert('價格、人數、堂數須為數字');
+                        }
+                    }
+
                     // 存入input值 ex: {NAME: 123, WIDTH: 456, ...}
                     dataValue[component.fieldName] = component.inputValue
+
 
                 // textarea
                 }else if(component.aboutTextarea && component.aboutTextarea.fieldName){
@@ -119,12 +127,22 @@ export default {
                 }
             }
 
+
+            if(this.$refs.formBody.$refs.statusSelect){
+                let selectValue = this.$refs.formBody.$refs.statusSelect.value;
+                if(selectValue){
+                    dataValue['STATUS_TYPE'] = selectValue;
+                }else if(!selectValue){
+                    return alert('尚未選擇課程狀態');
+                }
+            }
+
             // 印出formdata裡有的檔案
             // for (const key of formData.entries()) {
             //     console.log(key);
             // }
             // 印出存入的值
-            // console.log(dataValue);
+            console.log(dataValue);
 
             // 將最終資料存入data
             this.createFormFile = formData;
@@ -177,6 +195,18 @@ export default {
                     component.previewImgs = {};
                 }
             }
+        },
+        // 判斷需要填入數字的
+        dataTypeCheck(fieldName){
+            switch (fieldName) {
+                case 'COURSE_PARTY':
+                case 'COURSE_PRICE':
+                case 'COURSE_CLASSES':
+                    return true;
+                default:
+                    return false;
+            }
+
         }
     },
     watch:{

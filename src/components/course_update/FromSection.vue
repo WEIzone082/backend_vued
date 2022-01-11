@@ -14,16 +14,6 @@
         <div class="course-content-wrap">
             <div class="header-title">課程內容</div>
             <form class="content-form">
-                <!-- 上架 -->
-                <div class="form-check form-switch">
-                    <span>課程上架</span>
-                    <input
-                        class="form-check-input"
-                        type="checkbox"
-                        role="switch"
-                        id="flexSwitchCheckDefault"
-                    />
-                </div>
                 <!-- inputs textarea -->
                 <div class="input-wrap">
                     <!-- input -->
@@ -95,18 +85,14 @@
                                     @change="fileChange"
                                 />
                                 <span class="addText" v-if="tSpanIsShow">+ 加入圖片</span>
-                                <div class="img-wrapper">
+                                <!-- <div class="img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_1)"></i>
                                     <img :src="require('../../assets/img/'+ formData.IN_IMG_1)" class="upImg">
                                 </div>
                                 <div class="img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_2)"></i>
                                     <img :src="require(`../../assets/img/${formData.IN_IMG_2}`)" class="upImg">
-                                </div>
-                                <div class="img-wrapper" v-for="(url, index) in urlArr" :key="index">
-                                    <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.IN_IMG_2)"></i>
-                                    <img :src="url" class="upImg">
-                                </div>
+                                </div> -->
                             </label>
                         </div>
                     </div>
@@ -125,7 +111,7 @@
                                     ref="uploader"
                                 />
                                 <span class="addText" v-show="sSpanIsShow">+ 加入圖片</span>
-                                <div class="student-img-wrapper">
+                                <!-- <div class="student-img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_1)"></i>
                                     <img :src="require(`../../assets/img/${formData.STUDENT_IMG_1}`)" class="upImg">
                                 </div>
@@ -148,7 +134,7 @@
                                 <div class="student-img-wrapper">
                                     <i class="bi bi-x-circle-fill" @click.prevent="removeImg($event, formData.STUDENT_IMG_6)"></i>
                                     <img :src="require(`../../assets/img/${formData.STUDENT_IMG_6}`)" class="upImg">
-                                </div>
+                                </div> -->
                             </label>
                         </div>
                     </div>
@@ -222,8 +208,9 @@
                         <label for="floatingInput" class="student-lab">{{courseFromData.aboutStudentUpload.STUDENT_NAME_6}}</label>
                     </div>
                 </div>
-
-                <button type="button" class="btn btn-submit">儲存編輯</button>
+                <div class="form-footer">
+                    <button type="button" class="btn btn-submit" @click="sendFormData">儲存編輯</button>
+                </div>
             </form>
         </div>
     </section>
@@ -368,6 +355,42 @@ export default {
                 case 't': return currentTeacherImgCount;
                 case 's': return currentStudentImgCount;
             }
+        },
+        sendFormData(){
+            // 計算欄位有幾張圖
+            let countLength = 0
+            for (const fieldName in this.formData) {
+                if(fieldName.indexOf('STUDENT_IMG_') !== -1){
+                    countLength++;
+                }
+
+                // 判斷上方欄位是否為空值 & 去除前後空白
+                if(fieldName.indexOf('COURSE_') !== -1){
+                    this.formData[fieldName] = this.formData[fieldName].trim();
+                    if(!this.formData[fieldName]) return alert('上方欄位不得為空值')
+                }
+            }
+
+            // 判斷所上傳照片數及學員名稱輸入是否一致
+            for (let i = 1; i <= countLength; i++) {
+                // 若該照片欄位有值
+                if(this.formData[`STUDENT_IMG_${i}`]){
+                    // 而該欄位學員名未填
+                    if(!this.formData[`STUDENT_NAME_${i}`]) return alert('有作品照尚未輸入學員名');
+                // 若該照片欄位沒有值
+                }else if(!this.formData[`STUDENT_IMG_${i}`]){
+                    // 而該欄位學員名有填
+                    if (this.formData[`STUDENT_NAME_${i}`]) return alert('有學員名稱但未上傳圖片');
+                }
+            }
+
+            this.$store.dispatch('course_update/courseTypeUpdataAPI', {
+                apiPath: this.useAPI.courseTypeUpdataAPI, 
+                cid: this.COURSE_TYPE_ID,
+                formData: this.formData
+            }).then(() => {
+                this.refresh();
+            })
         }
     },
     created() {
@@ -442,9 +465,9 @@ export default {
         }
     }
 
-    // 
+    // 整個表單
     .content-form {
-
+        margin-top: 20px;
         .form-check {
             transform: translateY(-15px);
             justify-content: flex-end;
@@ -588,10 +611,16 @@ export default {
         }
     }
 
-    // 按鈕
-    .btn-submit{
+    // 
+    .form-footer{
+        width: 100%;
+        text-align: right;
         margin-top: 20px;
-        background-color: #6C4D41;
-        color: white;
+
+        // 按鈕
+        .btn-submit{
+            background-color: #6C4D41;
+            color: white;
+        }
     }
 </style>

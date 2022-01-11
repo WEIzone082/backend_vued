@@ -15,6 +15,7 @@
             :useAPI="useAPI"
             :finalCheckedArr="finalCheckedArr"
             @refresh = "refresh()"
+            :COURSE_TYPE_ID="COURSE_TYPE_ID"
         ></PageNav>
 
         <BackendTable 
@@ -49,7 +50,7 @@ export default {
     data() {
         return {
             func: true,
-            checked: true,
+            checked: false,
             DataStart: 0,
             DataEnd: 0,
             DataCount: 0,
@@ -104,7 +105,7 @@ export default {
 
                 // 輸入框標題，有幾個就輸入幾個名稱
                 inputTitles: {
-                    COURSE_TIME: "時間",
+                    COURSE_TIME: "時段",
                     COURSE_PRICE: "價格",
                     COURSE_PARTY: "人數",
                     COURSE_START_DATE: "起始日期",
@@ -165,8 +166,15 @@ export default {
 
             // api路徑檔名
             useAPI:{
+                // 頁面名稱
+                pageName: 'course_update',
                 displayFormAPI: 'course_update/courseFormDisplay.php',
                 displayAPI: 'course_update/courseUpDisplay.php',
+                courseTypeUpdataAPI: 'course_update/courseTypeUpdate.php',
+                deleteAPI: 'course_update/courseDelete.php',
+                upStatusAPI: 'course_update/courseUpStatus.php',
+                downStatusAPI: 'course_update/courseDownStatus.php',
+                createAPI: 'course_update/courseCreate.php',
             }, 
         };
     },
