@@ -53,10 +53,13 @@ export default {
   data: function () {
     return {
       func: false,
-      // Data Per Page
+      // Data Per Page每頁幾筆資料
       DPP: 10,
+      // 資料總共幾筆
       DataCount: 0,
+      // 所有資料
       AllDatas: [],
+      // 當前要顯示的資料
       ShowDatas:[],
       displayAPI: "fetch.php",
     };
