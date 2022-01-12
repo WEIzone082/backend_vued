@@ -104,6 +104,20 @@ const art = {
 					console.log(error.message);
 				}
 			)
+		},
+		// 編輯功能(暫時)
+		updateAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				method: 'post',
+				data: data.formValue
+			}).then(
+				response => {
+					// console.log(response.data);
+					alert('儲存編輯成功');
+				},
+				error => {}
+			)
 		}
 	},
 	mutations: {

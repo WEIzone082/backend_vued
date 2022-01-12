@@ -18,6 +18,8 @@
             :formInfo="formData.updateFormInfo" 
             :isUpdateButton="isUpdateButton"
             ref="fm"
+            :tableBodyData="tableData.tableBodyData"
+            @sendUpdateValue="sendUpdateValue"
         />
         <DataFooter
             :start="DataStart"
@@ -157,7 +159,8 @@ export default {
                 upStatusAPI: 'art/artUpStatus.php',
                 downStatusAPI: 'art/artDownStatus.php',
                 uploadAPI: 'art/artUpload.php',
-                createAPI: 'art/artCreate.php'
+                createAPI: 'art/artCreate.php',
+                updateAPI: 'art/artUpdate.php'
             }, 
         };
     },
@@ -177,6 +180,16 @@ export default {
         refresh(){
             this.$store.dispatch('art/displayAPI', this.useAPI.displayAPI).then(() => {
                 this.tableData.tableBodyData = this.$store.getters['art/getTableData']
+            })
+        },
+        // art編輯(暫時)
+        sendUpdateValue(formValue){
+
+            this.$store.dispatch('art/updateAPI',{
+                apiPath: this.useAPI.updateAPI,
+                formValue: formValue
+            }).then(() => {
+                this.refresh();
             })
         }
     },

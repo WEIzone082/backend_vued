@@ -38,7 +38,7 @@ export default {
         FormFooter,
     },
     // 新增彈窗header...(page_nav)、是否為編輯按鈕、是否為新增表單(page_nav)
-    props:['formInfo', 'isUpdateButton', 'isCreateForm'],
+    props:['formInfo', 'isUpdateButton', 'isCreateForm', 'tableBodyData'],
     data() {
         return {
             // 可上傳的檔案類型
@@ -55,10 +55,28 @@ export default {
             let dataValue = {};
             let formData = new FormData();
             // 獲取新增表單的資料
-            
-            // 存入ID
+
+            // 存入ID 及圖片(暫時)
             if(this.$refs.formBody.$refs.idInput){
                 dataValue[this.$refs.formBody.aboutId.fieldName] = this.$refs.formBody.$refs.idInput.value;
+
+                // 迭代裝tr的陣列
+                for (const tr of this.tableBodyData) {
+                    
+                    // 當tr的id 與 彈窗上顯示的相等 (即找到所點的那筆tr)
+                    if(tr[this.$refs.formBody.aboutId.fieldName] === this.$refs.formBody.$refs.idInput.value){
+
+                        // 迭代該筆tr物件
+                        for (const fieldName in tr) {
+                            
+                            // 若欄位名有img
+                            if (fieldName.indexOf('_IMG')) {
+                                // 將檔案名稱存入物件
+                                dataValue[fieldName] = tr[fieldName];
+                            }
+                        }
+                    }
+                }
             }
             // 迭代所有子元件 屬性為資料庫欄位名，值為輸入的 加入物件中
             for (const component of this.$refs.formBody.$children) {
@@ -144,6 +162,8 @@ export default {
                     return alert('尚未選擇課程狀態');
                 }
             }
+            // console.log(this.tableBodyData);
+
 
             // 印出formdata(所上傳的圖片)裡有的檔案
             // for (const key of formData.entries()) {
@@ -222,6 +242,7 @@ export default {
         createFormFile(){
             this.$emit('sendCreateData', this.createFormFile, this.formValue)
         },
+        // 送出編輯資料(暫時)
         formValue(){
             this.$emit('sendUpdateValue', this.formValue)
         }
