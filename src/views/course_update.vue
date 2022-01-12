@@ -28,6 +28,7 @@
             :formInfo="formData.updateFormInfo" 
             :isUpdateButton="isUpdateButton"
             ref="fm"
+            @sendUpdateValue="sendUpdateValue"
         />
     </div>
 </template>
@@ -115,7 +116,10 @@ export default {
                 },
 
                 // id input標題
-                idInputTitle:'課程編號',
+                aboutId:{
+                    title: '課程編號',
+                    fieldName: 'COURSE_ID'
+                },
 
                 // Textarea標題名稱
                 textareaTitle: "",
@@ -179,6 +183,7 @@ export default {
                 upStatusAPI: 'course_update/courseUpStatus.php',
                 downStatusAPI: 'course_update/courseDownStatus.php',
                 createAPI: 'course_update/courseCreate.php',
+                courseUpdateAPI: 'course_update/courseUpdate.php',
             }, 
         };
     },
@@ -201,6 +206,17 @@ export default {
                 cid: this.COURSE_TYPE_ID
             }).then(() => {
                 this.tableData.tableBodyData = this.$store.getters['course_update/getTableData']
+            })
+        },
+        // 最後要送出編輯的資料
+        sendUpdateValue(formValue){
+            formValue.COURSE_TYPE_ID = this.COURSE_TYPE_ID
+
+            this.$store.dispatch('course_update/courseUpdateAPI',{
+                apiPath: this.useAPI.courseUpdateAPI,
+                formValue: formValue
+            }).then(() => {
+                this.refresh();
             })
         }
     },

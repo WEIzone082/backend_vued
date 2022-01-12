@@ -117,7 +117,10 @@ export default {
                 },
 
                 // id input標題
-                idInputTitle:'作品編號',
+                aboutId:{
+                    title: '作品編號',
+                    fieldName: 'ARTS_ID'
+                },
 
                 // Textarea 欄位名稱
                 aboutTextarea: {

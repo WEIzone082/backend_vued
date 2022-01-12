@@ -10,12 +10,12 @@
                     disabled
                     ref="idInput"
                 />
-                <label for="floatingInput" class="input-group-text">{{idInputTitle}}</label>
+                <label for="floatingInput" class="input-group-text">{{aboutId.title}}</label>
             </div>
             <FormInput 
                 v-for="(title, fieldName) in inputTitles" 
                 :key="fieldName" 
-                :title = 'title' 
+                :title='title'
                 ref="formInput"
                 :fieldName='fieldName'
             />
@@ -29,7 +29,13 @@
                 :aboutUpload="aboutUpload" 
                 :isCreateForm="isCreateForm"
             />
-            <select class="form-select" aria-label="Default select example" v-if="courseFromData" ref="statusSelect">
+            <select 
+                class="form-select" 
+                aria-label="Default select example" 
+                v-if="courseFromData" 
+                ref="statusSelect"
+                v-model="selectValue"
+            >
                 <option selected disabled>課程狀態</option>
                 <option value="1">上架</option>
                 <option value="2">下架</option>
@@ -62,7 +68,9 @@ export default {
             // 上傳圖片標題
             aboutUpload: '',
             // id input框標題(編輯表單用)
-            idInputTitle: '',
+            aboutId: {},
+            // 課程下拉選單
+            selectValue: '',
 
             
             courseFromData: '',
@@ -76,7 +84,7 @@ export default {
             this.aboutTextarea = formData.aboutTextarea;
             this.aboutCheck = formData.aboutCheck;
             this.aboutUpload = formData.aboutUpload;
-            this.idInputTitle = formData.idInputTitle
+            this.aboutId = formData.aboutId
         });
         // 
         this.$bus.$on("courseFromData", (data) => {this.courseFromData = data;});

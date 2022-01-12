@@ -29,7 +29,9 @@ export default {
             // tr的資料
             tableBodyData: this.tableData.tableBodyData,
             // 儲存有勾選ID的陣列
-            checkedArr: []
+            checkedArr: [],
+            // 儲存修改後的表單資料
+            updateFormValue: {}
         }
     },
     methods: {
@@ -125,14 +127,56 @@ export default {
             idInput.value = thisTrId;
             // 迭代元件陣列
             for (const component of formBodyComponmentArr) {
+                // input
+                if (component.fieldName) {
 
-                // 迭代該筆tr的資料物件
-                for (const fieldName in thisTrData) {
-                    // 若該筆屬性名稱 與 該input的名稱相同
-                    if(fieldName === component.fieldName){
-                        // 該input值改為該筆tr的資料
-                        component.inputValue = thisTrData[fieldName]
+                    // 迭代該筆tr的資料物件
+                    for (const fieldName in thisTrData) {
+                        // 若該筆屬性名稱 與 該input的名稱相同
+                        if(fieldName === component.fieldName){
+                            // 該input值改為該筆tr的資料
+                            component.inputValue = thisTrData[fieldName];
+                            // 將修改後的存入要傳出的物件
+                            this.updateFormValue[fieldName] = component.inputValue;
+                        }
+                        
                     }
+
+                // Textarea
+                }else if(component.aboutTextarea && component.aboutTextarea.fieldName){
+                    // Textarea的值為該筆tr的值
+                    component.inputValue = thisTrData[component.aboutTextarea.fieldName];
+                    // 將修改後的存入要傳出的物件
+                    this.updateFormValue[component.aboutTextarea.fieldName] = component.inputValue;
+
+                // 上下架
+                }else if(component.aboutCheck && component.aboutCheck.fieldName){
+
+                    // 判斷1為true(上架) 2為false(下架)
+                    switch (thisTrData[component.aboutCheck.fieldName]) {
+                        case '1':
+                            component.inputValue = true;
+                            break;
+                        case '2':
+                            component.inputValue = false;
+                            break;
+                    }
+
+                    // 判斷上架為1 下架為2 (存入修改後資料)
+                    if(component.inputValue){
+                        this.updateFormValue[component.aboutCheck.fieldName] = '1'
+                    }else{
+                        this.updateFormValue[component.aboutCheck.fieldName] = '2'
+                    }
+                }
+            }
+
+            // 存入圖片(暫時)
+            for (const fieldName in thisTrData) {
+                // 若欄位名有img時
+                if(fieldName.indexOf('_IMG') !== -1){
+                    // 把圖的名稱存入物件
+                    this.updateFormValue[fieldName] = thisTrData[fieldName];
                 }
             }
 
@@ -140,7 +184,10 @@ export default {
             if (statusSelect) {
                 // 則將該下拉選單的值改為該筆資料
                 statusSelect.value = thisTrData.STATUS_TYPE;
+                thisTrData.STATUS_TYPE = statusSelect.value;
             }
+
+            // console.log(this.updateFormValue);
         },
         // 獲取彈窗編輯後的資料
         

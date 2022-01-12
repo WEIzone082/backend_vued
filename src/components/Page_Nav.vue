@@ -62,7 +62,15 @@
 import FormModal from "./FormModal.vue";
 export default {
   // 頁面名稱、是否有刪除等按鈕、新增按鈕、新增彈窗header...、最終儲存有勾選的陣列、PHP網址
-  props: ["PageName", "WithFunc", "Checked", "formInfo", "finalCheckedArr", "useAPI", "COURSE_TYPE_ID"],
+  props: [
+    "PageName", 
+    "WithFunc", 
+    "Checked", 
+    "formInfo", 
+    "finalCheckedArr", 
+    "useAPI", 
+    "COURSE_TYPE_ID"
+  ],
   components: { FormModal },
   data() {
     return {
@@ -118,6 +126,7 @@ export default {
     // 上傳檔案及新增 (上傳檔案成功 > 存入資料庫 > 重新獲取資料庫資料)
     sendCreateData(createFormFile, createFormValue){
 
+      // 課程新增
       if(this.useAPI.pageName === 'course_update'){
 
         // 存入資料庫
@@ -132,6 +141,7 @@ export default {
           this.$refs.createFM.clearForm()
         });
 
+      // 有圖片上傳的新增(藝術 生活)
       }else{
 
         // 上傳檔案

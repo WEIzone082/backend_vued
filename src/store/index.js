@@ -312,7 +312,22 @@ const course_update = {
 					console.log(error.message);
 				}
 			)
+		},
+		// 課程修改
+		courseUpdateAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				method: 'post',
+				data: data.formValue
+			}).then(
+				response => {
+					console.log(response.data);
+					alert('儲存編輯成功');
+				},
+				error => {}
+			)
 		}
+
 	},
 	mutations: {
 		displayFormAPI(state, data){

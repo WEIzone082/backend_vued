@@ -46,16 +46,20 @@ export default {
             // 要上傳的檔案
             createFormFile: {},
             // 要存入資料庫的資料
-            createFormValue: {},
+            formValue: {},
         }
     },
     methods: {
         // 取得新增表單的內容
-        sendFormData(){
+        sendFormData(formInfoButtonName){
             let dataValue = {};
             let formData = new FormData();
             // 獲取新增表單的資料
             
+            // 存入ID
+            if(this.$refs.formBody.$refs.idInput){
+                dataValue[this.$refs.formBody.aboutId.fieldName] = this.$refs.formBody.$refs.idInput.value;
+            }
             // 迭代所有子元件 屬性為資料庫欄位名，值為輸入的 加入物件中
             for (const component of this.$refs.formBody.$children) {
                 // input
@@ -104,8 +108,8 @@ export default {
                         keyArr.push(key)
                     }
 
-                    // 判斷是否有上傳圖片
-                    if (!keyArr.length) {
+                    // 判斷是否有上傳圖片 且 要是新增
+                    if (!keyArr.length && formInfoButtonName.indexOf('新增') !== -1) {
                         return alert('至少上傳一張圖片');
                     }
 
@@ -146,11 +150,11 @@ export default {
             //     console.log(key);
             // }
             // 印出存入的值
-            console.log(dataValue);
+            // console.log(dataValue);
 
             // 將最終資料存入data
             this.createFormFile = formData;
-            this.createFormValue = dataValue;
+            this.formValue = dataValue;
         },
         // 判斷是否為空值
         valueIsNull(value){
@@ -216,7 +220,10 @@ export default {
     watch:{
         // 偵測儲存檔案的data變動 存完傳給page_nav
         createFormFile(){
-            this.$emit('sendCreateData', this.createFormFile, this.createFormValue)
+            this.$emit('sendCreateData', this.createFormFile, this.formValue)
+        },
+        formValue(){
+            this.$emit('sendUpdateValue', this.formValue)
         }
     },
 };
