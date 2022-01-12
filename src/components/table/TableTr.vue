@@ -44,6 +44,7 @@
                 data-bs-toggle="modal"
                 data-bs-target="#update-modal"
                 v-if="!tableType.pathData"
+                @click="sendTrId"
             >
                 <i class="bi bi-three-dots" data-bs-target="#update-modal"></i>
             </button>
@@ -101,7 +102,7 @@ export default {
             // tr勾選狀態
             trIsChecked: false,
             // tr的id
-            trId: this.trData.ARTS_ID || this.trData.COURSE_ID
+            trId: this.trData.ARTS_ID || this.trData.COURSE_ID || this.trData.WORKS_ID
         };
     },
     computed: {
@@ -132,6 +133,12 @@ export default {
         trIsChecked(){
             // 當tr勾選框變動傳該值給table
             this.$emit('trCheckedFun', this.trIsChecked)
+        }
+    },
+    methods: {
+        // 當點編輯按鈕傳送該筆id給table
+        sendTrId(e){
+            this.$emit('updateButtonGetData', this.trId, this.trData)
         }
     },
 };

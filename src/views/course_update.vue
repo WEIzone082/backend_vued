@@ -27,6 +27,7 @@
         <FormModal 
             :formInfo="formData.updateFormInfo" 
             :isUpdateButton="isUpdateButton"
+            ref="fm"
         />
     </div>
 </template>
@@ -112,6 +113,9 @@ export default {
                     COURSE_END_DATE: "結束日期",
                     COURSE_CLASSES: "堂數"
                 },
+
+                // id input標題
+                idInputTitle:'課程編號',
 
                 // Textarea標題名稱
                 textareaTitle: "",

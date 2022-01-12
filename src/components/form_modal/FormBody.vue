@@ -7,6 +7,8 @@
                     class="form-control"
                     id="floatingInput"
                     placeholder="name@example.com"
+                    disabled
+                    ref="idInput"
                 />
                 <label for="floatingInput" class="input-group-text">{{idInputTitle}}</label>
             </div>

@@ -14,7 +14,11 @@
             ref="beTable" 
             @showDel='showDel'
         />
-        <FormModal :formInfo="formData.updateFormInfo" :isUpdateButton="isUpdateButton"/>
+        <FormModal 
+            :formInfo="formData.updateFormInfo" 
+            :isUpdateButton="isUpdateButton"
+            ref="fm"
+        />
         <DataFooter
             :start="DataStart"
             :end="DataEnd"

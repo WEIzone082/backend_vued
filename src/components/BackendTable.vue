@@ -9,6 +9,7 @@
                 :tableData='tableData'
                 ref="tableTrs"
                 @trCheckedFun='trCheckedFun'
+                @updateButtonGetData='updateButtonGetData'
             >
             </TableTr>
         </tbody>
@@ -107,7 +108,42 @@ export default {
                     }
                 }
             }
-        }
+        },
+        // 點編輯按鈕取得該筆資料
+        updateButtonGetData(thisTrId, thisTrData){
+
+            // console.log(this.$parent.$refs.fm.$refs.formBody.$refs.statusSelect);
+
+            // formbody 子元件的陣列
+            let formBodyComponmentArr = this.$parent.$refs.fm.$refs.formBody.$children;
+            // id的input欄位
+            let idInput = this.$parent.$refs.fm.$refs.formBody.$refs.idInput;
+            // 課程狀態下拉選單
+            let statusSelect = this.$parent.$refs.fm.$refs.formBody.$refs.statusSelect;
+
+            // id的input欄位的值為 所點按鈕的那筆
+            idInput.value = thisTrId;
+            // 迭代元件陣列
+            for (const component of formBodyComponmentArr) {
+
+                // 迭代該筆tr的資料物件
+                for (const fieldName in thisTrData) {
+                    // 若該筆屬性名稱 與 該input的名稱相同
+                    if(fieldName === component.fieldName){
+                        // 該input值改為該筆tr的資料
+                        component.inputValue = thisTrData[fieldName]
+                    }
+                }
+            }
+
+            // 若有課程狀態下拉選單
+            if (statusSelect) {
+                // 則將該下拉選單的值改為該筆資料
+                statusSelect.value = thisTrData.STATUS_TYPE;
+            }
+        },
+        // 獲取彈窗編輯後的資料
+        
     },
     watch:{
         // 偵測存放有勾選ID的陣列

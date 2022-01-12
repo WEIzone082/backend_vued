@@ -127,17 +127,21 @@ export default {
                 }
             }
 
-
+            // 課程管理判斷是否下拉選單有選擇
+            // 若能找到下拉選單
             if(this.$refs.formBody.$refs.statusSelect){
+                // 將選擇的存起來
                 let selectValue = this.$refs.formBody.$refs.statusSelect.value;
+                // 如果有選
                 if(selectValue){
+                    // 則將所選的存入物件
                     dataValue['STATUS_TYPE'] = selectValue;
                 }else if(!selectValue){
                     return alert('尚未選擇課程狀態');
                 }
             }
 
-            // 印出formdata裡有的檔案
+            // 印出formdata(所上傳的圖片)裡有的檔案
             // for (const key of formData.entries()) {
             //     console.log(key);
             // }
