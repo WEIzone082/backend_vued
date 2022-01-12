@@ -58,21 +58,25 @@ export default {
 
             // 存入ID 及圖片(暫時)
             if(this.$refs.formBody.$refs.idInput){
+
                 dataValue[this.$refs.formBody.aboutId.fieldName] = this.$refs.formBody.$refs.idInput.value;
-
-                // 迭代裝tr的陣列
-                for (const tr of this.tableBodyData) {
-                    
-                    // 當tr的id 與 彈窗上顯示的相等 (即找到所點的那筆tr)
-                    if(tr[this.$refs.formBody.aboutId.fieldName] === this.$refs.formBody.$refs.idInput.value){
-
-                        // 迭代該筆tr物件
-                        for (const fieldName in tr) {
-                            
-                            // 若欄位名有img
-                            if (fieldName.indexOf('_IMG')) {
-                                // 將檔案名稱存入物件
-                                dataValue[fieldName] = tr[fieldName];
+                
+                // 要先判斷是否有body資料(若沒有課程編輯會報錯)
+                if(this.tableBodyData){
+                    // 迭代裝tr的陣列
+                    for (const tr of this.tableBodyData) {
+                        
+                        // 當tr的id 與 彈窗上顯示的相等 (即找到所點的那筆tr)
+                        if(tr[this.$refs.formBody.aboutId.fieldName] === this.$refs.formBody.$refs.idInput.value){
+    
+                            // 迭代該筆tr物件
+                            for (const fieldName in tr) {
+                                
+                                // 若欄位名有img
+                                if (fieldName.indexOf('_IMG')) {
+                                    // 將檔案名稱存入物件
+                                    dataValue[fieldName] = tr[fieldName];
+                                }
                             }
                         }
                     }
@@ -93,7 +97,6 @@ export default {
                             return alert('價格、人數、堂數須為數字');
                         }
                     }
-
                     // 存入input值 ex: {NAME: 123, WIDTH: 456, ...}
                     dataValue[component.fieldName] = component.inputValue
 
