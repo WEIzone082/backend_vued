@@ -10,7 +10,7 @@
 
             <!-- 判斷是否有圖片 -->
             <img
-                :src="require(`../../assets/img/${val}`)"
+                :src="`../img/${val}`"
                 v-if="title === 'IN_IMG_1'"
                 class="trPreviewImg"
             />

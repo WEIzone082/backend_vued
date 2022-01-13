@@ -14,7 +14,7 @@ const art = {
 		// 顯示每項tr
 		displayAPI(context, apiPath){
 			// 取得PHP資料
-			return axios.get(`../php/${apiPath}`).then(
+			return axios.get(`../dist/php/${apiPath}`).then(
 				response => {
 					let tempData = {}
 					let arrData = []
@@ -44,7 +44,7 @@ const art = {
 		},
 		// 刪除功能
 		deleteAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('刪除成功')
 				},
@@ -55,7 +55,7 @@ const art = {
 		},
 		// 上架功能
 		upStatusAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('上架成功')
 				},
@@ -66,7 +66,7 @@ const art = {
 		},
 		// 下架功能
 		downStatusAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('下架成功')
 				},
@@ -78,7 +78,7 @@ const art = {
 		// 上傳檔案
 		filesUploadAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.useAPI.uploadAPI}`,
+				url: `../dist/php/${data.useAPI.uploadAPI}`,
 				method: 'post', 
 				data: data.createFormFile
 			}).then(
@@ -93,7 +93,7 @@ const art = {
 		// 新增資料進資料庫
 		createAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.useAPI.createAPI}`,
+				url: `../dist/php/${data.useAPI.createAPI}`,
 				method: 'post', 
 				data: data.createFormValue
 			}).then(
@@ -108,7 +108,7 @@ const art = {
 		// 編輯功能(暫時)
 		updateAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				url: `../dist/php/${data.apiPath}`,
 				method: 'post',
 				data: data.formValue
 			}).then(
@@ -142,7 +142,7 @@ const course = {
 		// 顯示每項tr
 		displayAPI(context, apiPath){
 			// 取得PHP資料
-			return axios.get(`http://localhost:8080/api/yoshi/backend/${apiPath}`).then(
+			return axios.get(`../dist/php/${apiPath}`).then(
 				response => {
 					let tempData = {}
 					let arrData = []
@@ -195,7 +195,7 @@ const course_update = {
 			console.log();
 			// 取得PHP資料
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				url: `../dist/php/${data.apiPath}`,
 				method: 'post',
 				data: data.cid
 			}).then(
@@ -226,7 +226,7 @@ const course_update = {
 		displayAPI(context, data){
 			// 取得PHP資料
 			return axios({
-				url:`http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				url:`../dist/php/${data.apiPath}`,
 				method: 'post',
 				data: data.cid
 			}).then(
@@ -261,7 +261,7 @@ const course_update = {
 		// 課程類別資料修改
 		courseTypeUpdataAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				url: `../dist/php/${data.apiPath}`,
 				method: 'post',
 				data: {
 					cid: data.cid,
@@ -277,7 +277,7 @@ const course_update = {
 		// 刪除功能
 		deleteAPI(context, data){
 			console.log(data);
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('刪除成功')
 				},
@@ -288,7 +288,7 @@ const course_update = {
 		},
 		// 上架功能
 		upStatusAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('上架成功')
 				},
@@ -299,7 +299,7 @@ const course_update = {
 		},
 		// 下架功能
 		downStatusAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('下架成功')
 				},
@@ -311,7 +311,7 @@ const course_update = {
 		// 新增功能
 		createAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.useAPI.createAPI}`,
+				url: `../dist/php/${data.useAPI.createAPI}`,
 				method: 'post', 
 				data: {
 					createFormValue: data.createFormValue,
@@ -329,7 +329,7 @@ const course_update = {
 		// 課程修改
 		courseUpdateAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/yoshi/backend/${data.apiPath}`,
+				url: `../dist/php/${data.apiPath}`,
 				method: 'post',
 				data: data.formValue
 			}).then(
@@ -373,7 +373,8 @@ const member = {
 	},
 	actions:{
 		getAll:function(context,apiPath){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${apiPath}`, {
+			
+			return axios.post(`../dist/php/MemberOrder/${apiPath}`, {
 				// datas to send into php
 				action: "fetchall",
 				page: "member",
@@ -384,7 +385,7 @@ const member = {
 		},
 		toggle:(context,args) => {
 			return axios
-				.post(`http://localhost:8080/api/yoshi/backend/${args.address}`,
+				.post(`../dist/php/MemberOrder/${args.address}`,
 				{
 					action:"toggle",
 					ToDo:args.act,
@@ -417,7 +418,7 @@ const order = {
 	},
 	actions:{
 		getAll:function(context){
-			return axios.post('http://localhost:8080/api/yoshi/backend/fetch.php', {
+			return axios.post('../dist/php/MemberOrder/fetch.php', {
 				// datas to send into php
 				action: "getOrders",
 			})
@@ -426,7 +427,7 @@ const order = {
         	});
 		},
 		getOne:function(context, orderID){
-			return axios.post('http://localhost:8080/api/yoshi/backend/fetch.php', {
+			return axios.post('../dist/php/MemberOrder/fetch.php', {
 				// datas to send into php
 				action: "getOrder",
 				orderID: orderID
@@ -436,7 +437,7 @@ const order = {
         	});
 		},
 		getDetail:function(context, orderID){
-			return axios.post('http://localhost:8080/api/yoshi/backend/fetch.php', {
+			return axios.post('../dist/php/MemberOrder/fetch.php', {
 				// datas to send into php
 				action: "getDetail",
 				orderID: orderID
@@ -478,7 +479,7 @@ const products = {
 		displayAPI(context, apiPath){
 			console.log("OK1");
 			// 取得PHP資料
-			return axios.get(`http://localhost:8080/api/backend/yoshi/backend/${apiPath}`).then(
+			return axios.get(`../dist/php/${apiPath}`).then(
 				response => {
 					let tempData = {}
 					let arrData = []
@@ -509,7 +510,7 @@ const products = {
 		// 刪除功能
 		deleteAPI(context, data){
 			console.log("OK3");
-			return axios.post(`http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('刪除成功')
 				},
@@ -521,7 +522,7 @@ const products = {
 		// 上架功能
 		upStatusAPI(context, data){
 			console.log("Ok4");
-			return axios.post(`http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('上架成功')
 				},
@@ -533,7 +534,7 @@ const products = {
 		// 下架架功能
 		downStatusAPI(context, data){
 			console.log("OK5");
-			return axios.post(`http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../dist/php/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('下架成功')
 				},
@@ -546,7 +547,7 @@ const products = {
 		// 上傳檔案
 		filesUploadAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.uploadAPI}`,
+				url: `../dist/php/${data.useAPI.uploadAPI}`,
 				method: 'post', 
 				data: data.createFormFile
 			}).then(
@@ -561,7 +562,7 @@ const products = {
 		// 新增資料進資料庫
 		createAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.createAPI}`,
+				url: `../dist/php/${data.useAPI.createAPI}`,
 				method: 'post', 
 				data: data.createFormValue
 			}).then(
@@ -577,7 +578,7 @@ const products = {
 		// 編輯功能(暫時)
 		updateAPI(context, data){
 			return axios({
-				url: `http://localhost:8080/api/backend/yoshi/backend/${data.apiPath}`,
+				url: `../dist/php/${data.apiPath}`,
 				method: 'post',
 				data: data.formValue
 			}).then(

@@ -15,7 +15,8 @@ const routes = [
   { 
     path: '/art',
     name: 'art',
-    component: Art
+    component: Art,
+    meta: {title: '藝術陶管理'}
   },
 
   { 
@@ -59,7 +60,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
