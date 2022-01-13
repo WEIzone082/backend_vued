@@ -14,7 +14,7 @@ const art = {
 		// 顯示每項tr
 		displayAPI(context, apiPath){
 			// 取得PHP資料
-			return axios.get(`http://localhost:8080/api/yoshi/backend/${apiPath}`).then(
+			return axios.get(`../php/${apiPath}`).then(
 				response => {
 					let tempData = {}
 					let arrData = []
