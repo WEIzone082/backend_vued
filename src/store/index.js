@@ -478,8 +478,9 @@ const products = {
 	actions: {
 		// 顯示每項tr
 		displayAPI(context, apiPath){
+			console.log("OK1");
 			// 取得PHP資料
-			return axios.get(`http://localhost:8080/api/yoshi/backend/${apiPath}`).then(
+			return axios.get(`http://localhost:8080/api/backend/yoshi/backend/${apiPath}`).then(
 				response => {
 					let tempData = {}
 					let arrData = []
@@ -509,7 +510,8 @@ const products = {
 		},
 		// 刪除功能
 		deleteAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
+			console.log("OK3");
+			return axios.post(`http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.deleteAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('刪除成功')
 				},
@@ -520,7 +522,8 @@ const products = {
 		},
 		// 上架功能
 		upStatusAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+			console.log("Ok4");
+			return axios.post(`http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('上架成功')
 				},
@@ -531,7 +534,8 @@ const products = {
 		},
 		// 下架架功能
 		downStatusAPI(context, data){
-			return axios.post(`http://localhost:8080/api/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
+			console.log("OK5");
+			return axios.post(`http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.downStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('下架成功')
 				},
@@ -539,7 +543,54 @@ const products = {
 					console.log(error.message);
 				}
 			)
+		},
+		
+		// 上傳檔案
+		filesUploadAPI(context, data){
+			console.log("ok");
+			return axios({
+				url: `http://localhost:8080/api/backend/yoshi/backend/${useAPI.uploadAPI}`,
+				method: 'post', 
+				data: data.createFormFile
+			}).then(
+				response => {
+					console.log(response.data);
+				},
+				error => {
+					alert('上傳檔案失敗')
+				}
+			)
+		},
+		// 新增資料進資料庫
+		createAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.createAPI}`,
+				method: 'post', 
+				data: data.createFormValue
+			}).then(
+				response => {
+					alert('新增成功');
+				},
+				error => {
+					console.log(error.message);
+				}
+			)
+		},
+		// 編輯功能(暫時)
+		updateAPI(context, data){
+			return axios({
+				url: `http://localhost:8080/api/backend/yoshi/backend/${data.apiPath}`,
+				method: 'post',
+				data: data.formValue
+			}).then(
+				response => {
+					// console.log(response.data);
+					alert('儲存編輯成功');
+				},
+				error => {}
+			)
 		}
+
 	},
 	mutations: {
 		// 收到資料後存入state中
