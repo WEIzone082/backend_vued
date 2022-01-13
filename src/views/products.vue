@@ -8,6 +8,7 @@
             :useAPI="useAPI"
             :finalCheckedArr="finalCheckedArr"
             @refresh = "refresh()"
+            :productsDel="productsDel"
         ></PageNav>
         <BackendTable 
             :tableData='tableData' 
@@ -52,6 +53,8 @@ export default {
             DataStart: 0,
             DataEnd: 0,
             DataCount: 0,
+
+            productsDel: true,
 
             // 是否為編輯按鈕的彈窗
             isUpdateButton: true,
@@ -111,10 +114,11 @@ export default {
 
                 // 輸入框標題，有幾個就輸入幾個名稱
                 inputTitles: {
-                    WORKS_TYPE_NAME: "商品系列",
+                    WORKS_TYPE_ID: "商品系列編號",
                     WORKS_NAME: "商品名稱",
                     WORKS_PRICE: "價格",
-                    DIAMWORKS_RADIUSETER: "直徑(mm)",
+                    WORKS_MATERIAL :"材質",
+                    WORKS_RADIUS: "直徑(mm)",
                     WORKS_HEIGHT: "高度(mm)",
                     WORKS_STOCK: "數量",
                 },

@@ -545,9 +545,8 @@ const products = {
 		
 		// 上傳檔案
 		filesUploadAPI(context, data){
-			console.log("ok");
 			return axios({
-				url: `http://localhost:8080/api/backend/yoshi/backend/${useAPI.uploadAPI}`,
+				url: `http://localhost:8080/api/backend/yoshi/backend/${data.useAPI.uploadAPI}`,
 				method: 'post', 
 				data: data.createFormFile
 			}).then(
@@ -567,6 +566,7 @@ const products = {
 				data: data.createFormValue
 			}).then(
 				response => {
+					console.log(response.data);
 					alert('新增成功');
 				},
 				error => {
@@ -582,7 +582,7 @@ const products = {
 				data: data.formValue
 			}).then(
 				response => {
-					// console.log(response.data);
+					console.log(response.data);
 					alert('儲存編輯成功');
 				},
 				error => {}
