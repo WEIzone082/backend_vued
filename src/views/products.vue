@@ -13,7 +13,13 @@
             :tableData='tableData' 
             ref="beTable" 
             @showDel='showDel'/>
-        <FormModal :formInfo="formData.updateFormInfo" />
+        <FormModal 
+            :formInfo="formData.updateFormInfo" 
+            :isUpdateButton="isUpdateButton"
+            ref="fm"
+            :tableBodyData="tableData.tableBodyData"
+            @sendUpdateValue="sendUpdateValue"
+            />
         <DataFooter
             :start="DataStart"
             :end="DataEnd"
@@ -29,6 +35,7 @@ import BackendTable from "../components/BackendTable.vue";
 import FormModal from '../components/FormModal.vue';
 import DataFooter from "../components/Data_Footer.vue";
 export default {
+    name: "prudocts",
     components: {
         PageNav,
         BackendTable,
@@ -45,6 +52,9 @@ export default {
             DataStart: 0,
             DataEnd: 0,
             DataCount: 0,
+
+            // 是否為編輯按鈕的彈窗
+            isUpdateButton: true,
 
             // table相關
             tableData:{
@@ -65,15 +75,15 @@ export default {
                 },
                 // 表頭名稱
                 tableHeadTitle: {
-                    WORKS_IN_IMG_1: "封面",
+                    IN_IMG_1: "封面",
                     WORKS_ID: "商品編號",
-                    WORKS_TYPE_ID: "商品系列",
+                    WORKS_TYPE_NAME: "商品系列",
                     WORKS_NAME: "商品名稱",
                     WORKS_PRICE: "價格",
                     WORKS_RADIUS: "直徑(mm)",
                     WORKS_HEIGHT: "高度(mm)",
                     WORKS_STOCK: "數量",
-                    WORKS_STATUS_TYPE: "作品上架",
+                    STATUS_TYPE: "商品上架",
                     space: ""
                 },
                 // 表的內容
@@ -101,22 +111,42 @@ export default {
 
                 // 輸入框標題，有幾個就輸入幾個名稱
                 inputTitles: {
-                    PRODUTS_ID: "商品編號",
-                    SERIES: "商品系列",
-                    NAME: "商品名稱",
-                    PRIZE: "價格",
-                    DIAMETER: "直徑(mm)",
-                    HEIGHT: "高度(mm)",
-                    COUNT: "數量",
+                    WORKS_TYPE_NAME: "商品系列",
+                    WORKS_NAME: "商品名稱",
+                    WORKS_PRICE: "價格",
+                    DIAMWORKS_RADIUSETER: "直徑(mm)",
+                    WORKS_HEIGHT: "高度(mm)",
+                    WORKS_STOCK: "數量",
                 },
 
-                // Textarea標題名稱
-                textareaTitle: "作品說明",
+                // id input標題
+                aboutId:{
+                    title: '商品編號',
+                    fieldName: 'WORKS_ID'
+                },
+
+                // Textarea 欄位名稱
+                aboutTextarea: {
+                    title: "商品說明",
+                    fieldName: "WORKS_INFO"
+                },
+
                 // 是否上架的名稱
-                checkTitle: "作品上架",
+                aboutCheck:{
+                    title: '商品上架',
+                    fieldName: 'STATUS_TYPE'
+                },
+                
                 // 上傳圖片的標題
-                imgUpload: "上傳作品圖片",
-            },
+                aboutUpload: {
+                    title: '上傳商品圖片',
+                    fieldName: [
+                        'IN_IMG_1', 
+                        'IN_IMG_2', 
+                        'IN_IMG_3', 
+                        'IN_IMG_4'
+                    ]
+                }            },
 
             // 儲存有勾選tr的id
             finalCheckedArr:[],
@@ -124,10 +154,15 @@ export default {
 
 
             useAPI:{
+                pageName: "products",
                 displayAPI: 'products/productsDisplay.php',
                 deleteAPI: 'products/productsDelete.php',
                 upStatusAPI: 'products/productsUpStatus.php',
                 downStatusAPI: 'products/productsDownStatus.php',
+                uploadAPI: 'products/productsUpload.php',
+                createAPI: 'products/productsCreate.php',
+                updateAPI: 'products/productsUpdate.php'
+
 
             }, 
         };
@@ -147,9 +182,20 @@ methods: {
         refresh(){
             this.$store.dispatch('products/displayAPI', this.useAPI.displayAPI).then(() => {
                 this.tableData.tableBodyData = this.$store.getters['products/getTableData']
-                console.log('refe');
+                // console.log('refe');
+            })
+        },
+        // art編輯(暫時)
+            sendUpdateValue(formValue){
+
+            this.$store.dispatch('products/updateAPI',{
+                apiPath: this.useAPI.updateAPI,
+                formValue: formValue
+            }).then(() => {
+                this.refresh();
             })
         }
+
     },
     watch:{
         tableData:{
