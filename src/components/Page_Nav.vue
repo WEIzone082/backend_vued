@@ -15,7 +15,7 @@
         <i class="bi bi-plus-lg"></i>
         下架
       </button>
-      <button type="button" class="btn btn-dark del-btn" v-if="Checked" @click="delTr">
+      <button type="button" class="btn btn-dark del-btn" v-if="Checked && !productsDel" @click="delTr">
         <i class="bi bi-plus-lg"></i>
         刪除
       </button>
@@ -69,7 +69,8 @@ export default {
     "formInfo", 
     "finalCheckedArr", 
     "useAPI", 
-    "COURSE_TYPE_ID"
+    "COURSE_TYPE_ID",
+    'productsDel'
   ],
   components: { FormModal },
   data() {
