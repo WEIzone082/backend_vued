@@ -319,7 +319,6 @@ const course_update = {
 				}
 			}).then(
 				response => {
-					console.log(response.data);
 					alert('新增成功');
 				},
 				error => {
@@ -335,7 +334,6 @@ const course_update = {
 				data: data.formValue
 			}).then(
 				response => {
-					console.log(response.data);
 					alert('儲存編輯成功');
 				},
 				error => {}

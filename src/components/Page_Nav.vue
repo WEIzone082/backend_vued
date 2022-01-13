@@ -145,13 +145,13 @@ export default {
       }else{
 
         // 上傳檔案
-        this.$store.dispatch('art/filesUploadAPI',{
+        this.$store.dispatch(`${this.useAPI.pageName}/filesUploadAPI`,{
           useAPI:this.useAPI,
           createFormFile: createFormFile
   
         }).then(() => {
           // 存入資料庫
-          this.$store.dispatch('art/createAPI',{
+          this.$store.dispatch(`${this.useAPI.pageName}/createAPI`,{
             useAPI:this.useAPI,
             createFormValue: createFormValue
   
