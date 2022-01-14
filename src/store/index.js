@@ -55,7 +55,7 @@ const art = {
 		},
 		// 上架功能
 		upStatusAPI(context, data){
-			return axios.post(`../dist/php/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
+			return axios.post(`../backend/php/${data.useAPI.upStatusAPI}`, data.finalCheckedArr).then(
 				response => {
 					alert('上架成功')
 				},
