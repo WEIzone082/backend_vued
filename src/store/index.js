@@ -376,7 +376,7 @@ const member = {
 			
 			return axios.post(`../backend/php/ho/${apiPath}`, {
 				// datas to send into php
-				action: "fetchall",
+				// action: "fetchall",
 				page: "member",
 			})
 			.then(function(response){
@@ -385,9 +385,9 @@ const member = {
 		},
 		toggle:(context,args) => {
 			return axios
-				.post(`../backend/php/ho/${args.address}`,
+				.post(`../backend/php/ho/toggle.php`,
 				{
-					action:"toggle",
+					// action:"toggle",
 					ToDo:args.act,
 					MemberID:args.id
 				})
@@ -418,18 +418,18 @@ const order = {
 	},
 	actions:{
 		getAll:function(context){
-			return axios.post('../backend/php/ho/fetch.php', {
+			return axios.post('../backend/php/ho/getOrders.php', {
 				// datas to send into php
-				action: "getOrders",
+				// action: "getOrders",
 			})
 			.then(function(response){
 				context.commit('displayAPI', response.data);
         	});
 		},
 		getOne:function(context, orderID){
-			return axios.post('../backend/php/ho/fetch.php', {
+			return axios.post('../backend/php/ho/getOrder.php', {
 				// datas to send into php
-				action: "getOrder",
+				// action: "getOrder",
 				orderID: orderID
 			})
 			.then(function(response){
@@ -437,9 +437,9 @@ const order = {
         	});
 		},
 		getDetail:function(context, orderID){
-			return axios.post('../backend/php/ho/fetch.php', {
+			return axios.post('../backend/php/ho/getDetail.php', {
 				// datas to send into php
-				action: "getDetail",
+				// action: "getDetail",
 				orderID: orderID
 			})
 			.then(function(response){
